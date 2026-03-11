@@ -1,0 +1,2107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Histoire de l'IA — Istwa IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;700&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #05080f;
+  --surface: #0b1018;
+  --card: #101520;
+  --border: #1c2535;
+  --text: #e8eaf0;
+  --muted: #5a6a80;
+  --accent: #4fc3f7;
+  --gold: #ffd54f;
+  --green: #69f0ae;
+  --red: #ff6e6e;
+  --purple: #ce93d8;
+  --timeline-line: #1c2535;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── STARFIELD ─── */
+#stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--dur) ease-in-out infinite var(--delay);
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.4); }
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 40px;
+}
+
+.hero-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.3s forwards;
+}
+.hero-badge::before, .hero-badge::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.5;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(60px, 10vw, 130px);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.5s forwards;
+}
+.hero-title span { color: var(--accent); }
+
+.hero-subtitle {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: clamp(16px, 2.5vw, 22px);
+  color: var(--muted);
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.7s forwards;
+}
+
+.lang-pills {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.9s forwards;
+}
+.lang-pill {
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+  background: transparent;
+  transition: all 0.25s;
+}
+.lang-pill.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.4s forwards;
+}
+.scroll-hint span {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+.scroll-arrow {
+  width: 20px;
+  height: 30px;
+  border: 1.5px solid var(--muted);
+  border-radius: 10px;
+  position: relative;
+}
+.scroll-arrow::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: scrollDot 1.5s ease infinite;
+}
+@keyframes scrollDot {
+  0% { top: 6px; opacity: 1; }
+  100% { top: 16px; opacity: 0; }
+}
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  z-index: 1000;
+  transition: width 0.1s;
+  width: 0%;
+}
+
+/* ─── ERA NAV ─── */
+.era-nav {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.era-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted);
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+.era-dot:hover, .era-dot.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  transform: scale(1.3);
+}
+.era-dot .era-tooltip {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.era-dot:hover .era-tooltip { opacity: 1; }
+
+/* ─── TIMELINE ─── */
+.timeline {
+  position: relative;
+  z-index: 1;
+  padding: 0 0 100px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--border) 5%, var(--border) 95%, transparent);
+  transform: translateX(-50%);
+}
+
+/* ─── SECTION DIVIDER ─── */
+.era-divider {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px 20px;
+  gap: 20px;
+}
+.era-divider-line { flex: 1; max-width: 200px; height: 1px; background: var(--border); }
+.era-divider-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: var(--muted);
+}
+
+/* ─── EVENT CARD ─── */
+.event {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  align-items: start;
+  padding: 0 40px;
+  margin-bottom: 60px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.event.visible { opacity: 1; transform: translateY(0); }
+
+.event-left { padding-right: 40px; text-align: right; }
+.event-right { padding-left: 40px; text-align: left; }
+
+/* Alternating */
+.event:nth-child(even) .event-left { order: 3; padding-right: 0; padding-left: 40px; text-align: left; }
+.event:nth-child(even) .event-center { order: 2; }
+.event:nth-child(even) .event-right { order: 1; padding-left: 0; padding-right: 40px; text-align: right; }
+
+.event-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.event-year {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  padding: 6px 12px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  color: var(--bg);
+}
+
+.event-node {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--bg);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.event-node::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.event-node:hover { transform: scale(1.3); }
+.event-node:hover::after { opacity: 1; }
+
+.event-connector {
+  flex: 1;
+  width: 1px;
+  min-height: 20px;
+  background: var(--border);
+}
+
+/* Card */
+.event-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.event-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+/* SVG illustrations for each era */
+.event-illustration {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.event-body { padding: 20px; }
+
+.event-title-fr {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.event-title-ht {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.event-text {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #8899aa;
+}
+.event-text .fr-text {}
+.event-text .ht-text {
+  display: none;
+  color: #7a9968;
+  font-style: italic;
+}
+body.lang-ht .event-text .fr-text { display: none; }
+body.lang-ht .event-text .ht-text { display: block; }
+
+.event-tag {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+  opacity: 0.8;
+}
+
+/* ─── IMPACT METER ─── */
+.impact-meter {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.impact-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.impact-track {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.impact-fill {
+  height: 100%;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 1.5s ease 0.5s;
+}
+.event.visible .impact-fill { width: var(--impact); }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  backdrop-filter: blur(10px);
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  transform: scale(0.9);
+  transition: transform 0.3s;
+  position: relative;
+}
+.modal-overlay.open .modal { transform: scale(1); }
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: color 0.2s;
+}
+.modal-close:hover { color: var(--text); }
+
+.modal-illustration {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+.modal-body { padding: 28px; }
+
+.modal-year {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.modal-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.modal-subtitle {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.modal-bilingual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.modal-lang-block {
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+
+.modal-lang-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.modal-fr { background: rgba(79,195,247,0.06); border: 1px solid rgba(79,195,247,0.15); }
+.modal-ht { background: rgba(105,240,174,0.05); border: 1px solid rgba(105,240,174,0.12); }
+.modal-fr .modal-lang-label { color: var(--accent); }
+.modal-ht .modal-lang-label { color: var(--green); }
+
+.modal-why {
+  padding: 16px;
+  background: rgba(255,213,79,0.06);
+  border: 1px solid rgba(255,213,79,0.15);
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(255,213,79,0.9);
+}
+.modal-why strong {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* ─── INTERACTIVE COUNTER ─── */
+.stats-strip {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 60px 0;
+}
+.stat-box {
+  background: var(--surface);
+  padding: 32px 24px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ─── QUIZ SECTION ─── */
+.quiz-section {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 40px 100px;
+}
+
+.quiz-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.quiz-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+.quiz-header p {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.quiz-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 16px;
+}
+.quiz-q {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.quiz-q-ht {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.quiz-opt {
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  line-height: 1.4;
+}
+.quiz-opt:hover { border-color: var(--accent); background: rgba(79,195,247,0.05); }
+.quiz-opt.correct { border-color: var(--green); background: rgba(105,240,174,0.08); color: var(--green); }
+.quiz-opt.wrong { border-color: var(--red); background: rgba(255,110,110,0.08); color: var(--red); }
+.quiz-opt:disabled { cursor: default; }
+
+.quiz-feedback {
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.ok { background: rgba(105,240,174,0.08); border: 1px solid rgba(105,240,174,0.2); color: var(--green); }
+.quiz-feedback.ko { background: rgba(255,110,110,0.08); border: 1px solid rgba(255,110,110,0.2); color: var(--red); }
+
+.quiz-score {
+  text-align: center;
+  padding: 40px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  display: none;
+}
+.quiz-score.show { display: block; }
+.score-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.score-msg { font-size: 16px; color: var(--muted); font-family: 'Libre Baskerville', serif; font-style: italic; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79,195,247,0); }
+  50% { box-shadow: 0 0 0 8px rgba(79,195,247,0.15); }
+}
+
+/* ─── ERA COLOR THEMES ─── */
+.era-foundations .event-year { background: #7c5cbf; }
+.era-foundations .event-node { background: #7c5cbf; }
+.era-foundations .event-node::after { border: 2px solid rgba(124,92,191,0.4); }
+.era-foundations .impact-fill { background: #7c5cbf; }
+.era-foundations .event-card:hover { border-color: #7c5cbf; }
+.era-foundations .event-tag { background: rgba(124,92,191,0.1); color: #c4b0e8; border: 1px solid rgba(124,92,191,0.3); }
+
+.era-winter .event-year { background: #3a7bd5; }
+.era-winter .event-node { background: #3a7bd5; }
+.era-winter .impact-fill { background: #3a7bd5; }
+.era-winter .event-card:hover { border-color: #3a7bd5; }
+.era-winter .event-tag { background: rgba(58,123,213,0.1); color: #90b8f0; border: 1px solid rgba(58,123,213,0.3); }
+
+.era-renaissance .event-year { background: #e67e22; }
+.era-renaissance .event-node { background: #e67e22; }
+.era-renaissance .impact-fill { background: #e67e22; }
+.era-renaissance .event-card:hover { border-color: #e67e22; }
+.era-renaissance .event-tag { background: rgba(230,126,34,0.1); color: #f5b97e; border: 1px solid rgba(230,126,34,0.3); }
+
+.era-deep .event-year { background: #27ae60; }
+.era-deep .event-node { background: #27ae60; }
+.era-deep .impact-fill { background: #27ae60; }
+.era-deep .event-card:hover { border-color: #27ae60; }
+.era-deep .event-tag { background: rgba(39,174,96,0.1); color: #82e0aa; border: 1px solid rgba(39,174,96,0.3); }
+
+.era-llm .event-year { background: #e74c3c; }
+.era-llm .event-node { background: #e74c3c; }
+.era-llm .impact-fill { background: #e74c3c; }
+.era-llm .event-card:hover { border-color: #e74c3c; }
+.era-llm .event-tag { background: rgba(231,76,60,0.1); color: #f1948a; border: 1px solid rgba(231,76,60,0.3); }
+
+.era-now .event-year { background: var(--gold); color: var(--bg) !important; }
+.era-now .event-node { background: var(--gold); animation: pulse-glow 2s infinite; }
+.era-now .impact-fill { background: var(--gold); }
+.era-now .event-card:hover { border-color: var(--gold); }
+.era-now .event-tag { background: rgba(255,213,79,0.1); color: var(--gold); border: 1px solid rgba(255,213,79,0.3); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .timeline::before { left: 30px; }
+  .event { grid-template-columns: 60px 1fr; padding: 0 16px; }
+  .event-left { display: none; }
+  .event-right { padding-left: 20px; text-align: left; }
+  .event:nth-child(even) .event-left { display: none; }
+  .event:nth-child(even) .event-right { order: 3; padding-left: 20px; padding-right: 0; text-align: left; }
+  .event:nth-child(even) .event-center { order: 1; }
+  .event-center { align-items: flex-start; }
+  .modal-bilingual { grid-template-columns: 1fr; }
+  .stats-strip { grid-template-columns: repeat(2,1fr); }
+  .quiz-options { grid-template-columns: 1fr; }
+  .era-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Stars -->
+<div id="stars"></div>
+
+<!-- Era Nav -->
+<nav class="era-nav" id="eraNaav">
+  <div class="era-dot active" data-target="era-foundations"><span class="era-tooltip">1936–1956 · Fondations</span></div>
+  <div class="era-dot" data-target="era-winter"><span class="era-tooltip">1960–1980 · Hivers IA</span></div>
+  <div class="era-dot" data-target="era-renaissance"><span class="era-tooltip">1980–1997 · Renaissance</span></div>
+  <div class="era-dot" data-target="era-deep"><span class="era-tooltip">1998–2011 · Deep Learning</span></div>
+  <div class="era-dot" data-target="era-llm"><span class="era-tooltip">2012–2021 · Révolution LLM</span></div>
+  <div class="era-dot" data-target="era-now"><span class="era-tooltip">2022–2026 · Aujourd'hui</span></div>
+</nav>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalBtn()">×</button>
+    <div class="modal-illustration" id="modalIllustration"></div>
+    <div class="modal-body">
+      <div class="modal-year" id="modalYear"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-subtitle" id="modalSubtitle"></div>
+      <div class="modal-bilingual">
+        <div class="modal-lang-block modal-fr">
+          <span class="modal-lang-label">🇫🇷 Français</span>
+          <div id="modalFr"></div>
+        </div>
+        <div class="modal-lang-block modal-ht">
+          <span class="modal-lang-label">🇭🇹 Kreyòl</span>
+          <div id="modalHt"></div>
+        </div>
+      </div>
+      <div class="modal-why">
+        <strong>💡 Pourquoi c'est important · Poukisa sa enpòtan</strong>
+        <div id="modalWhy"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero" id="top">
+  <div class="hero-badge">Jour 01 · Jou 01 · Session 0 · Formation IA 2026</div>
+  <h1 class="hero-title">HISTOIRE<br>DE <span>L'IA</span></h1>
+  <p class="hero-subtitle">De Turing à aujourd'hui · De Turing rive jodi a</p>
+  <div class="lang-pills">
+    <button class="lang-pill active" onclick="setLang('fr')">🇫🇷 Français</button>
+    <button class="lang-pill" onclick="setLang('ht')">🇭🇹 Kreyòl</button>
+  </div>
+  <p style="font-size:13px; color:var(--muted); max-width:500px; line-height:1.7; font-family:'Libre Baskerville',serif; font-style:italic;">
+    Cliquez sur chaque événement pour explorer en détail · Klike sou chak evènman pou eksplore an detay
+  </p>
+  <div class="scroll-hint">
+    <span>EXPLORER · EKSPLORE</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════ STATS ═══════════ -->
+<div class="stats-strip">
+  <div class="stat-box">
+    <div class="stat-num" style="color:var(--purple);" data-count="90">0</div>
+    <div class="stat-lbl">Ans d'histoire · Ane istwa<br>1936 → 2026</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num" style="color:var(--accent);" data-count="15">0</div>
+    <div class="stat-lbl">Étapes clés · Etap kle<br>dans cette timeline</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num" style="color:var(--gold);" data-count="4">0</div>
+    <div class="stat-lbl">Hivers de l'IA · Ivè IA<br>périodes de stagnation</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num" style="color:var(--green);" data-count="1">0</div>
+    <div class="stat-lbl">Explosion actuelle · Eksplozyon aktyèl<br>depuis 2022</div>
+  </div>
+</div>
+
+<!-- ═══════════ TIMELINE ═══════════ -->
+<section class="timeline" id="timeline">
+
+  <!-- ERA 1 -->
+  <div class="era-divider" id="era-foundations">
+    <div class="era-divider-line"></div>
+    <div class="era-divider-label" style="color:#c4b0e8; border-color:#7c5cbf;">⚡ 1936–1956 · FONDATIONS · FONDASYON</div>
+    <div class="era-divider-line"></div>
+  </div>
+
+  <!-- EVENT 1: Turing -->
+  <div class="event era-foundations" data-id="0">
+    <div class="event-left">
+      <div class="event-card" onclick="openModal(0)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#1a0533,#2d1254);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Turing Machine illustration -->
+            <rect x="40" y="60" width="200" height="40" rx="4" fill="none" stroke="#7c5cbf" stroke-width="1.5"/>
+            <!-- Tape cells -->
+            <g fill="none" stroke="#c4b0e8" stroke-width="1" opacity="0.6">
+              <rect x="40" y="60" width="25" height="40"/>
+              <rect x="65" y="60" width="25" height="40"/>
+              <rect x="90" y="60" width="25" height="40"/>
+              <rect x="115" y="60" width="25" height="40"/>
+              <rect x="140" y="60" width="25" height="40"/>
+              <rect x="165" y="60" width="25" height="40"/>
+              <rect x="190" y="60" width="25" height="40"/>
+              <rect x="215" y="60" width="25" height="40"/>
+            </g>
+            <!-- Binary symbols on tape -->
+            <text x="50" y="85" font-family="monospace" font-size="12" fill="#7c5cbf">1</text>
+            <text x="75" y="85" font-family="monospace" font-size="12" fill="#c4b0e8">0</text>
+            <text x="100" y="85" font-family="monospace" font-size="12" fill="#7c5cbf">1</text>
+            <text x="125" y="85" font-family="monospace" font-size="16" fill="white" font-weight="bold">1</text>
+            <text x="150" y="85" font-family="monospace" font-size="12" fill="#c4b0e8">0</text>
+            <text x="175" y="85" font-family="monospace" font-size="12" fill="#7c5cbf">0</text>
+            <text x="200" y="85" font-family="monospace" font-size="12" fill="#c4b0e8">1</text>
+            <!-- Read head -->
+            <rect x="118" y="45" width="19" height="20" rx="2" fill="#7c5cbf"/>
+            <polygon points="120,65 136,65 128,75" fill="#7c5cbf"/>
+            <!-- Arrow down -->
+            <text x="100" y="36" font-family="monospace" font-size="9" fill="#c4b0e8">READ/WRITE HEAD</text>
+            <!-- Label -->
+            <text x="140" y="135" text-anchor="middle" font-family="monospace" font-size="9" fill="#7c5cbf" letter-spacing="3">TURING MACHINE · 1936</text>
+            <!-- Orbiting dots -->
+            <circle cx="70" cy="30" r="2" fill="#c4b0e8" opacity="0.5"/>
+            <circle cx="210" cy="130" r="2" fill="#c4b0e8" opacity="0.5"/>
+            <circle cx="230" cy="25" r="1.5" fill="#7c5cbf" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">Machine de Turing & Test de Turing</div>
+          <div class="event-title-ht">Machin Turing ak Tès Turing</div>
+          <div class="event-text">
+            <span class="fr-text">Alan Turing pose la question fondamentale : "Les machines peuvent-elles penser ?" Sa machine universelle théorique est le prototype de tout ordinateur moderne.</span>
+            <span class="ht-text">Alan Turing poze kesyon fondamantal la: "Èske machin yo ka panse?" Machin inivèsèl teyorik li a se pwototip tout òdinatè modèn.</span>
+          </div>
+          <span class="event-tag">🧠 Théorie fondatrice · Teyori fondatè</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:95%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="event-center">
+      <div class="event-year">1936–1950</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right"></div>
+  </div>
+
+  <!-- EVENT 2: Dartmouth -->
+  <div class="event era-foundations" data-id="1">
+    <div class="event-left"></div>
+    <div class="event-center">
+      <div class="event-year">1956</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right">
+      <div class="event-card" onclick="openModal(1)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#0d1f3c,#1a3a6b);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Conference table -->
+            <ellipse cx="140" cy="100" rx="80" ry="30" fill="none" stroke="#7c5cbf" stroke-width="1.5" opacity="0.6"/>
+            <!-- People around table -->
+            <g fill="#c4b0e8" opacity="0.7">
+              <circle cx="140" cy="70" r="8"/>
+              <circle cx="100" cy="82" r="7"/>
+              <circle cx="75" cy="100" r="7"/>
+              <circle cx="90" cy="118" r="7"/>
+              <circle cx="140" cy="128" r="8"/>
+              <circle cx="190" cy="118" r="7"/>
+              <circle cx="205" cy="100" r="7"/>
+              <circle cx="180" cy="82" r="7"/>
+            </g>
+            <!-- Central glowing idea -->
+            <circle cx="140" cy="100" r="18" fill="none" stroke="#7c5cbf" stroke-width="2" opacity="0.8"/>
+            <text x="140" y="96" text-anchor="middle" font-size="8" fill="#c4b0e8" font-family="monospace">ARTIFICIAL</text>
+            <text x="140" y="107" text-anchor="middle" font-size="8" fill="#7c5cbf" font-family="monospace">INTELLIGENCE</text>
+            <!-- Title -->
+            <text x="140" y="25" text-anchor="middle" font-family="monospace" font-size="10" fill="#7c5cbf" letter-spacing="2">DARTMOUTH CONFERENCE</text>
+            <text x="140" y="40" text-anchor="middle" font-family="monospace" font-size="8" fill="#c4b0e8" opacity="0.6">Le terme "IA" est né ici · Tèm "IA" te fèt isit</text>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">Conférence de Dartmouth — Naissance du mot "IA"</div>
+          <div class="event-title-ht">Konferans Dartmouth — Nesans mo "IA"</div>
+          <div class="event-text">
+            <span class="fr-text">John McCarthy invente le terme "Artificial Intelligence". C'est officiellement l'acte de naissance de l'IA comme discipline scientifique.</span>
+            <span class="ht-text">John McCarthy envante tèm "Artificial Intelligence". Oficyèlman se sèrtifika nesans IA kòm yon disiplin syantifik.</span>
+          </div>
+          <span class="event-tag">🎓 Naissance officielle · Nesans ofisyèl</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:100%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA 2 -->
+  <div class="era-divider" id="era-winter">
+    <div class="era-divider-line"></div>
+    <div class="era-divider-label" style="color:#90b8f0; border-color:#3a7bd5;">❄️ 1960–1980 · HIVERS DE L'IA · IVÈ IA</div>
+    <div class="era-divider-line"></div>
+  </div>
+
+  <!-- EVENT 3: First AI Winter -->
+  <div class="event era-winter" data-id="2">
+    <div class="event-left">
+      <div class="event-card" onclick="openModal(2)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#0a1628,#0d2240);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Funding cut graph -->
+            <polyline points="30,40 70,42 110,45 130,55 155,80 180,110 210,125 250,130"
+              fill="none" stroke="#3a7bd5" stroke-width="2.5"/>
+            <!-- Down arrow on graph -->
+            <polyline points="155,80 185,108" fill="none" stroke="#ff6e6e" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <polygon points="183,115 190,103 196,113" fill="#ff6e6e"/>
+            <!-- Grid -->
+            <g stroke="#1c2535" stroke-width="0.5">
+              <line x1="30" y1="40" x2="30" y2="140"/>
+              <line x1="30" y1="140" x2="260" y2="140"/>
+            </g>
+            <!-- Labels -->
+            <text x="140" y="20" text-anchor="middle" font-family="monospace" font-size="9" fill="#3a7bd5" letter-spacing="2">FINANCEMENT IA · FINANSMAN IA</text>
+            <text x="248" y="148" font-family="monospace" font-size="8" fill="#5a6a80">1974</text>
+            <text x="33" y="148" font-family="monospace" font-size="8" fill="#5a6a80">1960</text>
+            <!-- Snowflakes -->
+            <text x="200" y="50" font-size="16" fill="#3a7bd5" opacity="0.4">❄</text>
+            <text x="55" y="130" font-size="12" fill="#3a7bd5" opacity="0.3">❄</text>
+            <text x="220" y="135" font-size="10" fill="#3a7bd5" opacity="0.3">❄</text>
+            <!-- Annotation -->
+            <text x="155" y="72" font-family="monospace" font-size="8" fill="#ff6e6e">Rapport Lighthill</text>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">Premier Hiver de l'IA — Coupes budgétaires</div>
+          <div class="event-title-ht">Premye Ivè IA — Koupe bidjè yo</div>
+          <div class="event-text">
+            <span class="fr-text">Les promesses ne sont pas tenues. Les gouvernements coupent les financements. Le rapport Lighthill (1973) critique sévèrement l'IA : les machines ne peuvent pas résoudre des problèmes réels.</span>
+            <span class="ht-text">Pwomès yo pa teni. Gouvènman yo koupe finansman yo. Rapò Lighthill (1973) kritike IA sevèman: machin yo pa ka rezoud pwoblèm reyèl.</span>
+          </div>
+          <span class="event-tag">❄️ Hiver 1 · Ivè 1 (1974-1980)</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:60%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="event-center">
+      <div class="event-year">1974</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right"></div>
+  </div>
+
+  <!-- ERA 3 -->
+  <div class="era-divider" id="era-renaissance">
+    <div class="era-divider-line"></div>
+    <div class="era-divider-label" style="color:#f5b97e; border-color:#e67e22;">🔥 1980–1997 · RENAISSANCE · RENESANS</div>
+    <div class="era-divider-line"></div>
+  </div>
+
+  <!-- EVENT 4: Expert Systems -->
+  <div class="event era-renaissance" data-id="3">
+    <div class="event-left"></div>
+    <div class="event-center">
+      <div class="event-year">1980</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right">
+      <div class="event-card" onclick="openModal(3)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#1a0e00,#3d2200);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Decision tree / expert system -->
+            <!-- Root -->
+            <circle cx="140" cy="25" r="12" fill="#e67e22" opacity="0.9"/>
+            <text x="140" y="29" text-anchor="middle" font-size="8" fill="white" font-family="monospace">IF/THEN</text>
+            <!-- Level 2 -->
+            <line x1="140" y1="37" x2="90" y2="65" stroke="#e67e22" stroke-width="1.5" opacity="0.6"/>
+            <line x1="140" y1="37" x2="190" y2="65" stroke="#e67e22" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="90" cy="70" r="10" fill="#e67e22" opacity="0.7"/>
+            <circle cx="190" cy="70" r="10" fill="#e67e22" opacity="0.7"/>
+            <text x="90" y="73" text-anchor="middle" font-size="7" fill="white" font-family="monospace">OUI</text>
+            <text x="190" y="73" text-anchor="middle" font-size="7" fill="white" font-family="monospace">NON</text>
+            <!-- Level 3 -->
+            <line x1="90" y1="80" x2="55" y2="108" stroke="#e67e22" stroke-width="1" opacity="0.4"/>
+            <line x1="90" y1="80" x2="120" y2="108" stroke="#e67e22" stroke-width="1" opacity="0.4"/>
+            <line x1="190" y1="80" x2="160" y2="108" stroke="#e67e22" stroke-width="1" opacity="0.4"/>
+            <line x1="190" y1="80" x2="225" y2="108" stroke="#e67e22" stroke-width="1" opacity="0.4"/>
+            <rect x="42" y="104" width="26" height="16" rx="3" fill="#3d2200" stroke="#e67e22" stroke-width="1"/>
+            <rect x="107" y="104" width="26" height="16" rx="3" fill="#3d2200" stroke="#e67e22" stroke-width="1"/>
+            <rect x="147" y="104" width="26" height="16" rx="3" fill="#3d2200" stroke="#e67e22" stroke-width="1"/>
+            <rect x="212" y="104" width="26" height="16" rx="3" fill="#3d2200" stroke="#e67e22" stroke-width="1"/>
+            <text x="55" y="115" text-anchor="middle" font-size="6" fill="#f5b97e" font-family="monospace">REGEL</text>
+            <text x="120" y="115" text-anchor="middle" font-size="6" fill="#f5b97e" font-family="monospace">REGEL</text>
+            <text x="160" y="115" text-anchor="middle" font-size="6" fill="#f5b97e" font-family="monospace">REGEL</text>
+            <text x="225" y="115" text-anchor="middle" font-size="6" fill="#f5b97e" font-family="monospace">REGEL</text>
+            <text x="140" y="148" text-anchor="middle" font-family="monospace" font-size="9" fill="#e67e22" letter-spacing="2">SYSTÈME EXPERT · SISTÈM EKSPÈ</text>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">Systèmes experts — L'IA devient commerciale</div>
+          <div class="event-title-ht">Sistèm ekspè — IA vin komèsyal</div>
+          <div class="event-text">
+            <span class="fr-text">Les "systèmes experts" reproduisent le raisonnement humain via des milliers de règles IF/THEN. MYCIN diagnostique des maladies mieux que des médecins junior.</span>
+            <span class="ht-text">"Sistèm ekspè" yo repwodui rezonman imen atravè dè milye règ IF/THEN. MYCIN dyagnostike maladi pi byen ke doktè jinyò yo.</span>
+          </div>
+          <span class="event-tag">💼 Commerce · Komès</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:70%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENT 5: Deep Blue -->
+  <div class="event era-renaissance" data-id="4">
+    <div class="event-left">
+      <div class="event-card" onclick="openModal(4)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#050d1a,#0a1f3c);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Chess board -->
+            <g transform="translate(60,15)">
+              <rect width="160" height="120" fill="none" stroke="#3a7bd5" stroke-width="1"/>
+              <!-- Chess squares 8x6 -->
+              <g opacity="0.6">
+                <rect x="0" y="0" width="20" height="15" fill="#1a3a6b"/>
+                <rect x="20" y="0" width="20" height="15" fill="#0d1f3c"/>
+                <rect x="40" y="0" width="20" height="15" fill="#1a3a6b"/>
+                <rect x="60" y="0" width="20" height="15" fill="#0d1f3c"/>
+                <rect x="80" y="0" width="20" height="15" fill="#1a3a6b"/>
+                <rect x="100" y="0" width="20" height="15" fill="#0d1f3c"/>
+                <rect x="120" y="0" width="20" height="15" fill="#1a3a6b"/>
+                <rect x="140" y="0" width="20" height="15" fill="#0d1f3c"/>
+                <rect x="0" y="15" width="20" height="15" fill="#0d1f3c"/>
+                <rect x="20" y="15" width="20" height="15" fill="#1a3a6b"/>
+                <rect x="40" y="15" width="20" height="15" fill="#0d1f3c"/>
+                <rect x="60" y="15" width="20" height="15" fill="#1a3a6b"/>
+                <rect x="80" y="15" width="20" height="15" fill="#0d1f3c"/>
+                <rect x="100" y="15" width="20" height="15" fill="#1a3a6b"/>
+                <rect x="120" y="15" width="20" height="15" fill="#0d1f3c"/>
+                <rect x="140" y="15" width="20" height="15" fill="#1a3a6b"/>
+              </g>
+              <!-- King piece highlighted -->
+              <circle cx="90" cy="82" r="10" fill="#3a7bd5" opacity="0.9"/>
+              <text x="90" y="86" text-anchor="middle" font-size="12" fill="white">♔</text>
+              <!-- Computer piece -->
+              <circle cx="70" cy="52" r="10" fill="#ff6e6e" opacity="0.8"/>
+              <text x="70" y="56" text-anchor="middle" font-size="12" fill="white">♜</text>
+              <!-- Move arrow -->
+              <line x1="70" y1="62" x2="86" y2="76" stroke="#ffd54f" stroke-width="2" marker-end="url(#arr)"/>
+              <defs>
+                <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                  <polygon points="0,0 6,3 0,6" fill="#ffd54f"/>
+                </marker>
+              </defs>
+            </g>
+            <!-- VS text -->
+            <text x="140" y="148" text-anchor="middle" font-family="monospace" font-size="9" fill="#3a7bd5" letter-spacing="2">DEEP BLUE vs KASPAROV · 1997</text>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">Deep Blue bat Kasparov aux échecs</div>
+          <div class="event-title-ht">Deep Blue bat Kasparov nan echèk</div>
+          <div class="event-text">
+            <span class="fr-text">L'ordinateur IBM Deep Blue bat le champion du monde d'échecs Garry Kasparov. Première fois qu'une machine bat un humain au plus haut niveau dans un jeu complexe.</span>
+            <span class="ht-text">Òdinatè IBM Deep Blue bat chanpyon mondyal echèk Garry Kasparov. Premye fwa yon machin bat yon imen nan pi wo nivo nan yon jwèt konplèks.</span>
+          </div>
+          <span class="event-tag">♟️ Victoire historique · Viktwa istorik</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:80%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="event-center">
+      <div class="event-year">1997</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right"></div>
+  </div>
+
+  <!-- ERA 4 -->
+  <div class="era-divider" id="era-deep">
+    <div class="era-divider-line"></div>
+    <div class="era-divider-label" style="color:#82e0aa; border-color:#27ae60;">🧬 1998–2011 · DEEP LEARNING · APRANTISAJ PAN</div>
+    <div class="era-divider-line"></div>
+  </div>
+
+  <!-- EVENT 6: Neural Networks Revival -->
+  <div class="event era-deep" data-id="5">
+    <div class="event-left"></div>
+    <div class="event-center">
+      <div class="event-year">2006</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right">
+      <div class="event-card" onclick="openModal(5)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#011a0a,#022e12);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Neural network layers -->
+            <!-- Input layer -->
+            <g fill="#27ae60" opacity="0.8">
+              <circle cx="40" cy="40" r="8"/>
+              <circle cx="40" cy="70" r="8"/>
+              <circle cx="40" cy="100" r="8"/>
+              <circle cx="40" cy="130" r="8"/>
+            </g>
+            <!-- Hidden layer 1 -->
+            <g fill="#27ae60" opacity="0.6">
+              <circle cx="100" cy="30" r="8"/>
+              <circle cx="100" cy="55" r="8"/>
+              <circle cx="100" cy="80" r="8"/>
+              <circle cx="100" cy="105" r="8"/>
+              <circle cx="100" cy="130" r="8"/>
+            </g>
+            <!-- Hidden layer 2 -->
+            <g fill="#27ae60" opacity="0.7">
+              <circle cx="160" cy="40" r="8"/>
+              <circle cx="160" cy="70" r="8"/>
+              <circle cx="160" cy="100" r="8"/>
+              <circle cx="160" cy="130" r="8"/>
+            </g>
+            <!-- Output layer -->
+            <g fill="#69f0ae" opacity="0.9">
+              <circle cx="220" cy="60" r="9"/>
+              <circle cx="220" cy="100" r="9"/>
+            </g>
+            <!-- Connections (selected) -->
+            <g stroke="#27ae60" stroke-width="0.5" opacity="0.3">
+              <line x1="48" y1="40" x2="92" y2="30"/>
+              <line x1="48" y1="40" x2="92" y2="55"/>
+              <line x1="48" y1="70" x2="92" y2="55"/>
+              <line x1="48" y1="70" x2="92" y2="80"/>
+              <line x1="48" y1="100" x2="92" y2="80"/>
+              <line x1="48" y1="100" x2="92" y2="105"/>
+              <line x1="48" y1="130" x2="92" y2="105"/>
+              <line x1="48" y1="130" x2="92" y2="130"/>
+              <line x1="108" y1="55" x2="152" y2="40"/>
+              <line x1="108" y1="80" x2="152" y2="70"/>
+              <line x1="108" y1="105" x2="152" y2="100"/>
+              <line x1="168" y1="40" x2="211" y2="60"/>
+              <line x1="168" y1="70" x2="211" y2="60"/>
+              <line x1="168" y1="100" x2="211" y2="100"/>
+              <line x1="168" y1="130" x2="211" y2="100"/>
+            </g>
+            <!-- Highlighted path -->
+            <g stroke="#69f0ae" stroke-width="1.5" opacity="0.9">
+              <line x1="48" y1="70" x2="92" y2="80"/>
+              <line x1="108" y1="80" x2="152" y2="70"/>
+              <line x1="168" y1="70" x2="211" y2="60"/>
+            </g>
+            <text x="140" y="152" text-anchor="middle" font-family="monospace" font-size="8" fill="#27ae60" letter-spacing="2">DEEP NEURAL NETWORK · HINTON 2006</text>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">Renaissance des réseaux de neurones — Hinton</div>
+          <div class="event-title-ht">Renesans rezo newòn yo — Hinton</div>
+          <div class="event-text">
+            <span class="fr-text">Geoffrey Hinton relance les réseaux de neurones profonds. L'"apprentissage profond" (deep learning) révolutionne la reconnaissance d'images, de sons et de textes.</span>
+            <span class="ht-text">Geoffrey Hinton relanse rezo newòn fon yo. "Aprantisaj fon" (deep learning) revolisyone rekonesans imaj, son ak tèks.</span>
+          </div>
+          <span class="event-tag">🧬 Deep Learning · Aprantisaj Fon</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:90%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENT 7: ImageNet -->
+  <div class="event era-deep" data-id="6">
+    <div class="event-left">
+      <div class="event-card" onclick="openModal(6)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#011a0a,#022e12);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Image grid -->
+            <g opacity="0.7">
+              <rect x="20" y="20" width="55" height="55" rx="4" fill="#022e12" stroke="#27ae60" stroke-width="1"/>
+              <rect x="83" y="20" width="55" height="55" rx="4" fill="#022e12" stroke="#27ae60" stroke-width="1"/>
+              <rect x="146" y="20" width="55" height="55" rx="4" fill="#022e12" stroke="#27ae60" stroke-width="1"/>
+              <rect x="209" y="20" width="55" height="55" rx="4" fill="#022e12" stroke="#27ae60" stroke-width="1"/>
+              <rect x="20" y="83" width="55" height="55" rx="4" fill="#022e12" stroke="#27ae60" stroke-width="1"/>
+              <rect x="83" y="83" width="55" height="55" rx="4" fill="#022e12" stroke="#27ae60" stroke-width="1"/>
+              <rect x="146" y="83" width="55" height="55" rx="4" fill="#022e12" stroke="#27ae60" stroke-width="0.5" stroke-dasharray="3,3"/>
+              <rect x="209" y="83" width="55" height="55" rx="4" fill="#022e12" stroke="#27ae60" stroke-width="0.5" stroke-dasharray="3,3"/>
+            </g>
+            <!-- Icons in boxes -->
+            <text x="47" y="54" text-anchor="middle" font-size="22">🐱</text>
+            <text x="110" y="54" text-anchor="middle" font-size="22">🐶</text>
+            <text x="173" y="54" text-anchor="middle" font-size="22">🚗</text>
+            <text x="236" y="54" text-anchor="middle" font-size="22">🏠</text>
+            <text x="47" y="117" text-anchor="middle" font-size="22">🌺</text>
+            <text x="110" y="117" text-anchor="middle" font-size="22">✈️</text>
+            <!-- Recognition labels -->
+            <rect x="25" y="68" width="45" height="10" rx="2" fill="#27ae60" opacity="0.8"/>
+            <text x="47" y="76" text-anchor="middle" font-size="6" fill="white" font-family="monospace">CAT 98.2%</text>
+            <rect x="88" y="68" width="45" height="10" rx="2" fill="#27ae60" opacity="0.8"/>
+            <text x="110" y="76" text-anchor="middle" font-size="6" fill="white" font-family="monospace">DOG 97.5%</text>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">AlexNet & ImageNet — L'IA voit le monde</div>
+          <div class="event-title-ht">AlexNet & ImageNet — IA wè mond lan</div>
+          <div class="event-text">
+            <span class="fr-text">AlexNet remporte ImageNet avec 85% de précision (vs 75% pour les humains à l'époque). L'IA surpasse l'humain dans la reconnaissance visuelle. Début de l'ère moderne.</span>
+            <span class="ht-text">AlexNet genyen ImageNet avèk 85% presizyon. IA depase imen nan rekonesans vizyèl. Kòmansman epòk modèn nan.</span>
+          </div>
+          <span class="event-tag">👁️ Vision par ordinateur · Vizyon òdinatè</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:85%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="event-center">
+      <div class="event-year">2012</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right"></div>
+  </div>
+
+  <!-- ERA 5 -->
+  <div class="era-divider" id="era-llm">
+    <div class="era-divider-line"></div>
+    <div class="era-divider-label" style="color:#f1948a; border-color:#e74c3c;">🚀 2014–2021 · RÉVOLUTION LLM · REVOLISYON LLM</div>
+    <div class="era-divider-line"></div>
+  </div>
+
+  <!-- EVENT 8: AlphaGo -->
+  <div class="event era-llm" data-id="7">
+    <div class="event-left"></div>
+    <div class="event-center">
+      <div class="event-year">2016</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right">
+      <div class="event-card" onclick="openModal(7)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#1a0a08,#3d1510);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Go board simplified -->
+            <g stroke="#e74c3c" stroke-width="0.5" opacity="0.4">
+              <line x1="40" y1="20" x2="240" y2="20"/>
+              <line x1="40" y1="45" x2="240" y2="45"/>
+              <line x1="40" y1="70" x2="240" y2="70"/>
+              <line x1="40" y1="95" x2="240" y2="95"/>
+              <line x1="40" y1="120" x2="240" y2="120"/>
+              <line x1="40" y1="20" x2="40" y2="120"/>
+              <line x1="90" y1="20" x2="90" y2="120"/>
+              <line x1="140" y1="20" x2="140" y2="120"/>
+              <line x1="190" y1="20" x2="190" y2="120"/>
+              <line x1="240" y1="20" x2="240" y2="120"/>
+            </g>
+            <!-- Black stones (AI) -->
+            <circle cx="90" cy="45" r="9" fill="#111" stroke="#e74c3c" stroke-width="1.5"/>
+            <circle cx="140" cy="20" r="9" fill="#111" stroke="#e74c3c" stroke-width="1.5"/>
+            <circle cx="190" cy="70" r="9" fill="#111" stroke="#e74c3c" stroke-width="1.5"/>
+            <circle cx="140" cy="95" r="9" fill="#111" stroke="#e74c3c" stroke-width="1.5"/>
+            <circle cx="240" cy="45" r="9" fill="#111" stroke="#e74c3c" stroke-width="1.5"/>
+            <!-- White stones (human) -->
+            <circle cx="40" cy="70" r="9" fill="white" opacity="0.7"/>
+            <circle cx="190" cy="20" r="9" fill="white" opacity="0.7"/>
+            <circle cx="90" cy="120" r="9" fill="white" opacity="0.7"/>
+            <!-- Victory star -->
+            <text x="140" y="145" text-anchor="middle" font-size="10" fill="#e74c3c" font-family="monospace" letter-spacing="2">ALPHAGO vs LEE SEDOL · 4-1</text>
+            <!-- AI label -->
+            <text x="240" y="16" text-anchor="end" font-size="8" fill="#e74c3c" font-family="monospace">AlphaGo 🤖</text>
+            <text x="40" y="16" font-size="8" fill="white" opacity="0.6" font-family="monospace">Human</text>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">AlphaGo bat Lee Sedol — Un tournant historique</div>
+          <div class="event-title-ht">AlphaGo bat Lee Sedol — Yon vèsman istorik</div>
+          <div class="event-text">
+            <span class="fr-text">DeepMind's AlphaGo bat le champion du monde de Go 4-1. Le Go est 10 fois plus complexe que les échecs. L'IA apprend par elle-même sans règles programmées (reinforcement learning).</span>
+            <span class="ht-text">AlphaGo DeepMind bat chanpyon mondyal Go 4-1. Go se 10 fwa pi konplèks ke echèk. IA aprann poukont li san règ pwograme (renfosman aprantisaj).</span>
+          </div>
+          <span class="event-tag">🏆 Reinforcement Learning · Aprantisaj Ranfòsman</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:88%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENT 9: Transformers -->
+  <div class="event era-llm" data-id="8">
+    <div class="event-left">
+      <div class="event-card" onclick="openModal(8)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#1a0808,#3d1515);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Attention mechanism visualization -->
+            <!-- Query/Key/Value -->
+            <text x="30" y="20" font-family="monospace" font-size="8" fill="#e74c3c" letter-spacing="1">ATTENTION IS ALL YOU NEED · 2017</text>
+            <!-- Word tokens -->
+            <g font-family="monospace" font-size="9">
+              <rect x="15" y="30" width="35" height="16" rx="3" fill="#3d1515" stroke="#e74c3c" stroke-width="1"/>
+              <text x="32" y="42" text-anchor="middle" fill="#f1948a">The</text>
+              <rect x="55" y="30" width="35" height="16" rx="3" fill="#e74c3c" stroke="#e74c3c" stroke-width="1" opacity="0.9"/>
+              <text x="72" y="42" text-anchor="middle" fill="white">cat</text>
+              <rect x="95" y="30" width="35" height="16" rx="3" fill="#3d1515" stroke="#e74c3c" stroke-width="1"/>
+              <text x="112" y="42" text-anchor="middle" fill="#f1948a">sat</text>
+              <rect x="135" y="30" width="35" height="16" rx="3" fill="#3d1515" stroke="#e74c3c" stroke-width="1"/>
+              <text x="152" y="42" text-anchor="middle" fill="#f1948a">on</text>
+              <rect x="175" y="30" width="35" height="16" rx="3" fill="#3d1515" stroke="#e74c3c" stroke-width="1"/>
+              <text x="192" y="42" text-anchor="middle" fill="#f1948a">the</text>
+              <rect x="215" y="30" width="50" height="16" rx="3" fill="#3d1515" stroke="#e74c3c" stroke-width="1"/>
+              <text x="240" y="42" text-anchor="middle" fill="#f1948a">mat</text>
+            </g>
+            <!-- Attention lines from "cat" -->
+            <g stroke="#ffd54f" stroke-width="1.5" opacity="0.7">
+              <line x1="72" y1="46" x2="32" y2="60"/>
+              <line x1="72" y1="46" x2="72" y2="60"/>
+              <line x1="72" y1="46" x2="240" y2="60"/>
+            </g>
+            <g stroke="#e74c3c" stroke-width="0.5" opacity="0.3">
+              <line x1="72" y1="46" x2="112" y2="60"/>
+              <line x1="72" y1="46" x2="192" y2="60"/>
+            </g>
+            <!-- Attention weights -->
+            <text x="32" y="75" text-anchor="middle" font-size="7" fill="#ffd54f" font-family="monospace">0.15</text>
+            <text x="72" y="75" text-anchor="middle" font-size="7" fill="#ffd54f" font-family="monospace">0.45</text>
+            <text x="240" y="75" text-anchor="middle" font-size="7" fill="#ffd54f" font-family="monospace">0.30</text>
+            <!-- Output -->
+            <rect x="80" y="90" width="120" height="30" rx="6" fill="#3d1515" stroke="#e74c3c" stroke-width="1.5"/>
+            <text x="140" y="100" text-anchor="middle" font-family="monospace" font-size="7" fill="#f1948a">TRANSFORMER OUTPUT</text>
+            <text x="140" y="113" text-anchor="middle" font-family="monospace" font-size="9" fill="white">"cat" → [0.8, 0.2, ...]</text>
+            <!-- Lines to output -->
+            <line x1="72" y1="46" x2="140" y2="90" stroke="#e74c3c" stroke-width="0.5" opacity="0.4" stroke-dasharray="3,3"/>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">Architecture Transformer — "Attention Is All You Need"</div>
+          <div class="event-title-ht">Achitekti Transformèr — "Atansyon se tout sa ou bezwen"</div>
+          <div class="event-text">
+            <span class="fr-text">Google publie le papier révolutionnaire sur les Transformers. Ce mécanisme d'"attention" permet aux IA de comprendre le contexte dans le langage. C'est la fondation de tous les LLMs modernes : GPT, Claude, Gemini.</span>
+            <span class="ht-text">Google pibliye papye revolisyonè a sou Transformèr yo. Mekanis "atansyon" sa a pèmèt IA konprann kontèks nan lang. Se fondasyon tout LLM modèn: GPT, Claude, Gemini.</span>
+          </div>
+          <span class="event-tag">⚡ Architecture fondamentale · Achitekti fondamantal</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:100%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="event-center">
+      <div class="event-year">2017</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right"></div>
+  </div>
+
+  <!-- EVENT 10: GPT-3 -->
+  <div class="event era-llm" data-id="9">
+    <div class="event-left"></div>
+    <div class="event-center">
+      <div class="event-year">2020</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right">
+      <div class="event-card" onclick="openModal(9)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#1a0808,#2d1010);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Parameter count visualization -->
+            <text x="140" y="30" text-anchor="middle" font-family="monospace" font-size="9" fill="#e74c3c" letter-spacing="2">GPT-3 · 175 MILLIARDS PARAMÈTRES</text>
+            <!-- Scale comparison -->
+            <rect x="20" y="50" width="8" height="80" rx="2" fill="#3a7bd5" opacity="0.8"/>
+            <text x="24" y="145" text-anchor="middle" font-size="7" fill="#3a7bd5" font-family="monospace">GPT-1</text>
+            <text x="24" y="155" text-anchor="middle" font-size="6" fill="#5a6a80" font-family="monospace">117M</text>
+            <rect x="50" y="90" width="12" height="40" rx="2" fill="#3a7bd5" opacity="0.8"/>
+            <text x="56" y="145" text-anchor="middle" font-size="7" fill="#3a7bd5" font-family="monospace">GPT-2</text>
+            <text x="56" y="155" text-anchor="middle" font-size="6" fill="#5a6a80" font-family="monospace">1.5B</text>
+            <!-- GPT-3 mega bar -->
+            <rect x="85" y="45" width="40" height="85" rx="3" fill="#e74c3c" opacity="0.9"/>
+            <text x="105" y="42" text-anchor="middle" font-size="8" fill="#e74c3c" font-family="monospace">GPT-3</text>
+            <text x="105" y="148" text-anchor="middle" font-size="8" fill="#e74c3c" font-family="monospace">175B</text>
+            <!-- Capabilities list -->
+            <g font-family="monospace" font-size="8" fill="#f1948a">
+              <text x="150" y="60">✓ Écriture créative</text>
+              <text x="150" y="76">✓ Code Python</text>
+              <text x="150" y="92">✓ Traduction</text>
+              <text x="150" y="108">✓ Résumé</text>
+              <text x="150" y="124">✓ Q&A complexe</text>
+            </g>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">GPT-3 — L'IA parle comme un humain</div>
+          <div class="event-title-ht">GPT-3 — IA pale tankou yon imen</div>
+          <div class="event-text">
+            <span class="fr-text">OpenAI lance GPT-3 avec 175 milliards de paramètres. Pour la première fois, une IA génère du texte quasi-indiscernable de celui d'un humain. Le monde réalise qu'un seuil a été franchi.</span>
+            <span class="ht-text">OpenAI lanse GPT-3 avèk 175 milya paramèt. Pou premye fwa, yon IA jenere tèks ki prèske pa ka distenge de tèks imen. Mond lan reyalize ke yon sèy te avan.</span>
+          </div>
+          <span class="event-tag">🗣️ Langage naturel · Lang natirèl</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:92%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA 6 -->
+  <div class="era-divider" id="era-now">
+    <div class="era-divider-line"></div>
+    <div class="era-divider-label" style="color:var(--gold); border-color:var(--gold);">✨ 2022–2026 · L'EXPLOSION · EKSPLOZYON AN</div>
+    <div class="era-divider-line"></div>
+  </div>
+
+  <!-- EVENT 11: ChatGPT -->
+  <div class="event era-now" data-id="10">
+    <div class="event-left">
+      <div class="event-card" onclick="openModal(10)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#1a1200,#3d2b00);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Chat interface mockup -->
+            <rect x="20" y="15" width="240" height="130" rx="10" fill="#111" stroke="#ffd54f" stroke-width="1.5" opacity="0.8"/>
+            <!-- User message -->
+            <rect x="120" y="30" width="120" height="28" rx="8" fill="#ffd54f" opacity="0.15"/>
+            <rect x="120" y="30" width="120" height="28" rx="8" fill="none" stroke="#ffd54f" stroke-width="0.8" opacity="0.5"/>
+            <text x="180" y="44" text-anchor="middle" font-size="9" fill="#ffd54f" font-family="monospace">Écris un poème</text>
+            <text x="180" y="54" text-anchor="middle" font-size="9" fill="#ffd54f" font-family="monospace">sur l'IA 🎨</text>
+            <!-- AI response -->
+            <rect x="20" y="68" width="170" height="50" rx="8" fill="#ffd54f" opacity="0.08"/>
+            <rect x="20" y="68" width="170" height="50" rx="8" fill="none" stroke="#ffd54f" stroke-width="0.8" opacity="0.3"/>
+            <text x="30" y="82" font-size="8" fill="rgba(255,213,79,0.8)" font-family="monospace">Dans le silence du code,</text>
+            <text x="30" y="94" font-size="8" fill="rgba(255,213,79,0.8)" font-family="monospace">je tisse des mots d'or,</text>
+            <text x="30" y="106" font-size="8" fill="rgba(255,213,79,0.8)" font-family="monospace">l'IA qui rêve encore...</text>
+            <!-- Stats -->
+            <text x="250" y="140" text-anchor="end" font-size="8" fill="#ffd54f" font-family="monospace" opacity="0.7">100M users</text>
+            <text x="250" y="151" text-anchor="end" font-size="8" fill="#ffd54f" font-family="monospace" opacity="0.5">in 2 months</text>
+            <!-- ChatGPT label -->
+            <text x="140" y="10" text-anchor="middle" font-size="8" fill="#ffd54f" font-family="monospace" letter-spacing="2" opacity="0.6">CHATGPT · NOV 30, 2022</text>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">ChatGPT — L'IA devient grand public</div>
+          <div class="event-title-ht">ChatGPT — IA vin piblik</div>
+          <div class="event-text">
+            <span class="fr-text">OpenAI lance ChatGPT le 30 novembre 2022. 100 millions d'utilisateurs en 2 mois — le produit le plus vite adopté de l'histoire. L'IA sort des labos et entre dans tous les foyers.</span>
+            <span class="ht-text">OpenAI lanse ChatGPT 30 novanm 2022. 100 milyon itilizatè an 2 mwa — pwodui ki pi vit adopte nan istwa. IA sòti nan labo yo epi antre nan tout kay.</span>
+          </div>
+          <span class="event-tag">🌍 Démocratisation · Demokratizasyon</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:100%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="event-center">
+      <div class="event-year">2022</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right"></div>
+  </div>
+
+  <!-- EVENT 12: GPT-4 / Claude / Gemini -->
+  <div class="event era-now" data-id="11">
+    <div class="event-left"></div>
+    <div class="event-center">
+      <div class="event-year">2023</div>
+      <div class="event-node"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right">
+      <div class="event-card" onclick="openModal(11)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#1a1200,#2d2000);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Three pillars -->
+            <!-- OpenAI -->
+            <rect x="20" y="60" width="70" height="80" rx="4" fill="#1a1200" stroke="#ffd54f" stroke-width="1.5"/>
+            <text x="55" y="40" text-anchor="middle" font-size="18">🤖</text>
+            <text x="55" y="55" text-anchor="middle" font-size="8" fill="#ffd54f" font-family="monospace">GPT-4</text>
+            <text x="55" y="85" text-anchor="middle" font-size="7" fill="#ffd54f" opacity="0.7" font-family="monospace">OpenAI</text>
+            <text x="55" y="98" text-anchor="middle" font-size="7" fill="rgba(255,213,79,0.5)" font-family="monospace">Multimodal</text>
+            <text x="55" y="111" text-anchor="middle" font-size="7" fill="rgba(255,213,79,0.5)" font-family="monospace">1T+ params</text>
+            <text x="55" y="124" text-anchor="middle" font-size="7" fill="rgba(255,213,79,0.5)" font-family="monospace">Code+Vision</text>
+            <!-- Anthropic -->
+            <rect x="105" y="45" width="70" height="95" rx="4" fill="#1a1200" stroke="#ffd54f" stroke-width="2"/>
+            <text x="140" y="30" text-anchor="middle" font-size="18">🧠</text>
+            <text x="140" y="42" text-anchor="middle" font-size="8" fill="#ffd54f" font-family="monospace">CLAUDE</text>
+            <text x="140" y="72" text-anchor="middle" font-size="7" fill="#ffd54f" opacity="0.7" font-family="monospace">Anthropic</text>
+            <text x="140" y="85" text-anchor="middle" font-size="7" fill="rgba(255,213,79,0.5)" font-family="monospace">Sécurité IA</text>
+            <text x="140" y="98" text-anchor="middle" font-size="7" fill="rgba(255,213,79,0.5)" font-family="monospace">Long context</text>
+            <text x="140" y="111" text-anchor="middle" font-size="7" fill="rgba(255,213,79,0.5)" font-family="monospace">200K tokens</text>
+            <!-- Google -->
+            <rect x="190" y="60" width="70" height="80" rx="4" fill="#1a1200" stroke="#ffd54f" stroke-width="1.5"/>
+            <text x="225" y="40" text-anchor="middle" font-size="18">💫</text>
+            <text x="225" y="55" text-anchor="middle" font-size="8" fill="#ffd54f" font-family="monospace">GEMINI</text>
+            <text x="225" y="85" text-anchor="middle" font-size="7" fill="#ffd54f" opacity="0.7" font-family="monospace">Google</text>
+            <text x="225" y="98" text-anchor="middle" font-size="7" fill="rgba(255,213,79,0.5)" font-family="monospace">Multimodal</text>
+            <text x="225" y="111" text-anchor="middle" font-size="7" fill="rgba(255,213,79,0.5)" font-family="monospace">Natively</text>
+            <text x="225" y="124" text-anchor="middle" font-size="7" fill="rgba(255,213,79,0.5)" font-family="monospace">Search +AI</text>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">GPT-4, Claude, Gemini — La guerre des LLMs</div>
+          <div class="event-title-ht">GPT-4, Claude, Gemini — Lagè LLM yo</div>
+          <div class="event-text">
+            <span class="fr-text">2023 : explosion de modèles multimodaux. GPT-4 comprend images et texte. Claude d'Anthropic met la sécurité au centre. Gemini de Google intègre la recherche. Course à l'armement IA mondiale.</span>
+            <span class="ht-text">2023: eksplozyon modèl miltimodal. GPT-4 konprann imaj ak tèks. Claude Anthropic mete sekirite nan sant. Gemini Google entegre rechèch. Kous ameman IA mondyal.</span>
+          </div>
+          <span class="event-tag">⚔️ Compétition mondiale · Konpetisyon mondyal</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:97%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENT 13: 2024-2026 -->
+  <div class="event era-now" data-id="12">
+    <div class="event-left">
+      <div class="event-card" onclick="openModal(12)">
+        <div class="event-illustration" style="background:linear-gradient(135deg,#0a1400,#1a2d00);">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <!-- Agentic AI visualization -->
+            <circle cx="140" cy="80" r="35" fill="none" stroke="var(--gold)" stroke-width="2" opacity="0.8"/>
+            <text x="140" y="75" text-anchor="middle" font-size="9" fill="var(--gold)" font-family="monospace">AGENT</text>
+            <text x="140" y="88" text-anchor="middle" font-size="9" fill="var(--gold)" font-family="monospace">IA 2025</text>
+            <!-- Orbiting capabilities -->
+            <circle cx="140" cy="25" r="18" fill="#0a1400" stroke="var(--gold)" stroke-width="1"/>
+            <text x="140" y="21" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="monospace">CODE</text>
+            <text x="140" y="31" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="monospace">GEN</text>
+            <circle cx="215" cy="55" r="18" fill="#0a1400" stroke="var(--gold)" stroke-width="1"/>
+            <text x="215" y="51" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="monospace">WEB</text>
+            <text x="215" y="61" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="monospace">AGENT</text>
+            <circle cx="215" cy="110" r="18" fill="#0a1400" stroke="var(--gold)" stroke-width="1"/>
+            <text x="215" y="106" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="monospace">VIDEO</text>
+            <text x="215" y="116" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="monospace">AI</text>
+            <circle cx="65" cy="110" r="18" fill="#0a1400" stroke="var(--gold)" stroke-width="1"/>
+            <text x="65" y="106" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="monospace">ROBOT</text>
+            <text x="65" y="116" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="monospace">ICS</text>
+            <circle cx="65" cy="55" r="18" fill="#0a1400" stroke="var(--gold)" stroke-width="1"/>
+            <text x="65" y="51" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="monospace">VOICE</text>
+            <text x="65" y="61" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="monospace">AI</text>
+            <!-- Connecting lines -->
+            <g stroke="var(--gold)" stroke-width="0.8" opacity="0.3" stroke-dasharray="3,3">
+              <line x1="140" y1="45" x2="140" y2="43"/>
+              <line x1="171" y1="62" x2="197" y2="62"/>
+              <line x1="171" y1="96" x2="197" y2="96"/>
+              <line x1="109" y1="96" x2="83" y2="96"/>
+              <line x1="109" y1="62" x2="83" y2="62"/>
+            </g>
+            <!-- Pulse -->
+            <circle cx="140" cy="80" r="45" fill="none" stroke="var(--gold)" stroke-width="0.5" opacity="0.3"/>
+            <circle cx="140" cy="80" r="55" fill="none" stroke="var(--gold)" stroke-width="0.3" opacity="0.15"/>
+          </svg>
+        </div>
+        <div class="event-body">
+          <div class="event-title-fr">2024–2026 — L'ère des agents et du multimodal</div>
+          <div class="event-title-ht">2024–2026 — Epòk ajan yo ak miltimodal</div>
+          <div class="event-text">
+            <span class="fr-text">Les IA deviennent des agents autonomes qui agissent dans le monde réel. Sora génère des vidéos. Claude Code construit des apps entières. L'IA entre dans les entreprises, hôpitaux, gouvernements et nos poches.</span>
+            <span class="ht-text">IA yo vin ajan otonom ki aji nan mond reyèl la. Sora jenere videyo. Claude Code bati app antye. IA antre nan antrepriz, lopital, gouvènman ak poch nou yo.</span>
+          </div>
+          <span class="event-tag">🌐 Ère agentique · Epòk ajantik</span>
+          <div class="impact-meter">
+            <span class="impact-label">Impact</span>
+            <div class="impact-track"><div class="impact-fill" style="--impact:99%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="event-center">
+      <div class="event-year">2024–26</div>
+      <div class="event-node" style="animation:pulse-glow 2s infinite;"></div>
+      <div class="event-connector"></div>
+    </div>
+    <div class="event-right"></div>
+  </div>
+
+  <!-- EVENT: Vous êtes ici -->
+  <div class="event era-now" style="margin-bottom:0;">
+    <div class="event-left"></div>
+    <div class="event-center">
+      <div class="event-year" style="background:var(--gold);color:#000;font-size:10px;padding:8px 12px;">VOUS ÊTES ICI<br>OU YE ISIT</div>
+      <div class="event-node" style="background:var(--gold);width:28px;height:28px;border:4px solid var(--bg);box-shadow:0 0 20px rgba(255,213,79,0.5);"></div>
+    </div>
+    <div class="event-right">
+      <div style="padding-left:40px; padding-top:8px;">
+        <p style="font-family:'Libre Baskerville',serif;font-style:italic;font-size:16px;color:var(--gold);line-height:1.6;">
+          "Tu vis dans le moment le plus important de l'histoire de l'IA."
+        </p>
+        <p style="font-family:'Libre Baskerville',serif;font-style:italic;font-size:14px;color:rgba(255,213,79,0.5);margin-top:8px;line-height:1.6;">
+          "Ou viv nan moman ki pi enpòtan nan istwa IA."
+        </p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════ QUIZ ═══════════ -->
+<div class="quiz-section">
+  <div class="quiz-header">
+    <h2 style="color:var(--text);">TEST TA<br><span style="color:var(--accent);">MÉMOIRE</span></h2>
+    <p>Tès memwa ou · 5 questions sur la timeline</p>
+  </div>
+
+  <div id="quizContainer">
+    <!-- Q1 -->
+    <div class="quiz-card" data-q="0">
+      <div class="quiz-q">En quelle année le terme "Intelligence Artificielle" a-t-il été inventé ?</div>
+      <div class="quiz-q-ht">Ki ane tèm "Intelligence Artificielle" te envante?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-ans="0" data-correct="false">1950</button>
+        <button class="quiz-opt" data-ans="1" data-correct="true">1956</button>
+        <button class="quiz-opt" data-ans="2" data-correct="false">1969</button>
+        <button class="quiz-opt" data-ans="3" data-correct="false">1974</button>
+      </div>
+      <div class="quiz-feedback">
+        <span class="fr">✅ Exact ! La Conférence de Dartmouth en 1956, organisée par John McCarthy, a officiellement donné naissance au terme "Intelligence Artificielle".</span>
+        <span class="ht" style="display:none">✅ Egzak! Konferans Dartmouth an 1956, òganize pa John McCarthy, ofisyèlman bay nesans tèm "Intelligence Artificielle".</span>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-card" data-q="1">
+      <div class="quiz-q">Qu'est-ce que l'architecture "Transformer" publiée en 2017 a changé ?</div>
+      <div class="quiz-q-ht">Kisa achitekti "Transformèr" pibliye an 2017 te chanje?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-ans="0" data-correct="false">La robotique industrielle · Robotik endistriyèl</button>
+        <button class="quiz-opt" data-ans="1" data-correct="false">La reconnaissance faciale · Rekonesans facial</button>
+        <button class="quiz-opt" data-ans="2" data-correct="true">La compréhension du langage (base de tous les LLMs) · Konpreyansyon lang</button>
+        <button class="quiz-opt" data-ans="3" data-correct="false">La prévision météo · Previzyon tan</button>
+      </div>
+      <div class="quiz-feedback">
+        <span class="fr">✅ Bravo ! L'article "Attention Is All You Need" a introduit le mécanisme d'attention qui permet aux IA de comprendre le contexte dans le langage. C'est la base de GPT, Claude, Gemini.</span>
+        <span class="ht" style="display:none">✅ Bravo! Atik "Attention Is All You Need" te entrodui mekanis atansyon ki pèmèt IA konprann kontèks nan lang. Se baz GPT, Claude, Gemini.</span>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-card" data-q="2">
+      <div class="quiz-q">Combien de temps a-t-il fallu à ChatGPT pour atteindre 100 millions d'utilisateurs ?</div>
+      <div class="quiz-q-ht">Konbyen tan sa te pran ChatGPT pou rive 100 milyon itilizatè?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-ans="0" data-correct="false">6 mois · 6 mwa</button>
+        <button class="quiz-opt" data-ans="1" data-correct="false">1 an · 1 ane</button>
+        <button class="quiz-opt" data-ans="2" data-correct="true">2 mois · 2 mwa</button>
+        <button class="quiz-opt" data-ans="3" data-correct="false">2 semaines · 2 semèn</button>
+      </div>
+      <div class="quiz-feedback">
+        <span class="fr">✅ Parfait ! 2 mois — le produit le plus rapidement adopté de l'histoire (Instagram: 2.5 ans, TikTok: 9 mois, Netflix: 3 ans).</span>
+        <span class="ht" style="display:none">✅ Pafè! 2 mwa — pwodui ki pi vit adopte nan istwa (Instagram: 2.5 ane, TikTok: 9 mwa, Netflix: 3 ane).</span>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-card" data-q="3">
+      <div class="quiz-q">Qu'est-ce qu'un "hiver de l'IA" ? · Kisa yon "ivè IA" ye?</div>
+      <div class="quiz-q-ht"></div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-ans="0" data-correct="false">Une IA qui fonctionne dans le froid · Yon IA ki travay nan fredi</button>
+        <button class="quiz-opt" data-ans="1" data-correct="true">Une période de désintérêt et coupes de financement · Yon peryòd dezentere ak koupe finansman</button>
+        <button class="quiz-opt" data-ans="2" data-correct="false">Un algorithme de météo · Yon algorit tan</button>
+        <button class="quiz-opt" data-ans="3" data-correct="false">Une mise à jour de logiciel · Yon mizajou lojisyèl</button>
+      </div>
+      <div class="quiz-feedback">
+        <span class="fr">✅ Correct ! Il y a eu 2 grands "hivers" : 1974-1980 et 1987-1993. Les gouvernements ont coupé les financements car les promesses n'étaient pas tenues.</span>
+        <span class="ht" style="display:none">✅ Kòrèk! Te gen 2 gwo "ivè": 1974-1980 ak 1987-1993. Gouvènman yo te koupe finansman paske pwomès yo pa t kenbe.</span>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-card" data-q="4">
+      <div class="quiz-q">Qui a posé la question "Les machines peuvent-elles penser ?" ? · Ki moun ki poze kesyon "Èske machin yo ka panse?"?</div>
+      <div class="quiz-q-ht"></div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-ans="0" data-correct="false">John McCarthy</button>
+        <button class="quiz-opt" data-ans="1" data-correct="false">Geoffrey Hinton</button>
+        <button class="quiz-opt" data-ans="2" data-correct="true">Alan Turing</button>
+        <button class="quiz-opt" data-ans="3" data-correct="false">Yann LeCun</button>
+      </div>
+      <div class="quiz-feedback">
+        <span class="fr">✅ Alan Turing ! Dans son article de 1950 "Computing Machinery and Intelligence", il propose le "Test de Turing" : si une machine peut convaincre un humain qu'elle est humaine, peut-on dire qu'elle pense ?</span>
+        <span class="ht" style="display:none">✅ Alan Turing! Nan atik 1950 li "Computing Machinery and Intelligence", li pwpoze "Tès Turing": si yon machin ka konvenk yon imen ke li se imen, èske nou ka di li panse?</span>
+      </div>
+    </div>
+
+    <div class="quiz-score" id="quizScore">
+      <div class="score-num" id="scoreNum" style="color:var(--gold);">0/5</div>
+      <div class="score-msg" id="scoreMsg"></div>
+      <button onclick="resetQuiz()" style="margin-top:24px;padding:12px 28px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);border-radius:8px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em;">
+        RECOMMENCER · REKÒMANSE
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL DATA ═══════════ -->
+<script>
+const EVENTS = [
+  {
+    year: "1936–1950",
+    title: "Machine de Turing & Test de Turing",
+    subtitle: "Machin Turing ak Tès Turing",
+    color: "#7c5cbf",
+    fr: "En 1936, Alan Turing publie son article fondateur 'On Computable Numbers' qui décrit une machine universelle capable d'exécuter n'importe quel calcul. En 1950, il pose la question centrale de l'IA : 'Les machines peuvent-elles penser ?' et propose le Test de Turing — si une machine peut convaincre un humain qu'elle est humaine dans une conversation, peut-on dire qu'elle 'pense' ?",
+    ht: "An 1936, Alan Turing pibliye atik fondatè li 'On Computable Numbers' ki dekri yon machin inivèsèl ki kapab egzekite nenpòt kalkil. An 1950, li poze kesyon santral IA: 'Èske machin yo ka panse?' epi pwpoze Tès Turing — si yon machin ka konvenk yon imen ke li se imen nan yon konvèsasyon, èske nou ka di li 'panse'?",
+    why: "🇫🇷 Sans Turing, pas d'ordinateurs, pas d'IA. Sa question est encore débattue aujourd'hui. 🇭🇹 San Turing, pa gen òdinatè, pa gen IA. Kesyon li a diskite toujou jodi a."
+  },
+  {
+    year: "1956",
+    title: "Conférence de Dartmouth — Naissance du mot 'IA'",
+    subtitle: "Konferans Dartmouth — Nesans mo 'IA'",
+    color: "#7c5cbf",
+    fr: "John McCarthy, Marvin Minsky, Claude Shannon et d'autres grands esprits se réunissent à Dartmouth College. McCarthy propose le terme 'Artificial Intelligence'. L'objectif déclaré : simuler chaque aspect de l'intelligence humaine avec une machine. Début d'une discipline scientifique.",
+    ht: "John McCarthy, Marvin Minsky, Claude Shannon ak lòt gwo espri yo reyini nan Dartmouth College. McCarthy pwpoze tèm 'Artificial Intelligence'. Objektif deklare a: simulate chak aspè entèlijans imen avèk yon machin. Kòmansman yon disiplin syantifik.",
+    why: "🇫🇷 Ce mot de 2 lettres (IA) est aujourd'hui au cœur de toutes les conversations mondiales. 🇭🇹 Mo 2 lèt sa a (IA) jodi a nan kè tout konvèsasyon mondyal yo."
+  },
+  {
+    year: "1974–1980",
+    title: "Premier Hiver de l'IA — Coupes budgétaires",
+    subtitle: "Premye Ivè IA — Koupe bidjè yo",
+    color: "#3a7bd5",
+    fr: "Les promesses des pionniers ne se concrétisent pas. Le rapport Lighthill en 1973 critique violemment l'IA : les machines échouent sur des problèmes du monde réel. Les gouvernements américain et britannique coupent massivement les financements. L'IA entre dans une longue période de stagnation.",
+    ht: "Pwomès pyonye yo pa reyalize. Rapò Lighthill an 1973 kritike IA violamman: machin yo echwe sou pwoblèm mond reyèl. Gouvènman ameriken ak britanik yo koupe finansman masivman. IA antre nan yon long peryòd estagnasyon.",
+    why: "🇫🇷 Leçon : la sur-promesse est l'ennemi de l'IA. Il faut être honnête sur les limites actuelles. 🇭🇹 Leson: twòp pwomès se ènmi IA. Fò nou onèt sou limit aktyèl yo."
+  },
+  {
+    year: "1980",
+    title: "Systèmes Experts — L'IA devient commerciale",
+    subtitle: "Sistèm Ekspè — IA vin komèsyal",
+    color: "#e67e22",
+    fr: "Les 'systèmes experts' comme MYCIN (médecine) et XCON (configuration d'ordinateurs) encodent des milliers de règles IF/THEN pour simuler le raisonnement d'un expert humain. Pour la première fois, l'IA génère des revenus commerciaux. Mais ces systèmes sont fragiles, coûteux à maintenir.",
+    ht: "Sistèm ekspè tankou MYCIN (medsin) ak XCON (konfigirasyon òdinatè) kode dè milye règ IF/THEN pou simile rezonman yon ekspè imen. Pou premye fwa, IA jenere revni komèsyal. Men sistèm sa yo frajil, chè pou antretni.",
+    why: "🇫🇷 MYCIN diagnostiquait mieux que des médecins juniors. Preuve que l'IA peut avoir un impact réel — mais les règles manuelles ne scalent pas. 🇭🇹 MYCIN dyagnostike pi byen ke doktè jinyò. Prèv IA ka gen enpak reyèl — men règ manyèl yo pa ska."
+  },
+  {
+    year: "1997",
+    title: "Deep Blue bat Kasparov aux Échecs",
+    subtitle: "Deep Blue bat Kasparov nan echèk",
+    color: "#e67e22",
+    fr: "IBM's Deep Blue affronte le champion du monde Garry Kasparov dans un match de 6 parties. Deep Blue gagne 3.5-2.5. C'est la première fois dans l'histoire qu'un ordinateur bat un champion du monde en titre dans un jeu de stratégie complexe. Kasparov accuse IBM de tricher.",
+    ht: "IBM Deep Blue afwonte chanpyon mondyal Garry Kasparov nan yon match 6 pati. Deep Blue genyen 3.5-2.5. Se premye fwa nan istwa ke yon òdinatè bat yon chanpyon mondyal an tit nan yon jwèt estrateji konplèks. Kasparov akize IBM twonpri.",
+    why: "🇫🇷 Moment symbolique fort : l'IA prouve qu'elle peut surpasser l'humain dans des domaines complexes. 🇭🇹 Moman senbolik fò: IA pwouve li ka depase imen nan domèn konplèks."
+  },
+  {
+    year: "2006",
+    title: "Renaissance du Deep Learning — Hinton",
+    subtitle: "Renesans Deep Learning — Hinton",
+    color: "#27ae60",
+    fr: "Geoffrey Hinton (Université de Toronto) publie une technique révolutionnaire pour entraîner des réseaux de neurones profonds. Le 'deep learning' imite grossièrement le fonctionnement du cerveau humain en empilant des couches de neurones artificiels. Reconnaissance vocale, traduction automatique, analyse d'images : tout change.",
+    ht: "Geoffrey Hinton (Inivèsite Toronto) pibliye yon teknik revolisyonè pou antrene rezo newòn fon yo. 'Deep learning' imite grossièrement fonksyònman sèvo imen an an pile kouch newòn atifisyèl. Rekonesans vwal, tradiksyon otomatik, analiz imaj: tout chanje.",
+    why: "🇫🇷 Hinton a reçu le Prix Nobel de Physique 2024 pour ces travaux. 🇭🇹 Hinton te resevwa Pri Nobel Fizik 2024 pou travay sa yo."
+  },
+  {
+    year: "2012",
+    title: "AlexNet & ImageNet — L'IA voit le monde",
+    subtitle: "AlexNet & ImageNet — IA wè mond lan",
+    color: "#27ae60",
+    fr: "AlexNet (Hinton + LeCun) remporte le concours ImageNet avec 85% de précision en reconnaissance d'images — contre 75% pour les humains. Le GPU (processeur de jeux vidéo) s'avère parfait pour entraîner des IA. Début de la démocratisation du deep learning. Google, Facebook, Apple recrutent massivement.",
+    ht: "AlexNet (Hinton + LeCun) genyen konkou ImageNet avèk 85% presizyon nan rekonesans imaj — kont 75% pou imen yo. GPU (pwosesè jwèt videyo) pwouve li pafè pou antrene IA. Kòmansman demokratizasyon deep learning. Google, Facebook, Apple rekrite masivman.",
+    why: "🇫🇷 Aujourd'hui ton téléphone reconnaît ton visage, ton chien, ta nourriture grâce à cette percée. 🇭🇹 Jodi a telefòn ou rekonèt figi ou, chen ou, manje ou gras ak pèse sa a."
+  },
+  {
+    year: "2016",
+    title: "AlphaGo bat Lee Sedol 4-1",
+    subtitle: "AlphaGo bat Lee Sedol 4-1",
+    color: "#e74c3c",
+    fr: "DeepMind (Google) crée AlphaGo qui bat Lee Sedol, champion du monde de Go (jeu 10x plus complexe que les échecs). AlphaGo n'a pas été programmé avec des règles — il a appris en jouant des millions de parties contre lui-même (reinforcement learning). Il invente des mouvements jamais vus en 3000 ans de jeu.",
+    ht: "DeepMind (Google) kreye AlphaGo ki bat Lee Sedol, chanpyon mondyal Go (jwèt 10x pi konplèks ke echèk). AlphaGo pa t pwograme avèk règ — li te aprann nan jwenn dè milyon pati kont tèt li (renfosman aprantisaj). Li envante mouvman ki janm wè nan 3000 ane jwèt.",
+    why: "🇫🇷 L'IA ne suit plus des règles — elle les invente. C'est le vrai saut qualitatif. 🇭🇹 IA pa swiv règ ankò — li envante yo. Se vrè sòti kalitatif la."
+  },
+  {
+    year: "2017",
+    title: "Architecture Transformer — Fondation des LLMs",
+    subtitle: "Achitekti Transformèr — Fondasyon LLM yo",
+    color: "#e74c3c",
+    fr: "8 ingénieurs de Google publient 'Attention Is All You Need'. L'architecture Transformer révolutionne le traitement du langage. Au lieu de lire un texte mot par mot, le Transformer 'fait attention' à toutes les relations entre tous les mots simultanément. GPT, Claude, Gemini, LLaMA sont tous basés sur cette architecture.",
+    ht: "8 enjenyè Google pibliye 'Attention Is All You Need'. Achitekti Transformèr revolisyone tretman lang lan. Olye li yon tèks mo pa mo, Transformèr 'fè atansyon' ak tout relasyon ant tout mo a menm tan. GPT, Claude, Gemini, LLaMA tout baze sou achitekti sa a.",
+    why: "🇫🇷 Si l'IA avait un certificat de naissance pour les LLMs modernes, ce serait ce papier de 2017. 🇭🇹 Si IA ta gen yon sèrtifika nesans pou LLM modèn yo, se papye 2017 sa a ta ye."
+  },
+  {
+    year: "2020",
+    title: "GPT-3 — L'IA parle comme un humain",
+    subtitle: "GPT-3 — IA pale tankou yon imen",
+    color: "#e74c3c",
+    fr: "OpenAI lance GPT-3 : 175 milliards de paramètres entraînés sur presque tout Internet. Pour la première fois, les outputs sont quasi-indistinguables du langage humain. GPT-3 peut écrire de la poésie, du code, des articles, des blagues. Le monde réalise qu'un seuil critique a été franchi.",
+    ht: "OpenAI lanse GPT-3: 175 milya paramèt antrene sou prèske tout Entènèt. Pou premye fwa, pwodiksyon yo prèske pa ka distenge de lang imen. GPT-3 ka ekri pwezi, kòd, atik, blag. Mond lan reyalize ke yon sèy kritik te avan.",
+    why: "🇫🇷 GPT-3 a choqué les chercheurs eux-mêmes. Personne ne s'attendait à ces capacités. 🇭🇹 GPT-3 te choke chèchè yo menm. Pèsonn pa t atann kapasite sa yo."
+  },
+  {
+    year: "Nov 2022",
+    title: "ChatGPT — L'IA pour tout le monde",
+    subtitle: "ChatGPT — IA pou tout moun",
+    color: "#ffd54f",
+    fr: "OpenAI lance ChatGPT le 30 novembre 2022. 1 million d'utilisateurs en 5 jours. 100 millions en 2 mois — record absolu dans l'histoire des technologies. Pour la première fois, n'importe qui peut avoir une conversation naturelle avec une IA. L'IA sort des laboratoires et entre dans tous les foyers du monde.",
+    ht: "OpenAI lanse ChatGPT 30 novanm 2022. 1 milyon itilizatè an 5 jou. 100 milyon an 2 mwa — rekò absoli nan istwa teknoloji yo. Pou premye fwa, nenpòt moun ka gen yon konvèsasyon natirèl avèk yon IA. IA sòti nan labo yo epi antre nan tout kay mond lan.",
+    why: "🇫🇷 C'est ce moment qui explique pourquoi vous êtes ici aujourd'hui. 🇭🇹 Se moman sa a ki eksplike poukisa ou la jodi a."
+  },
+  {
+    year: "2023",
+    title: "GPT-4, Claude, Gemini — La Guerre des LLMs",
+    subtitle: "GPT-4, Claude, Gemini — Lagè LLM yo",
+    color: "#ffd54f",
+    fr: "2023 est l'année de l'explosion : GPT-4 comprend images et texte. Claude d'Anthropic innove sur la sécurité avec 100K+ tokens de contexte. Gemini de Google intègre la recherche en temps réel. Meta libère LLaMA en open-source. Mistral en France lance un concurrent européen. Course mondiale à l'armement IA.",
+    ht: "2023 se ane eksplozyon an: GPT-4 konprann imaj ak tèks. Claude Anthropic innove sou sekirite avèk 100K+ tokèn kontèks. Gemini Google entegre rechèch an tan reyèl. Meta libere LLaMA en open-source. Mistral nan Lafrans lanse yon konkuran ewopeyen. Kous mondyal ameman IA.",
+    why: "🇫🇷 Pour la première fois, il y a une vraie compétition. Cela accélère l'innovation ET les risques. 🇭🇹 Pou premye fwa, gen yon vrè konpetisyon. Sa akselere inovasyon ET risk yo."
+  },
+  {
+    year: "2024–2026",
+    title: "L'ère des Agents — L'IA agit dans le monde",
+    subtitle: "Epòk Ajan yo — IA aji nan mond lan",
+    color: "#ffd54f",
+    fr: "Les IA deviennent des agents autonomes : Claude Code construit des applications entières, Sora génère des vidéos hyperréalistes, des robots IA travaillent en usines. En 2025, des agents IA gèrent des workflows complexes en entreprise sans supervision humaine. En 2026, l'IA est intégrée dans santé, éducation, gouvernance.",
+    ht: "IA yo vin ajan otonom: Claude Code bati aplikasyon antye, Sora jenere videyo ipèreyalis, wobo IA travay nan izin. An 2025, ajan IA jere fluksogram konplèks nan antrepriz san sipèvizyon imen. An 2026, IA entegre nan sante, edikasyon, gouvènans.",
+    why: "🇫🇷 Nous vivons dans ce moment. C'est pour ça que cette formation est urgente et nécessaire. 🇭🇹 Nou viv nan moman sa a. Se poutèt sa fòmasyon sa a ijan ak nesesè."
+  }
+];
+
+let quizAnswers = new Array(5).fill(null);
+let quizScore = 0;
+
+// Stars
+function createStars() {
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      --dur:${2+Math.random()*4}s;
+      --delay:${Math.random()*4}s;
+    `;
+    container.appendChild(s);
+  }
+}
+
+// Language
+function setLang(lang) {
+  document.body.classList.toggle('lang-ht', lang === 'ht');
+  document.querySelectorAll('.lang-pill').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-pill:${lang==='fr'?'first':'last'}-child`).classList.add('active');
+  // Quiz lang
+  document.querySelectorAll('.quiz-feedback .fr').forEach(el => el.style.display = lang==='ht' ? 'none' : 'block');
+  document.querySelectorAll('.quiz-feedback .ht').forEach(el => el.style.display = lang==='ht' ? 'block' : 'none');
+}
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const winH = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = (window.scrollY / winH) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+
+  // Era nav
+  const eras = ['era-foundations','era-winter','era-renaissance','era-deep','era-llm','era-now'];
+  let active = 0;
+  eras.forEach((id,i) => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < window.innerHeight * 0.5) active = i;
+  });
+  document.querySelectorAll('.era-dot').forEach((d,i) => d.classList.toggle('active', i === active));
+});
+
+// Era nav click
+document.querySelectorAll('.era-dot').forEach(dot => {
+  dot.addEventListener('click', () => {
+    const target = document.getElementById(dot.dataset.target);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Intersection observer for animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.event').forEach(el => observer.observe(el));
+
+// Counter animation
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const target = parseInt(e.target.dataset.count);
+      let cur = 0;
+      const step = target / 40;
+      const timer = setInterval(() => {
+        cur = Math.min(cur + step, target);
+        e.target.textContent = Math.floor(cur) + (e.target === document.querySelectorAll('[data-count]')[3] ? 'B' : (e.target === document.querySelectorAll('[data-count]')[0] ? '' : ''));
+        if (cur >= target) clearInterval(timer);
+      }, 30);
+      counterObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+// Modal
+function openModal(id) {
+  const data = EVENTS[id];
+  const modal = document.getElementById('modal');
+  document.getElementById('modalYear').textContent = data.year;
+  document.getElementById('modalYear').style.color = data.color;
+  document.getElementById('modalTitle').textContent = data.title;
+  document.getElementById('modalSubtitle').textContent = data.subtitle;
+  document.getElementById('modalFr').textContent = data.fr;
+  document.getElementById('modalHt').textContent = data.ht;
+  document.getElementById('modalWhy').textContent = data.why;
+
+  // Illustration - reuse from card
+  const card = document.querySelector(`[data-id="${id}"] .event-illustration`);
+  if (card) {
+    document.getElementById('modalIllustration').innerHTML = card.outerHTML.replace('height="160"', 'height="220"').replace('height:160px', 'height:220px');
+    document.getElementById('modalIllustration').querySelector('.event-illustration').style.height = '220px';
+  }
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalBtn();
+}
+function closeModalBtn() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Quiz
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const card = this.closest('.quiz-card');
+    const qIdx = parseInt(card.dataset.q);
+    if (quizAnswers[qIdx] !== null) return;
+
+    const isCorrect = this.dataset.correct === 'true';
+    quizAnswers[qIdx] = isCorrect;
+    if (isCorrect) quizScore++;
+
+    // Disable all
+    card.querySelectorAll('.quiz-opt').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.correct === 'true') b.classList.add('correct');
+      else if (b === this && !isCorrect) b.classList.add('wrong');
+    });
+
+    // Show feedback
+    const fb = card.querySelector('.quiz-feedback');
+    fb.classList.add('show', isCorrect ? 'ok' : 'ko');
+    if (!isCorrect) {
+      fb.innerHTML = `<span>❌ ${document.body.classList.contains('lang-ht') 
+        ? 'Pa kòrèk. Bòn repons lan mete an vèt anwo.' 
+        : 'Pas correct. La bonne réponse est surlignée en vert.'}</span>`;
+      fb.classList.remove('ok');
+      fb.classList.add('ko');
+    }
+
+    // Check if all answered
+    if (quizAnswers.filter(a => a !== null).length === 5) {
+      setTimeout(showScore, 800);
+    }
+  });
+});
+
+function showScore() {
+  const scoreEl = document.getElementById('quizScore');
+  const numEl = document.getElementById('scoreNum');
+  const msgEl = document.getElementById('scoreMsg');
+
+  numEl.textContent = `${quizScore}/5`;
+  numEl.style.color = quizScore >= 4 ? 'var(--green)' : quizScore >= 2 ? 'var(--gold)' : 'var(--red)';
+
+  const msgs = [
+    ["0/5 — Pas grave, c'est pour ça qu'on est là ! · Pa fè mal, se poutèt sa nou isit!",
+     "1/5 — Bon début ! La timeline va tout clarifier. · Bon kòmansman!",
+     "2/5 — Pas mal ! Tu retiens l'essentiel. · Pa mal!",
+     "3/5 — Bien ! Tu connais déjà les bases. · Byen!",
+     "4/5 — Très bien ! Solide connaissance du sujet. · Trè byen!",
+     "5/5 — Excellent ! Tu es déjà un historien de l'IA ! · Ekselan! Ou deja yon istoryen IA!"]
+  ];
+  msgEl.textContent = msgs[0][quizScore];
+  scoreEl.classList.add('show');
+}
+
+function resetQuiz() {
+  quizAnswers = new Array(5).fill(null);
+  quizScore = 0;
+  document.getElementById('quizScore').classList.remove('show');
+  document.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('correct','wrong');
+  });
+  document.querySelectorAll('.quiz-feedback').forEach(f => {
+    f.classList.remove('show','ok','ko');
+  });
+}
+
+// Init
+createStars();
+</script>
+</body>
+</html>

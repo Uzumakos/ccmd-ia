@@ -1,0 +1,2347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maîtriser l'IA — Kourikoulòm 3 Jou</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --surface: #f2ede4;
+    --card: #ffffff;
+    --ink: #1a1209;
+    --ink2: #3d3020;
+    --muted: #9a8e7e;
+    --border: #e0d8cc;
+    --day1: #c8392b;
+    --day2: #1a6b3c;
+    --day3: #1a3a6b;
+    --accent: #e8a020;
+    --fr-color: #c8392b;
+    --ht-color: #1a6b3c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* LANGUAGE TOGGLE */
+  .lang-toggle {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .lang-toggle-pills {
+    display: flex;
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
+
+  .timeline-header-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    background: white;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    font-weight: 700;
+  }
+
+  .timeline-header-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: #fffbf0;
+  }
+
+  @media (max-width: 600px) {
+    .timeline-header-link span.thl-text { display: none; }
+  }
+
+  .lang-btn {
+    padding: 8px 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    transition: all 0.25s;
+    font-weight: 700;
+  }
+
+  .lang-btn.active {
+    background: var(--ink);
+    color: white;
+    border-radius: 100px;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    color: white;
+    padding: 100px 64px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: repeating-linear-gradient(
+      45deg,
+      white 0px, white 1px,
+      transparent 1px, transparent 12px
+    );
+  }
+
+  .hero-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+  }
+
+  .flag-bar {
+    display: flex;
+    gap: 3px;
+  }
+
+  .flag-stripe {
+    width: 14px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.5);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-top: 24px;
+  }
+
+  .hero-sub .ht {
+    display: block;
+    margin-top: 6px;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 0;
+    margin-top: 56px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 40px;
+  }
+
+  .stat {
+    flex: 1;
+    padding-right: 32px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    margin-right: 32px;
+  }
+  .stat:last-child { border-right: none; margin-right: 0; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 6px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.1em;
+  }
+
+  .stat-label .ht { display: block; color: rgba(255,255,255,0.25); font-size: 9px; margin-top: 2px; }
+
+  /* CONTAINER */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 48px 120px;
+  }
+
+  /* LANGUAGE LABELS */
+  .lang-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-weight: 700;
+  }
+
+  .lang-fr { background: rgba(200,57,43,0.1); color: var(--fr-color); border: 1px solid rgba(200,57,43,0.2); }
+  .lang-ht { background: rgba(26,107,60,0.1); color: var(--ht-color); border: 1px solid rgba(26,107,60,0.2); }
+
+  /* DAY SECTION */
+  .day-section {
+    margin-top: 96px;
+  }
+
+  .day-intro {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 40px;
+    align-items: start;
+    margin-bottom: 48px;
+    padding-bottom: 40px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .day-num-box {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 900;
+    border-radius: 16px;
+    flex-shrink: 0;
+    color: white;
+  }
+
+  .d1 .day-num-box { background: var(--day1); }
+  .d2 .day-num-box { background: var(--day2); }
+  .d3 .day-num-box { background: var(--day3); }
+
+  .day-meta {}
+
+  .day-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .day-title-fr {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .day-title-ht {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(16px, 2vw, 22px);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .day-desc {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .day-desc-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink2);
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: var(--surface);
+    border-left: 3px solid transparent;
+  }
+
+  .d1 .day-desc-text.fr { border-left-color: var(--day1); }
+  .d1 .day-desc-text.ht { border-left-color: var(--ht-color); }
+  .d2 .day-desc-text.fr { border-left-color: var(--day2); }
+  .d2 .day-desc-text.ht { border-left-color: var(--ht-color); }
+  .d3 .day-desc-text.fr { border-left-color: var(--day3); }
+  .d3 .day-desc-text.ht { border-left-color: var(--ht-color); }
+
+  /* SESSION CARD */
+  .session-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .session-card:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  }
+
+  .session-header {
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .session-header-left {}
+
+  .session-time {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .session-title-fr {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .session-title-ht {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  /* STEPS */
+  .steps-container {
+    padding: 28px;
+  }
+
+  .step {
+    margin-bottom: 36px;
+    padding-bottom: 36px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .step:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: white;
+    margin-top: 2px;
+  }
+
+  .d1 .step-num { background: var(--day1); }
+  .d2 .step-num { background: var(--day2); }
+  .d3 .step-num { background: var(--day3); }
+
+  .step-titles { flex: 1; }
+
+  .step-title-fr {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .step-title-ht {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* BILINGUAL EXPLANATION */
+  .bilingual-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .expl-box {
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+
+  .expl-box .lang-label { margin-bottom: 8px; }
+
+  .expl-fr {
+    background: rgba(200,57,43,0.04);
+    border: 1px solid rgba(200,57,43,0.12);
+  }
+
+  .expl-ht {
+    background: rgba(26,107,60,0.04);
+    border: 1px solid rgba(26,107,60,0.12);
+  }
+
+  /* EXAMPLE BOX */
+  .example-box {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 12px;
+    border: 1.5px solid var(--border);
+  }
+
+  .example-header {
+    padding: 10px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .example-icon { font-size: 14px; }
+
+  .example-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .example-col {
+    padding: 16px 18px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .example-col:first-child {
+    border-right: 1px solid var(--border);
+  }
+
+  .example-col .lang-label { margin-bottom: 8px; }
+
+  .example-col p { color: var(--ink2); }
+
+  .example-col code {
+    display: block;
+    background: #f5f0e8;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 8px;
+    color: var(--ink);
+    white-space: pre-wrap;
+    border-left: 3px solid var(--accent);
+  }
+
+  /* ACTIVITY BOX */
+  .activity-box {
+    margin-top: 24px;
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #fffbf0 0%, #fff8e8 100%);
+    border: 1.5px solid rgba(232,160,32,0.3);
+  }
+
+  .activity-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .activity-bilingual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .activity-col {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink2);
+  }
+
+  .activity-col .lang-label { margin-bottom: 6px; }
+
+  /* OUTCOMES */
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .outcome-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .outcome-icon { font-size: 22px; margin-bottom: 10px; }
+
+  .outcome-title-fr {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .outcome-title-ht {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .outcome-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 64px 0 0;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* PHILOSOPHY */
+  .philosophy {
+    margin-top: 80px;
+    padding: 56px;
+    background: var(--ink);
+    border-radius: 20px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .philosophy::before {
+    content: '❝';
+    position: absolute;
+    top: -20px;
+    left: 32px;
+    font-size: 200px;
+    color: rgba(232,160,32,0.06);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+
+  .philosophy-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .philosophy-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 2.5vw, 26px);
+    line-height: 1.5;
+    font-style: italic;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 16px;
+    max-width: 700px;
+  }
+
+  .philosophy-quote-ht {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(15px, 2vw, 20px);
+    line-height: 1.5;
+    font-style: italic;
+    color: rgba(255,255,255,0.5);
+    max-width: 700px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 60px;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-left {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-right {
+    display: flex;
+    gap: 6px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero { padding: 80px 24px 60px; }
+    .container { padding: 0 24px 80px; }
+    .bilingual-block { grid-template-columns: 1fr; }
+    .example-body { grid-template-columns: 1fr; }
+    .activity-bilingual { grid-template-columns: 1fr; }
+    .outcomes-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-wrap: wrap; gap: 24px; }
+    .day-intro { grid-template-columns: 1fr; }
+    .day-desc { grid-template-columns: 1fr; }
+    .lang-toggle { top: 12px; right: 12px; }
+    .philosophy { padding: 36px 28px; }
+  }
+
+  /* SHOW/HIDE LANGUAGE */
+  body.show-ht .fr-only { display: none; }
+  body.show-ht .ht-only { display: block; }
+  body.show-fr .ht-only { display: none; }
+  body.show-fr .fr-only { display: block; }
+
+  /* Animation */
+  .session-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeSlide 0.5s ease forwards;
+  }
+
+  .session-card:nth-child(1) { animation-delay: 0.05s; }
+  .session-card:nth-child(2) { animation-delay: 0.15s; }
+  .session-card:nth-child(3) { animation-delay: 0.25s; }
+
+  @keyframes fadeSlide {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* TIMELINE LINK BANNER */
+  .timeline-link-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 28px;
+    background: var(--ink);
+    border-radius: 14px;
+    margin-bottom: 28px;
+    text-decoration: none;
+    color: inherit;
+    border: 1.5px solid transparent;
+    transition: border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .timeline-link-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px,
+      transparent 1px, transparent 10px
+    );
+  }
+
+  .timeline-link-banner:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  }
+
+  .tlb-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+  }
+
+  .tlb-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .tlb-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .tlb-title-fr {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+
+  .tlb-title-ht {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: rgba(255,255,255,0.45);
+  }
+
+  .tlb-cta {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 10px 18px;
+    border: 1.5px solid rgba(232,160,32,0.4);
+    border-radius: 100px;
+    white-space: nowrap;
+    position: relative;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .timeline-link-banner:hover .tlb-cta {
+    background: rgba(232,160,32,0.1);
+    border-color: var(--accent);
+  }
+
+  .tlb-cta-arrow {
+    font-size: 14px;
+    transition: transform 0.2s;
+  }
+
+  .timeline-link-banner:hover .tlb-cta-arrow {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 600px) {
+    .timeline-link-banner { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .tlb-cta { align-self: flex-start; }
+  }
+
+  /* QUIZ CTA BANNER */
+  .quiz-cta-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 28px;
+    border-radius: 14px;
+    margin-top: 36px;
+    text-decoration: none;
+    color: inherit;
+    border: 1.5px solid transparent;
+    transition: border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .quiz-cta-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  }
+  .quiz-cta-d1 { background: linear-gradient(135deg, #1e0a08 0%, #2a0d0a 100%); border-color: rgba(200,57,43,0.3); }
+  .quiz-cta-d2 { background: linear-gradient(135deg, #05120a 0%, #081a0e 100%); border-color: rgba(26,107,60,0.3); }
+  .quiz-cta-d3 { background: linear-gradient(135deg, #060a18 0%, #090f24 100%); border-color: rgba(26,58,107,0.3); }
+  .quiz-cta-d1:hover { border-color: var(--day1); box-shadow: 0 8px 32px rgba(200,57,43,0.15); }
+  .quiz-cta-d2:hover { border-color: var(--day2); box-shadow: 0 8px 32px rgba(26,107,60,0.15); }
+  .quiz-cta-d3:hover { border-color: var(--day3); box-shadow: 0 8px 32px rgba(26,58,107,0.15); }
+  .quiz-cta-left { display: flex; align-items: center; gap: 16px; }
+  .quiz-cta-icon { font-size: 32px; }
+  .quiz-cta-tag { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .quiz-cta-title-fr { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: white; margin-bottom: 2px; }
+  .quiz-cta-title-ht { font-family: 'Playfair Display', serif; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.45); }
+  .quiz-cta-btn { flex-shrink: 0; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); padding: 10px 18px; border: 1.5px solid rgba(232,160,32,0.4); border-radius: 100px; white-space: nowrap; transition: background 0.2s; }
+  .quiz-cta-banner:hover .quiz-cta-btn { background: rgba(232,160,32,0.1); border-color: var(--accent); }
+  @media (max-width: 600px) { .quiz-cta-banner { flex-direction: column; align-items: flex-start; gap: 14px; } }
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-toggle">
+  <a href="ai-history-timeline.html" class="timeline-header-link" target="_blank">🕰️ <span class="thl-text">Timeline IA</span></a>
+  <a href="admin-dashboard.html" class="timeline-header-link" target="_blank">🖥️ <span class="thl-text">Admin</span></a>
+  <div class="lang-toggle-pills">
+    <button class="lang-btn active" onclick="setLang('both')" id="btn-both">FR + HT</button>
+    <button class="lang-btn" onclick="setLang('fr')" id="btn-fr">FR</button>
+    <button class="lang-btn" onclick="setLang('ht')" id="btn-ht">HT</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-texture"></div>
+
+  <div class="hero-flag">
+    <div class="flag-bar">
+      <div class="flag-stripe" style="background:#002395"></div>
+      <div class="flag-stripe" style="background:#ED2939"></div>
+    </div>
+    <span>Français</span>
+    <span style="color:rgba(255,255,255,0.2)">·</span>
+    <div class="flag-bar">
+      <div class="flag-stripe" style="background:#00209F"></div>
+      <div class="flag-stripe" style="background:#D21034"></div>
+    </div>
+    <span>Kreyòl Ayisyen</span>
+  </div>
+
+  <h1>Maîtriser<br><em>l'Intelligence<br>Artificielle</em></h1>
+
+  <p class="hero-sub">
+    Une formation intensive de 3 jours · 3 heures par jour · Pour les 18–35 ans
+    <span class="ht">Yon fòmasyon entansif 3 jou · 3 zè pa jou · Pou 18–35 an</span>
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Jours / Jou<span class="ht">Days</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">9h</div>
+      <div class="stat-label">Total Formation<span class="ht">Total Fòmasyon</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">27</div>
+      <div class="stat-label">Étapes détaillées<span class="ht">Etap detaye</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">9</div>
+      <div class="stat-label">Activités pratiques<span class="ht">Aktivite pratik</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ===================== DAY 1 ===================== -->
+<section class="day-section d1">
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-text">Jour 01 · Jou 01</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="day-intro" style="margin-top:40px">
+    <div class="day-num-box">1</div>
+    <div class="day-meta">
+      <div class="day-tag">09:00 → 12:00 · Fondation · Fondasyon</div>
+      <div class="day-title-fr">Comprendre l'IA — Ce que c'est vraiment</div>
+      <div class="day-title-ht">Konprann IA — Sa li ye vrèman</div>
+      <div class="day-desc">
+        <div class="day-desc-text fr"><span class="lang-label lang-fr">🇫🇷 FR</span> Aujourd'hui, on démystifie l'IA. Beaucoup de gens ont peur ou sont impressionnés sans vraiment comprendre ce qu'ils ont devant eux. Ce jour pose les bases solides pour tout le reste.</div>
+        <div class="day-desc-text ht"><span class="lang-label lang-ht">🇭🇹 HT</span> Jodi a, nou pral démistifye IA. Anpil moun pè oswa enpresyone san yo pa konprann sa ki devan yo. Jou sa a bati baz solid pou tout rès fòmasyon an.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 1.1 -->
+  <!-- TIMELINE COMPANION RESOURCE -->
+  <a href="ai-history-timeline.html" class="timeline-link-banner" target="_blank">
+    <div class="tlb-left">
+      <div class="tlb-icon">🕰️</div>
+      <div>
+        <div class="tlb-label">Ressource complémentaire · Resous konplemantè</div>
+        <div class="tlb-title-fr">Histoire de l'IA — De Turing à aujourd'hui</div>
+        <div class="tlb-title-ht">Istwa IA — De Turing rive jodi a</div>
+      </div>
+    </div>
+    <div class="tlb-cta">Explorer la timeline <span class="tlb-cta-arrow">→</span></div>
+  </a>
+
+  <!-- SESSION 1.1 -->
+
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">⏱ Session 1 · 09:00 – 10:00</div>
+        <div class="session-title-fr">Le paysage de l'IA en 2026</div>
+        <div class="session-title-ht">Paysaj IA an 2026</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <!-- STEP 1 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Définir l'IA, le ML et les LLMs — sans jargon</div>
+            <div class="step-title-ht">Defini IA, ML ak LLM — san jagon</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            L'<strong>Intelligence Artificielle (IA)</strong> est un terme parapluie : c'est la capacité d'une machine à imiter des comportements humains comme raisonner, apprendre ou créer. Le <strong>Machine Learning (ML)</strong> est une sous-catégorie où la machine apprend à partir de données sans être programmée manuellement. Les <strong>LLMs</strong> (Large Language Models) sont des IA spécialement entraînées sur des milliards de textes pour comprendre et générer du langage humain.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            <strong>Intelligence Artificielle (IA)</strong> se yon tèm jeneral: se kapasite yon machin pou imite konpòtman imen tankou rezonnen, aprann oswa kreye. <strong>Machine Learning (ML)</strong> se yon sou-kategori kote machin la aprann nan done san yo pa pwograme li manyèlman. <strong>LLMs</strong> (Gwo Modèl Lang) se IA yo te espesyalman antrene sou dè milya tèks pou konprann ak jenere lang imen.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">💡</span> Exemple concret · Egzanp konkrè</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <p>Quand Netflix te recommande une série, c'est du ML. Quand ChatGPT ou Claude répond à tes questions en faisant des phrases, c'est un LLM.</p>
+              <code>IA = boîte mère
+└─ ML = apprend des données
+   └─ LLM = apprend le langage</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <p>Lè Netflix rekòmande yon seri ba ou, se ML sa. Lè ChatGPT oswa Claude reponn kesyon ou yo ak fraz, se yon LLM sa ye.</p>
+              <code>IA = bwat manman
+└─ ML = aprann nan done
+   └─ LLM = aprann lang</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Les grands acteurs de l'IA en 2026</div>
+            <div class="step-title-ht">Gwo jwè IA yo an 2026</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            En 2026, le marché est dominé par <strong>OpenAI</strong> (GPT-5, ChatGPT), <strong>Anthropic</strong> (Claude), <strong>Google</strong> (Gemini), <strong>Meta</strong> (LLaMA open-source) et des acteurs chinois comme <strong>DeepSeek</strong>. Chacun a ses forces : OpenAI est pionnier, Anthropic met l'accent sur la sécurité, Google intègre la recherche, Meta démocratise l'open-source.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            An 2026, mache a dominen pa <strong>OpenAI</strong> (GPT-5, ChatGPT), <strong>Anthropic</strong> (Claude), <strong>Google</strong> (Gemini), <strong>Meta</strong> (LLaMA open-source) ak jwè chinwa tankou <strong>DeepSeek</strong>. Chak youn gen fòs li: OpenAI se pionye, Anthropic mete aksan sou sekirite, Google entegre rechèch, Meta demokratize open-source.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">🗺️</span> Tableau comparatif · Tablo konparatif</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>OpenAI → GPT-5 (polyvalent)
+Anthropic → Claude (fiable/sûr)
+Google → Gemini (recherche)
+Meta → LLaMA (gratuit/ouvert)
+Mistral → européen, rapide</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>OpenAI → GPT-5 (polyvalent)
+Anthropic → Claude (fyab/sèkure)
+Google → Gemini (rechèch)
+Meta → LLaMA (gratis/ouvè)
+Mistral → ewopeyen, rapid</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">3</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Ce que l'IA peut et ne peut pas faire</div>
+            <div class="step-title-ht">Sa IA ka fè ak sa li pa ka fè</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            L'IA est excellente pour <strong>synthétiser</strong>, <strong>rédiger</strong>, <strong>traduire</strong>, <strong>coder</strong>, et <strong>analyser des données</strong>. Mais elle ne peut pas raisonner vraiment (elle prédit du texte), elle n'a pas de mémoire à long terme par défaut, elle peut se tromper avec confiance ("halluciner"), et elle n'a aucune conscience ni émotion réelle.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            IA ekselan pou <strong>rezime</strong>, <strong>ekri</strong>, <strong>tradui</strong>, <strong>kode</strong>, ak <strong>analize done</strong>. Men li pa ka rezonnen vrèman (li predi tèks), li pa gen memwa alontèm pa defo, li ka fè erè avèk konfiyans ("alisinasman"), epi li pa gen konsyans ni emosyon reyèl.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">✅</span> OUI / Wi &nbsp;·&nbsp; ❌ NON / Non</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>✅ Résumer un document de 50 pages
+✅ Traduire en 50 langues
+✅ Générer du code Python
+✅ Brainstormer 20 idées
+
+❌ Accéder à Internet en temps réel
+❌ Se souvenir de toi demain
+❌ Avoir des opinions vraies
+❌ Garantir une info correcte</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>✅ Rezime yon dokiman 50 paj
+✅ Tradui nan 50 lang
+✅ Jenere kòd Python
+✅ Brainstorm 20 ide
+
+❌ Aksede Entènèt an tan reyèl
+❌ Sonje ou demen
+❌ Gen vrè opinion
+❌ Garanti yon info kòrèk</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="activity-box">
+        <div class="activity-title">🎯 Activité — Aktivite (20 min)</div>
+        <div class="activity-bilingual">
+          <div class="activity-col">
+            <span class="lang-label lang-fr">🇫🇷 FR</span>
+            <strong>Chasse aux mythes</strong> : Chaque participant reçoit 10 affirmations sur l'IA (ex : "L'IA est consciente", "L'IA va remplacer tout le monde en 2030"). Ils votent VRAI/FAUX, puis on débat en groupe et on corrige ensemble avec des preuves concrètes.
+          </div>
+          <div class="activity-col">
+            <span class="lang-label lang-ht">🇭🇹 HT</span>
+            <strong>Chase mit yo</strong> : Chak patisipan resevwa 10 afirmasyon sou IA (eks : "IA gen konsyans", "IA pral ranplase tout moun an 2030"). Yo vote VRÈ/FO, epi nou debat an gwoup epi korije ansanm avèk prèv konkrè.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 1.2 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">⏱ Session 2 · 10:15 – 11:15</div>
+        <div class="session-title-fr">Comment les LLMs "pensent" (et leurs limites)</div>
+        <div class="session-title-ht">Kijan LLM yo "panse" (ak limit yo)</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">4</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Tokens, contexte et probabilité</div>
+            <div class="step-title-ht">Tokèn, kontèks ak pwobabilite</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Un LLM ne "comprend" pas comme un humain — il prédit le mot (ou token) le plus probable à venir. Un <strong>token</strong> ≈ ¾ d'un mot. Un LLM divise ton texte en tokens, puis calcule des probabilités : "Étant donné ce contexte, quel token vient logiquement ensuite ?" Le <strong>contexte</strong> est la quantité de texte que le modèle peut "voir" en même temps (sa mémoire de travail).
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Yon LLM pa "konprann" tankou yon imen — li predi mo (oswa tokèn) ki pi pwobab ki vin apre. Yon <strong>tokèn</strong> ≈ ¾ yon mo. Yon LLM divize tèks ou an tokèn, epi kalkile pwobabilite: "Dapre kontèks sa a, ki tokèn ki lojikman vin apre?" <strong>Kontèks</strong> se kantite tèks modèl la ka "wè" an menm tan (memwa travay li).
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">🔤</span> Exemple de token · Egzanp tokèn</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>"Bonjour comment vas-tu"
+→ ["Bon", "jour", " com",
+   "ment", " vas", "-tu"]
+= 6 tokens
+
+GPT-4: ~128k tokens contexte
+≈ 300 pages de texte</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>"Bonjou, kijan ou ye"
+→ ["Bon", "jou", " ki",
+   "jan", " ou", " ye"]
+= 6 tokèn
+
+GPT-4: ~128k tokèn kontèks
+≈ 300 paj tèks</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">5</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Pourquoi l'IA "hallucine" et comment s'en méfier</div>
+            <div class="step-title-ht">Poukisa IA "alisinasman" ak kijan pou meye ak li</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Une <strong>hallucination</strong> se produit quand l'IA génère une information fausse avec une confiance totale. Cela arrive parce que l'IA ne "sait" pas — elle prédit. Si les données d'entraînement sont incomplètes, elle va "compléter" le texte de façon plausible mais incorrecte. Ex : inventer un livre, une citation, une loi ou un nom de médecin.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Yon <strong>alisinasman</strong> rive lè IA jenere yon enfòmasyon fo avèk konfiyans total. Sa rive paske IA pa "konnen" — li predi. Si done antrènman yo enkomplè, li pral "konplete" tèks la nan yon fason ki vrèsanblablan men ki pa kòrèk. Eks: envante yon liv, yon sitasyon, yon lwa oswa non yon doktè.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">⚠️</span> Hallucination réelle · Alisinasman reyèl</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <p>Question posée à une IA en 2023 :</p>
+              <code>Q: "Cite 3 arrêts de la Cour
+    Suprême sur X"
+R: [Invente 3 arrêts crédibles
+    qui n'existent pas]
+→ Un avocat l'a soumis
+  au tribunal = sanctions</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <p>Kesyon yo poze yon IA an 2023:</p>
+              <code>K: "Site 3 desizyon Tribinal
+    Siprèm sou X"
+R: [Envante 3 desizyon
+    ki pa egziste]
+→ Yon avoka soumèt li
+  nan tribinal = sanksyon</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">6</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Forces réelles de l'IA : là où elle excelle</div>
+            <div class="step-title-ht">Fòs reyèl IA: kote li ekselan</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            L'IA brille dans les tâches où la <strong>vitesse de synthèse</strong>, la <strong>reformulation</strong> ou la <strong>génération de variantes</strong> est la clé. Elle peut lire 500 pages en secondes, générer 20 versions d'un email, expliquer un concept complexe simplement, ou debugger du code en quelques instants. C'est un amplificateur de productivité humaine.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            IA klere nan travay kote <strong>vitès sentèz</strong>, <strong>refòmilasyon</strong> oswa <strong>jenerasyon varyant</strong> se kle. Li ka li 500 paj an segond, jenere 20 vèsyon yon imèl, eksplike yon konsèp konplèks senplman, oswa débogye kòd nan kèk segond. Se yon anplifiyatè pwodiksyon imen.
+          </div>
+        </div>
+        <div class="activity-box">
+          <div class="activity-title">🎯 Activité — Aktivite (20 min)</div>
+          <div class="activity-bilingual">
+            <div class="activity-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <strong>Test en direct</strong> : Le formateur envoie le même prompt à Claude, ChatGPT et Gemini simultanément sur grand écran. Le groupe analyse les différences : ton, précision, longueur, erreurs éventuelles. Qui répond mieux ? Pourquoi ?
+            </div>
+            <div class="activity-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <strong>Tès an dirèk</strong> : Fòmatè a voye menm pwonp lan ba Claude, ChatGPT ak Gemini an menm tan sou gran ekran. Gwoup la analize diferans yo: ton, presizyon, longè, erè posiblè. Ki moun ki reponn pi byen? Poukisa?
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 1.3 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">⏱ Session 3 · 11:15 – 12:00</div>
+        <div class="session-title-fr">L'IA dans ta vie quotidienne</div>
+        <div class="session-title-ht">IA nan lavi ou chak jou</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">7</div>
+          <div class="step-titles">
+            <div class="step-title-fr">L'IA que tu utilises déjà sans le savoir</div>
+            <div class="step-title-ht">IA ou deja itilize san ou pa konnen</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            L'IA est déjà partout dans ta vie : les recommandations Spotify/Netflix, le filtrage spam de Gmail, la détection de fraude sur ta carte bancaire, la correction automatique sur ton téléphone, la reconnaissance faciale pour déverrouiller ton écran, les sous-titres auto sur YouTube, TikTok qui sait exactement ce que tu veux voir.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            IA deja toupatou nan lavi ou: rekòmandasyon Spotify/Netflix, filtraj spam Gmail, deteksyon fwod sou kat bank ou, koreksyon otomatik sou telefòn ou, rekonesans facial pou debare ekran ou, soutit otomatik sou YouTube, TikTok ki konnen egzakteman sa ou vle wè.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">📱</span> Dans ta poche · Nan poch ou</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>📸 Photo → Filtre beauté = IA
+🎵 Playlist → Suggestions = IA
+📦 Amazon → "Vous aimerez" = IA
+🚗 Waze/Maps → Trafic = IA
+💬 Gmail → Réponse rapide = IA
+🔒 Face ID → Déverrou = IA</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>📸 Foto → Filtre bote = IA
+🎵 Playlist → Sijesyon = IA
+📦 Amazon → "Ou pral renmen" = IA
+🚗 Waze/Maps → Trafik = IA
+💬 Gmail → Repons rapid = IA
+🔒 Face ID → Debare = IA</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">8</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Questions éthiques fondamentales : biais, droits d'auteur, emploi</div>
+            <div class="step-title-ht">Kesyon etik fondamantal: bya, dwa dotè, travay</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Les IA héritent des biais présents dans leurs données d'entraînement (textes internet souvent biaisés culturellement). Elles soulèvent des questions sur le droit d'auteur (entraînées sur des œuvres sans consentement), et sur l'emploi (certains métiers seront automatisés, d'autres créés). Ce n'est pas une catastrophe ni un paradis — c'est une transformation à naviguer intelligemment.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            IA yo eritye bya ki nan done antrènman yo (tèks entènèt souvan bya kiltirèlman). Yo soulve kesyon sou dwa otè (yo te antrene sou travay san konsantman), ak sou travay (kèk metye pral otomatize, lòt yo pral kreye). Se pa yon katastwòf ni yon paradi — se yon transfòmasyon pou navige entelijamman.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">9</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Fixer tes objectifs personnels pour cette formation</div>
+            <div class="step-title-ht">Fikse objektif pèsonèl ou pou fòmasyon sa a</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Avant d'aller plus loin, chaque participant identifie <strong>pourquoi</strong> il est là : pour le travail ? La créativité ? La curiosité ? Le futur ? Se fixer un objectif concret (ex : "savoir utiliser l'IA dans mon métier") permet d'orienter l'apprentissage et de mesurer le progrès à la fin des 3 jours.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Anvan nou kontinye, chak patisipan idantifye <strong>poukisa</strong> li la: pou travay? Kreyativite? Kiriozite? Avni? Fikse yon objektif konkrè (eks: "konnen itilize IA nan metye mwen") pèmèt oriyante aprantisaj la ak mezire pwogrè nan fen 3 jou yo.
+          </div>
+        </div>
+        <div class="activity-box">
+          <div class="activity-title">🎯 Activité — Aktivite (20 min)</div>
+          <div class="activity-bilingual">
+            <div class="activity-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <strong>Carte personnelle IA</strong> : Chaque participant dessine une carte mentale avec : les outils IA qu'il utilise déjà / les domaines où il veut progresser / une question qu'il veut voir répondre pendant la formation. Partage en binômes.
+            </div>
+            <div class="activity-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <strong>Kat pèsonèl IA</strong> : Chak patisipan desen yon kat mantal avèk: zouti IA li deja itilize / domèn kote li vle pwogrese / yon kesyon li vle wè reponn pandan fòmasyon an. Pataje an biname.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="outcomes-grid">
+    <div class="outcome-card">
+      <div class="outcome-icon">🧠</div>
+      <div class="outcome-title-fr">Modèle mental clair</div>
+      <div class="outcome-title-ht">Modèl mantal klè</div>
+      <div class="outcome-desc">Peut expliquer l'IA à n'importe qui · Ka eksplike IA bay nenpòt moun</div>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">🔍</div>
+      <div class="outcome-title-fr">Regard critique</div>
+      <div class="outcome-title-ht">Gade kritik</div>
+      <div class="outcome-desc">Distingue le hype de la réalité · Distenge tapaj nan reyalite</div>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">🗺️</div>
+      <div class="outcome-title-fr">Carte personnelle IA</div>
+      <div class="outcome-title-ht">Kat pèsonèl IA</div>
+      <div class="outcome-desc">Sait quels outils s'appliquent à sa vie · Konnen ki zouti aplike nan lavi li</div>
+    </div>
+  </div>
+
+  <!-- QUIZ DAY 1 CTA -->
+  <a href="quiz-day1.html" class="quiz-cta-banner quiz-cta-d1">
+    <div class="quiz-cta-left">
+      <div class="quiz-cta-icon">📝</div>
+      <div>
+        <div class="quiz-cta-tag">Quiz · Évaluation du Jour 1</div>
+        <div class="quiz-cta-title-fr">Tester tes connaissances — Comprendre l'IA</div>
+        <div class="quiz-cta-title-ht">Teste konesans ou — Konprann IA</div>
+      </div>
+    </div>
+    <div class="quiz-cta-btn">Commencer le Quiz →</div>
+  </a>
+</section>
+
+<!-- ===================== DAY 2 ===================== -->
+<section class="day-section d2">
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-text">Jour 02 · Jou 02</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="day-intro" style="margin-top:40px">
+    <div class="day-num-box">2</div>
+    <div class="day-meta">
+      <div class="day-tag">09:00 → 12:00 · Maîtrise · Metrize</div>
+      <div class="day-title-fr">Prompter comme un pro — Faire travailler l'IA pour toi</div>
+      <div class="day-title-ht">Pwonpte tankou yon pwofesyonèl — Fè IA travay pou ou</div>
+      <div class="day-desc">
+        <div class="day-desc-text fr"><span class="lang-label lang-fr">🇫🇷 FR</span> Aujourd'hui, on passe de spectateur à opérateur. Le prompting est un vrai savoir-faire : la même question posée différemment peut donner un résultat médiocre ou exceptionnel. C'est la compétence la plus importante à acquérir.</div>
+        <div class="day-desc-text ht"><span class="lang-label lang-ht">🇭🇹 HT</span> Jodi a, nou pase de espektatè a operatè. Pwonpting se yon vrè konpetans: menm kesyon ki poze diferamman ka bay yon rezilta medyòk oswa eksepsyonèl. Se konpetans ki pi enpòtan pou akeri.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 2.1 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">⏱ Session 1 · 09:00 – 10:00</div>
+        <div class="session-title-fr">L'art du prompting</div>
+        <div class="session-title-ht">Ati pwonpting</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">10</div>
+          <div class="step-titles">
+            <div class="step-title-fr">L'anatomie d'un prompt parfait : Rôle · Contexte · Tâche · Format</div>
+            <div class="step-title-ht">Anatomi yon pwonp pafè: Wòl · Kontèks · Travay · Fòma</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Un prompt efficace a 4 composantes : <strong>Rôle</strong> (dis à l'IA qui elle est), <strong>Contexte</strong> (explique la situation), <strong>Tâche</strong> (ce que tu veux précisément), <strong>Format</strong> (comment tu veux la réponse). Plus ton prompt est précis, plus la réponse sera utile. L'IA est comme un freelance ultra-compétent : elle fait exactement ce qu'on lui demande — pas plus, pas moins.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Yon pwonp efikas gen 4 eleman: <strong>Wòl</strong> (di IA ki moun li ye), <strong>Kontèks</strong> (eksplike sitiyasyon an), <strong>Travay</strong> (sa ou vle egzakteman), <strong>Fòma</strong> (kijan ou vle repons lan). Pi presiz pwonp ou a, pi itil repons lan pral ye. IA se tankou yon frilans ultrakompetan: li fè egzakteman sa yo mande li — pa plis, pa mwens.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">✏️</span> Prompt faible vs fort · Pwonp fèb vs fò</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>❌ FAIBLE:
+"Écris un email"
+
+✅ FORT:
+"Tu es un expert en 
+communication B2B. 
+Je dois relancer un client 
+qui n'a pas répondu depuis 
+2 semaines à une offre de 
+5000€. Ton email doit être 
+chaleureux, court (max 5 
+lignes), et inclure un CTA 
+clair. Format: objet + corps."</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>❌ FÈB:
+"Ekri yon imèl"
+
+✅ FÒ:
+"Ou se yon ekspè nan 
+kominikasyon B2B.
+Mwen dwe relanse yon kliyan 
+ki pa reponn depi 2 semèn 
+sou yon ofri 5000€. Imèl ou 
+a dwe cho, kout (maks 5 liy), 
+ak yon CTA klè. Fòma: 
+sijè + kò imèl."</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">11</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Chain-of-thought : Demander à l'IA de raisonner étape par étape</div>
+            <div class="step-title-ht">Chenn panse: Mande IA rezonnen etap pa etap</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Les LLMs produisent de meilleures réponses quand on leur demande de "penser à voix haute". La technique <strong>Chain-of-thought</strong> consiste à ajouter "Raisonne étape par étape" ou "Explique ton processus" à ton prompt. Cela force le modèle à structurer sa réponse logiquement et réduit les erreurs de raisonnement.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            LLM yo pwodui pi bon repons lè nou mande yo "panse an vwa wo". Teknik <strong>Chenn Panse</strong> konsiste nan ajoute "Rezonnen etap pa etap" oswa "Eksplike pwosesis ou" nan pwonp ou. Sa fòse modèl la estrikti repons li lojikman epi redui erè rezonman.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">🔗</span> Chain-of-thought en pratique · Chenn panse an pratik</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>SANS chain-of-thought:
+"Quel est le meilleur prix 
+pour mon produit ?"
+→ Réponse vague
+
+AVEC:
+"Raisonne étape par étape:
+1. Analyse mes coûts (X)
+2. Regarde le marché
+3. Propose 3 stratégies 
+   de pricing avec pros/cons"
+→ Analyse structurée ✅</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>SAN chenn panse:
+"Ki pi bon pri pou 
+pwodui mwen ?"
+→ Repons vag
+
+AVÈK:
+"Rezonnen etap pa etap:
+1. Analize depans mwen (X)
+2. Gade mache a
+3. Pwpoze 3 estrateji 
+   pri avèk pou/kont"
+→ Analiz estrikti ✅</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">12</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Few-shot prompting : Enseigner par l'exemple</div>
+            <div class="step-title-ht">Pwonpting kèk-ekzanp: Anseye pa egzanp</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Au lieu d'expliquer ce que tu veux, montre-le. Le <strong>few-shot prompting</strong> consiste à donner 2-3 exemples de l'input-output souhaité avant de poser ta vraie question. L'IA capte le motif et reproduit exactement le style, le ton et la structure que tu veux.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Olye eksplike sa ou vle, montre li. <strong>Pwonpting kèk-egzanp</strong> konsiste nan bay 2-3 egzanp opinyon-repons ou vle anvan poze vrè kesyon ou. IA a kaptire modèl la epi repwodui egzakteman estil, ton ak estrikti ou vle.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">📋</span> Few-shot en action · Kèk-ekzanp an aksyon</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>Transforme ces titres en 
+titres accrocheurs:
+
+Exemple 1:
+Input: "Conseils nutrition"
+Output: "7 habitudes qui 
+transformeront ton énergie"
+
+Exemple 2:
+Input: "Marketing réseaux"
+Output: "Le secret des marques 
+qui cartonnent sur Insta"
+
+Maintenant transforme:
+Input: "Gestion du temps"</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>Transfòme tit sa yo an 
+tit ki atire:
+
+Egzanp 1:
+Antre: "Konsèy nitrisyon"
+Sòti: "7 abitid ki pral 
+chanje enèji ou"
+
+Egzanp 2:
+Antre: "Maketing rezo"
+Sòti: "Sekrè mak ki 
+kraze sou Insta"
+
+Kounye a transfòme:
+Antre: "Jesyon tan"</code>
+            </div>
+          </div>
+        </div>
+        <div class="activity-box">
+          <div class="activity-title">🎯 Activité — Aktivite (20 min)</div>
+          <div class="activity-bilingual">
+            <div class="activity-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <strong>Défi de réécriture</strong> : Chaque participant reçoit 3 prompts médiocres. Ils les réécrivent en appliquant les 4 composantes (Rôle/Contexte/Tâche/Format). On compare les outputs avant/après sur l'écran partagé.
+            </div>
+            <div class="activity-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <strong>Defi réécriture</strong> : Chak patisipan resevwa 3 pwonp medyòk. Yo reekri yo an aplike 4 eleman yo (Wòl/Kontèks/Travay/Fòma). Nou konpare pwodiksyon yo anvan/apre sou ekran pataje.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 2.2 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">⏱ Session 2 · 10:15 – 11:15</div>
+        <div class="session-title-fr">L'IA pour le travail et la créativité</div>
+        <div class="session-title-ht">IA pou travay ak kreyativite</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">13</div>
+          <div class="step-titles">
+            <div class="step-title-fr">L'IA pour l'écriture : emails, rapports, réseaux sociaux</div>
+            <div class="step-title-ht">IA pou ekri: imèl, rapò, rezo sosyal</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            L'IA peut écrire plus vite que toi, mais <strong>tu dois rester le chef</strong>. Utilise-la pour : générer un premier brouillon (puis retravaille), reformuler dans un autre ton, adapter un texte à différents publics, créer des variations de posts réseaux sociaux. Toujours relire et personnaliser — l'IA ne connaît pas ta voix, ton vécu, tes relations.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            IA ka ekri pi vit pase ou, men <strong>ou dwe rete chèf la</strong>. Itilize li pou: jenere yon premye bouyon (epi retravaye), refòmile nan yon lòt ton, adapte yon tèks pou diferan piblik, kreye varyasyon pòs rezo sosyal. Toujou reli ak pèsonalize — IA pa konnen vwa ou, eksperyans ou, relasyon ou.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">📝</span> Workflow écriture · Fluksogram ekri</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>1. TOI: Idée brute + contexte
+      ↓
+2. IA: Premier brouillon
+      ↓
+3. TOI: Corriger le ton, 
+   ajouter ta touche perso
+      ↓
+4. IA: Améliorer sur feedback
+      ↓
+5. TOI: Validation finale ✅</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>1. OU: Ide brut + kontèks
+      ↓
+2. IA: Premye bouyon
+      ↓
+3. OU: Korije ton an, 
+   ajoute mannyè pèsonèl ou
+      ↓
+4. IA: Amelyore sou fidbak
+      ↓
+5. OU: Validasyon final ✅</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">14</div>
+          <div class="step-titles">
+            <div class="step-title-fr">L'IA pour la recherche : résumer, vérifier, synthétiser</div>
+            <div class="step-title-ht">IA pou rechèch: rezime, verifye, sentetize</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            L'IA peut lire et synthétiser un rapport de 200 pages en 30 secondes. Elle peut comparer 5 points de vue sur un sujet, extraire les points clés d'un article, ou expliquer un concept complexe avec des analogies simples. Mais <strong>attention</strong> : pour des données sensibles (santé, finance, droit), toujours vérifier avec une source primaire.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            IA ka li ak sentetize yon rapò 200 paj an 30 segond. Li ka konpare 5 pwen vi sou yon sijè, ekstrè pwen kle yon atik, oswa eksplike yon konsèp konplèks avèk analoji senp. Men <strong>atansyon</strong>: pou done sansib (sante, finans, dwa), toujou verifye avèk yon sous primè.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">15</div>
+          <div class="step-titles">
+            <div class="step-title-fr">L'IA pour le code : GitHub Copilot, Claude Code, Cursor</div>
+            <div class="step-title-ht">IA pou kòd: GitHub Copilot, Claude Code, Cursor</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Tu n'as pas besoin d'être développeur pour utiliser l'IA pour coder. Tu peux décrire en langage naturel ce que tu veux, et l'IA génère le code. Les outils comme <strong>Claude Code</strong> ou <strong>Cursor</strong> permettent même de construire des applications entières. C'est une révolution pour les non-techniciens qui ont des idées.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Ou pa bezwen yon devlopè pou itilize IA pou kode. Ou ka dekri nan lang natirèl sa ou vle, epi IA jenere kòd la. Zouti tankou <strong>Claude Code</strong> oswa <strong>Cursor</strong> pèmèt menm bati aplikasyon antye. Se yon revolisyon pou non-teknik ki gen ide.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">💻</span> Exemple sans coder · Egzanp san kode</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>Prompt:
+"Crée un tableau Excel qui 
+calcule automatiquement 
+mes dépenses mensuelles 
+et affiche un graphique 
+camembert par catégorie."
+
+→ IA génère le code VBA/
+  script complet en 10 sec</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>Pwonp:
+"Kreye yon tablo Excel ki 
+kalkile otomatikman 
+depans mansyèl mwen yo 
+epi montre yon grafik 
+pad by kategori."
+
+→ IA jenere kòd VBA/
+  script konplè an 10 sèk</code>
+            </div>
+          </div>
+        </div>
+        <div class="activity-box">
+          <div class="activity-title">🎯 Activité — Aktivite (30 min)</div>
+          <div class="activity-bilingual">
+            <div class="activity-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <strong>Projet 60 minutes</strong> : Chaque participant choisit une vraie tâche de sa vie/travail (écrire un CV, planifier une semaine, créer un post, analyser un doc) et doit la compléter en utilisant l'IA. Objectif : montrer que ce qui prenait 2h se fait en 20 min.
+            </div>
+            <div class="activity-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <strong>Pwojè 60 minit</strong> : Chak patisipan chwazi yon vrè travay nan lavi/travay li (ekri yon CV, planifye yon semèn, kreye yon pòs, analize yon dok) epi dwe konplete li avèk IA. Objektif: montre ke sa ki te pran 2è ka fèt an 20 minit.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 2.3 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">⏱ Session 3 · 11:15 – 12:00</div>
+        <div class="session-title-fr">Techniques avancées et agents IA</div>
+        <div class="session-title-ht">Teknik avanse ak ajan IA</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">16</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Qu'est-ce qu'un agent IA ? Les workflows agentiques</div>
+            <div class="step-title-ht">Kisa yon ajan IA ye? Fluksogram ajantik</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Un <strong>agent IA</strong> ne se contente pas de répondre — il agit. Il peut naviguer sur internet, envoyer des emails, remplir des formulaires, lire et écrire des fichiers, et enchaîner plusieurs tâches de façon autonome. En 2026, les agents peuvent gérer des workflows complexes : recherche → analyse → rédaction → envoi, tout seul.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Yon <strong>ajan IA</strong> pa sèlman reponn — li aji. Li ka navige sou entènèt, voye imèl, ranpli fòmilè, li ak ekri fichye, epi chènte plizyè travay otonom. An 2026, ajan yo ka jere fluksogram konplèks: rechèch → analiz → rediksyon → voye, poukont li.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">🤖</span> Agent en action · Ajan an aksyon</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>Tu dis: "Surveille les prix
+de mes concurrents chaque 
+lundi et envoie-moi un 
+résumé par email"
+
+Agent fait:
+→ Scrape 5 sites web
+→ Compare les prix
+→ Génère un rapport
+→ T'envoie l'email ✅
+(tout seul, chaque semaine)</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>Ou di: "Sivèye pri 
+konkuran mwen yo chak 
+lendi epi voye yon 
+rezime pa imèl ban mwen"
+
+Ajan fè:
+→ Scrape 5 sit entènèt
+→ Konpare pri yo
+→ Jenere yon rapò
+→ Voye imèl ba ou ✅
+(poukont li, chak semèn)</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">17</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Automatisation no-code : Zapier, Make, n8n avec l'IA</div>
+            <div class="step-title-ht">Otomatizasyon san kòd: Zapier, Make, n8n avèk IA</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Des outils comme <strong>Zapier</strong>, <strong>Make</strong> et <strong>n8n</strong> permettent de connecter l'IA à tes apps du quotidien (Gmail, Notion, Slack, Google Sheets) sans écrire une ligne de code. Tu crées des workflows visuels : "Quand X arrive → L'IA fait Y → Ça déclenche Z". C'est l'automatisation accessible à tous.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Zouti tankou <strong>Zapier</strong>, <strong>Make</strong> ak <strong>n8n</strong> pèmèt konekte IA ak aplikasyon chak jou ou yo (Gmail, Notion, Slack, Google Sheets) san ekri yon liy kòd. Ou kreye fluksogram vizyon: "Lè X rive → IA fè Y → Sa deklanche Z". Se otomatizasyon aksesib pou tout moun.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">18</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Quand NE PAS utiliser l'IA — L'avantage humain irremplaçable</div>
+            <div class="step-title-ht">Kilè POU PA itilize IA — Avantaj imen ki pa ka ranplase</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            L'IA ne peut pas remplacer : l'<strong>empathie authentique</strong> (conversations difficiles, deuil, relations), le <strong>jugement éthique complexe</strong>, la <strong>créativité incarnée</strong> (expérience vécue), la <strong>responsabilité légale</strong>, et la <strong>connexion humaine</strong>. Sache quand garder les rênes toi-même — c'est aussi une compétence clé.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            IA pa ka ranplase: <strong>empati otantik</strong> (konvèsasyon difisil, dèy, relasyon), <strong>jijman etik konplèks</strong>, <strong>kreyativite enkarne</strong> (eksperyans viv), <strong>responsabilite legal</strong>, ak <strong>koneksyon imen</strong>. Konnen kilè pou kenbe brid ou poukont ou — se tou yon konpetans kle.
+          </div>
+        </div>
+        <div class="activity-box">
+          <div class="activity-title">🎯 Activité — Aktivite (20 min)</div>
+          <div class="activity-bilingual">
+            <div class="activity-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <strong>Concevoir son workflow IA</strong> : Chaque participant dessine un workflow en 3 étapes pour automatiser quelque chose qu'il déteste faire manuellement (ex : trier ses emails, planifier ses posts, suivre ses dépenses). Partage et discussion en groupe.
+            </div>
+            <div class="activity-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <strong>Konsevwa fluksogram IA pa ou</strong> : Chak patisipan desen yon fluksogram 3 etap pou otomatize yon bagay li rayi fè manyèlman (eks: triye imèl li, planifye pòs li, swiv depans li). Pataje ak diskisyon an gwoup.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="outcomes-grid">
+    <div class="outcome-card">
+      <div class="outcome-icon">⚡</div>
+      <div class="outcome-title-fr">Maîtrise du prompting</div>
+      <div class="outcome-title-ht">Metrize pwonpting</div>
+      <div class="outcome-desc">Produit des outputs de qualité pro · Pwodui pwodiksyon kalite pwofesyonèl</div>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">🛠️</div>
+      <div class="outcome-title-fr">Boîte à outils complète</div>
+      <div class="outcome-title-ht">Bwat zouti konplè</div>
+      <div class="outcome-desc">Connaît 10+ outils IA et leur usage · Konnen 10+ zouti IA ak itilizasyon yo</div>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">🔁</div>
+      <div class="outcome-title-fr">Workflows IA construits</div>
+      <div class="outcome-title-ht">Fluksogram IA bati</div>
+      <div class="outcome-desc">Peut automatiser des tâches répétitives · Ka otomatize travay repetitif</div>
+    </div>
+  </div>
+
+  <!-- QUIZ DAY 2 CTA -->
+  <a href="quiz-day2.html" class="quiz-cta-banner quiz-cta-d2">
+    <div class="quiz-cta-left">
+      <div class="quiz-cta-icon">📝</div>
+      <div>
+        <div class="quiz-cta-tag">Quiz · Évaluation du Jour 2</div>
+        <div class="quiz-cta-title-fr">Tester tes connaissances — Prompting & Création</div>
+        <div class="quiz-cta-title-ht">Teste konesans ou — Pwonpting & Kreyasyon</div>
+      </div>
+    </div>
+    <div class="quiz-cta-btn">Commencer le Quiz →</div>
+  </a>
+</section>
+
+<!-- ===================== DAY 3 ===================== -->
+<section class="day-section d3">
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-text">Jour 03 · Jou 03</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="day-intro" style="margin-top:40px">
+    <div class="day-num-box">3</div>
+    <div class="day-meta">
+      <div class="day-tag">09:00 → 12:00 · Stratégie · Estrateji</div>
+      <div class="day-title-fr">IA & Société — Naviguer l'avenir avec intention</div>
+      <div class="day-title-ht">IA & Sosyete — Navige avni a avèk entansyon</div>
+      <div class="day-desc">
+        <div class="day-desc-text fr"><span class="lang-label lang-fr">🇫🇷 FR</span> Le jour le plus important : comprendre l'impact de l'IA sur la société, ton éthique personnelle, et construire une stratégie pour les prochains mois. Ce n'est pas assez de savoir utiliser l'IA — il faut savoir pourquoi et comment.</div>
+        <div class="day-desc-text ht"><span class="lang-label lang-ht">🇭🇹 HT</span> Jou ki pi enpòtan an: konprann enpak IA sou sosyete a, etik pèsonèl ou, ak bati yon estrateji pou mwa k ap vini yo. Pa sifi konnen itilize IA — fò konnen poukisa ak kijan.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 3.1 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">⏱ Session 1 · 09:00 – 10:00</div>
+        <div class="session-title-fr">Éthique, sécurité et responsabilité</div>
+        <div class="session-title-ht">Etik, sekirite ak responsabilite</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">19</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Les biais de l'IA : exemples réels et conséquences</div>
+            <div class="step-title-ht">Bya IA: egzanp reyèl ak konsekans</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            L'IA apprend des données humaines, donc elle hérite de nos biais. Un système de recrutement IA d'Amazon (2018) a été abandonné car il pénalisait les CV de femmes. Des outils de reconnaissance faciale ont des taux d'erreur 10x supérieurs sur les personnes noires. Ces biais ne sont pas accidentels — ils reflètent les inégalités systémiques dans les données.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            IA aprann nan done imen, donk li eritye bya nou yo. Yon sistèm rekritman IA Amazon (2018) te abandone paske li te penalize CV fanm. Zouti rekonesans facial gen to erè 10x pi wo sou moun nwa yo. Bya sa yo pa aksidantèl — yo reflete inegalite sistemik nan done yo.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">⚖️</span> Biais documentés · Bya dokimante</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>🔴 Recrutement: IA favorise 
+  profils masculins blancs
+🔴 Médecine: IA calibrée 
+  sur patients majoritaires
+🔴 Crédit: IA refuse prêts 
+  dans certains codes postaux
+🔴 Justice: IA prédit plus de 
+  récidive chez minorités</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>🔴 Rekritman: IA favorize 
+  pwofil gason blan
+🔴 Medsin: IA kalibre sou 
+  pasyan majòrite
+🔴 Kredi: IA refize prè 
+  nan kèk kòd postal
+🔴 Jistis: IA predi plis 
+  rekidiv nan minorite</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">20</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Deepfakes et désinformation : comment les reconnaître</div>
+            <div class="step-title-ht">Deepfake ak dezenfòmasyon: kijan pou rekonèt yo</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Un <strong>deepfake</strong> est une vidéo/audio/image générée par IA pour faire dire ou faire quelque chose à quelqu'un qui ne l'a jamais dit ou fait. En 2026, les deepfakes sont quasi-indétectables à l'œil nu. Signes d'alerte : mouvements oculaires étranges, lumière incohérente, voix légèrement robotique, contexte improbable. Toujours vérifier la source originale.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Yon <strong>deepfake</strong> se yon videyo/odyo/imaj jenere pa IA pou fè yon moun di oswa fè yon bagay li pa janm di oswa fè. An 2026, deepfake yo prèske pa detektab ak je toutouni. Siy alèt: mouvman je etranj, limyè enkoyeran, vwa yon ti jan robotik, kontèks enpwobab. Toujou verifye sous orijinal la.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">21</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Vie privée et données : ce que tu nourris vraiment l'IA</div>
+            <div class="step-title-ht">Vi prive ak done: sa ou vrèman ba IA</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Quand tu envoies une conversation à une IA, ces données peuvent être utilisées pour l'entraînement futur du modèle. <strong>Ne jamais</strong> envoyer : mots de passe, données médicales sensibles, secrets d'entreprise, informations de clients. Utilise les options "ne pas mémoriser" ou les versions entreprise avec garanties de confidentialité.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Lè ou voye yon konvèsasyon bay yon IA, done sa yo ka itilize pou antrènman modèl lavni. <strong>Pa janm</strong> voye: modpas, done medikal sansib, sekrè antrepriz, enfòmasyon kliyan. Itilize opsyon "pa sonje" oswa vèsyon antrepriz avèk garanti konfidansyalite.
+          </div>
+        </div>
+        <div class="activity-box">
+          <div class="activity-title">🎯 Activité — Aktivite (25 min)</div>
+          <div class="activity-bilingual">
+            <div class="activity-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <strong>Cartes dilemmes éthiques</strong> : 6 scénarios réels (ex : "Une IA refuse une candidature pour un prêt sans explication. Que faire ?"). Groupes de 4, chaque groupe débat et présente sa décision + justification à l'ensemble.
+            </div>
+            <div class="activity-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <strong>Kat dilem etik</strong> : 6 sènaryo reyèl (eks: "Yon IA refize yon kandida pou yon prè san eksplikasyon. Kisa pou fè?"). Gwoup 4 moun, chak gwoup debat epi prezante desizyon li + jistifikasyon ba tout moun.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 3.2 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">⏱ Session 2 · 10:15 – 11:15</div>
+        <div class="session-title-fr">L'IA et ta carrière en 2026+</div>
+        <div class="session-title-ht">IA ak karyè ou an 2026+</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">22</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Quels métiers sont transformés (pas seulement "remplacés")</div>
+            <div class="step-title-ht">Ki metye k ap transfòme (pa sèlman "ranplase")</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            La plupart des métiers ne disparaissent pas — ils <strong>se transforment</strong>. Un comptable utilise l'IA pour automatiser la saisie et se concentre sur le conseil. Un journaliste utilise l'IA pour la recherche et se concentre sur l'investigation. Un designer utilise l'IA pour les variantes et se concentre sur la stratégie. La question n'est pas "suis-je remplacé ?" mais "comment je m'augmente ?"
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Pifò metye yo pa disparèt — yo <strong>transfòme</strong>. Yon kontab itilize IA pou otomatize antre done epi konsantre sou konsèy. Yon jounalis itilize IA pou rechèch epi konsantre sou envestigasyon. Yon dizennè itilize IA pou varyant epi konsantre sou estrateji. Kesyon an pa "èske yo ranplase mwen?" men "kijan mwen ogmante mwen menm?"
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">📊</span> Transformation vs remplacement · Transfòmasyon vs ranplasman</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>🟢 AUGMENTÉS:
+- Médecin → IA diagnostique
+- Avocat → IA recherche légale
+- Prof → IA personnalise cours
+- RH → IA trie CV en masse
+
+🔴 À RISQUE:
+- Saisie de données pure
+- Traduction basique
+- Service client scriptés
+- Analyse de docs répétitive</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>🟢 OGMANTE:
+- Doktè → IA dyagnostik
+- Avoka → IA rechèch legal
+- Pwofesè → IA pèsonalize kou
+- RH → IA triye CV an mas
+
+🔴 AN RISK:
+- Antre done pir
+- Tradiksyon debaz
+- Sèvis kliyan skripte
+- Analiz dok repetitif</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">23</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Les compétences qui valent plus dans un monde IA</div>
+            <div class="step-title-ht">Konpetans ki vale plis nan yon mond IA</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Ce que l'IA ne peut pas faire : <strong>pensée critique</strong> (évaluer la qualité des outputs IA), <strong>intelligence émotionnelle</strong>, <strong>leadership</strong>, <strong>créativité stratégique</strong> (avoir des idées vraiment nouvelles), <strong>communication complexe</strong>, et <strong>adaptabilité</strong>. Ces compétences humaines deviennent PLUS précieuses, pas moins.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Sa IA pa ka fè: <strong>panse kritik</strong> (evalye kalite pwodiksyon IA), <strong>entèlijans emosyonèl</strong>, <strong>lidèchip</strong>, <strong>kreyativite estratejik</strong> (gen ide ki vrèman nouvo), <strong>kominikasyon konplèks</strong>, ak <strong>adaptabilite</strong>. Konpetans imen sa yo vin PI presye, pa mwens.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">24</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Comment te positionner comme "IA-fluent" sur le marché</div>
+            <div class="step-title-ht">Kijan pou pozisyone ou kòm "IA-kouran" sou mache a</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            En 2026, mentionner l'IA sur ton CV n'est plus un avantage — c'est une attente de base. Ce qui différencie : des <strong>projets concrets réalisés avec l'IA</strong>, une <strong>spécialisation sectorielle</strong> (IA + ton domaine), et une capacité à <strong>former les autres</strong>. Commence à documenter tout ce que tu crées avec l'IA maintenant.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            An 2026, mansyone IA sou CV ou pa yon avantaj ankò — se yon atant debaz. Sa ki diferansye: <strong>pwojè konkrè ki reyalize avèk IA</strong>, yon <strong>espesyalizasyon sektoryèl</strong> (IA + domèn ou), ak kapasite pou <strong>fòme lòt moun</strong>. Kòmanse dokimante tout sa ou kreye avèk IA kounye a.
+          </div>
+        </div>
+        <div class="activity-box">
+          <div class="activity-title">🎯 Activité — Aktivite (20 min)</div>
+          <div class="activity-bilingual">
+            <div class="activity-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <strong>Réécrire son profil pro</strong> : Chaque participant réécrit son résumé LinkedIn ou une phrase de CV avec l'aide de l'IA, en intégrant ses nouvelles compétences IA. Avant/après partagé en plénière.
+            </div>
+            <div class="activity-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <strong>Reekri pwofil pwofesyonèl ou</strong> : Chak patisipan reekri rezime LinkedIn li oswa yon fraz CV avèk èd IA, an entegre nouvo konpetans IA li yo. Anvan/apre pataje an plenyè.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 3.3 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">⏱ Session 3 · 11:15 – 12:00</div>
+        <div class="session-title-fr">Capstone : Ta stratégie IA personnelle</div>
+        <div class="session-title-ht">Kapstòn: Estrateji IA pèsonèl ou</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">25</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Construire ton cadre personnel IA</div>
+            <div class="step-title-ht">Bati kad pèsonèl IA ou</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Chaque participant construit son <strong>cadre personnel en 4 blocs</strong> : (1) Les outils IA que j'adopte cette semaine, (2) Les tâches que je délègue à l'IA, (3) Les tâches que je garde 100% humaines, (4) Ma ligne rouge éthique (ce que je ne ferai jamais avec l'IA). Ce cadre évoluera, mais le construire maintenant ancre l'apprentissage.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Chak patisipan bati <strong>kad pèsonèl li an 4 blòk</strong>: (1) Zouti IA mwen adopte semèn sa a, (2) Travay mwen delege bay IA, (3) Travay mwen kenbe 100% imen, (4) Liy wouj etik mwen (sa mwen pap janm fè avèk IA). Kad sa a pral evolye, men bati li kounye a anko aprantisaj la.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">26</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Ressources pour continuer à apprendre</div>
+            <div class="step-title-ht">Resous pou kontinye aprann</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            L'IA évolue si vite qu'une formation de 3 jours ne suffit pas — c'est un point de départ. Ressources recommandées : newsletters (The Rundown AI, Ben's Bites), chaînes YouTube (Two Minute Papers, Andrej Karpathy), communautés (r/MachineLearning, Discord IA francophone), et pratique quotidienne de 15 minutes avec un outil IA.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            IA evolye si vit ke yon fòmasyon 3 jou pa sifi — se yon pwen depa. Resous rekòmande: nouzlèt (The Rundown AI, Ben's Bites), chanèl YouTube (Two Minute Papers, Andrej Karpathy), kominote (r/MachineLearning, Discord IA frankofòn), ak pratik chak jou 15 minit avèk yon zouti IA.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">📚</span> Kit de départ · Kit depa</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>📧 The Rundown AI (quotidien)
+📧 TLDR AI (5 min/jour)
+🎥 Andrej Karpathy (YouTube)
+💬 Discord "IA en français"
+🛠️ 1 outil à tester/semaine:
+  S1: Claude
+  S2: Midjourney
+  S3: Cursor
+  S4: Make/n8n</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>📧 The Rundown AI (chak jou)
+📧 TLDR AI (5 min/jou)
+🎥 Andrej Karpathy (YouTube)
+💬 Discord "IA an fransè"
+🛠️ 1 zouti pou tèste/semèn:
+  S1: Claude
+  S2: Midjourney
+  S3: Cursor
+  S4: Make/n8n</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">27</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Présentation Capstone : "Ma vie IA dans 6 mois"</div>
+            <div class="step-title-ht">Prezantasyon Kapstòn: "Lavi IA mwen nan 6 mwa"</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Chaque participant prépare une présentation de 3 minutes (aidée par l'IA !) qui décrit : sa situation actuelle, comment l'IA va transformer son quotidien professionnel et personnel, et un engagement concret pour la semaine qui suit. C'est l'acte final de synthèse qui ancre tout l'apprentissage des 3 jours.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Chak patisipan prepare yon prezantasyon 3 minit (avèk èd IA!) ki dekri: sitiyasyon aktyèl li, kijan IA pral transfòme lavi chak jou pwofesyonèl ak pèsonèl li, ak yon angajman konkrè pou semèn ki vin apre. Se ak final sentèz ki anko tout aprantisaj 3 jou yo.
+          </div>
+        </div>
+        <div class="activity-box">
+          <div class="activity-title">🏆 Capstone Final — Kapstòn Final (45 min)</div>
+          <div class="activity-bilingual">
+            <div class="activity-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <strong>Présentation 3 min/personne</strong> : Chaque participant présente "Mon plan IA" avec : 3 outils adoptés, 1 workflow créé, 1 engagement éthique, 1 objectif à 30 jours. Vote collectif pour le plan le plus inspirant. Célébration et remise de certificat de formation.
+            </div>
+            <div class="activity-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <strong>Prezantasyon 3 min/moun</strong> : Chak patisipan prezante "Plan IA mwen" avèk: 3 zouti adopte, 1 fluksogram kreye, 1 angajman etik, 1 objektif 30 jou. Vòt kolektif pou plan ki pi enteresan. Selebrasyon ak remit sètifika fòmasyon.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="outcomes-grid">
+    <div class="outcome-card">
+      <div class="outcome-icon">🧭</div>
+      <div class="outcome-title-fr">Boussole éthique</div>
+      <div class="outcome-title-ht">Bousòl etik</div>
+      <div class="outcome-desc">Navigue les zones grises avec clarté · Navige zòn gri avèk klète</div>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">🚀</div>
+      <div class="outcome-title-fr">Avantage carrière</div>
+      <div class="outcome-title-ht">Avantaj karyè</div>
+      <div class="outcome-desc">Valorise sa maîtrise IA professionnellement · Valorize metrize IA pwofesyonèlman</div>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">📋</div>
+      <div class="outcome-title-fr">Stratégie personnelle</div>
+      <div class="outcome-title-ht">Estrateji pèsonèl</div>
+      <div class="outcome-desc">Repart avec un plan 30 jours concret · Ale avèk yon plan 30 jou konkrè</div>
+    </div>
+  </div>
+
+  <!-- QUIZ DAY 3 CTA -->
+  <a href="quiz-day3.html" class="quiz-cta-banner quiz-cta-d3">
+    <div class="quiz-cta-left">
+      <div class="quiz-cta-icon">📝</div>
+      <div>
+        <div class="quiz-cta-tag">Quiz Final · Évaluation du Jour 3</div>
+        <div class="quiz-cta-title-fr">Tester tes connaissances — IA Éthique & Société</div>
+        <div class="quiz-cta-title-ht">Teste konesans ou — IA Etik & Sosyete</div>
+      </div>
+    </div>
+    <div class="quiz-cta-btn">Commencer le Quiz →</div>
+  </a>
+</section>
+
+<!-- PHILOSOPHY -->
+<div class="philosophy">
+  <div class="philosophy-label">Philosophie pédagogique · Filozofi pedagojik</div>
+  <p class="philosophy-quote">
+    "L'objectif n'est pas de former des experts en IA — c'est de former des humains augmentés qui pensent de manière critique, agissent avec intention, et refusent d'être des spectateurs passifs de la transformation la plus importante de leur génération."
+  </p>
+  <p class="philosophy-quote-ht">
+    "Objektif la pa fòme ekspè IA — se fòme imen ogmante ki panse kritikman, aji avèk entansyon, epi refize rete espektatè pasif nan transfòmasyon ki pi enpòtan nan jenerasyon yo."
+  </p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">Formation IA · Fòmasyon IA · 2026 · 27 étapes · 9 activités</div>
+  <div class="footer-right">
+    <span class="lang-label lang-fr">🇫🇷 Français</span>
+    <span class="lang-label lang-ht">🇭🇹 Kreyòl</span>
+  </div>
+</div>
+
+
+</div><!-- end container -->
+
+<script>
+  function setLang(lang) {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + lang).classList.add('active');
+    // All content is always shown since it's bilingual - just highlight
+  }
+</script>
+</body>
+</html>
