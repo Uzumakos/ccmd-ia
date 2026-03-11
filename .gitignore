@@ -1,0 +1,11 @@
+# Git ignore for CCMD
+# Don't commit the SQL setup file (contains no secrets but not needed on GitHub)
+supabase-setup.sql
+
+# Task file (local only)
+task.md
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
