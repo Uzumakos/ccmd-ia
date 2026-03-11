@@ -998,6 +998,7 @@
   .plan-week-goal { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 10px; }
   .plan-action { font-size: 12px; color: var(--ink2); line-height: 1.6; }
   .plan-action-ht { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 6px; line-height: 1.5; }
+  .hero-logo { width: 90px; height: auto; margin-bottom: 24px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
 </style>
 </head>
 <body>
@@ -1031,6 +1032,7 @@
     <span>Kreyòl Ayisyen</span>
   </div>
 
+  <img src="logo-ccmd.jpg" alt="Logo CCMD" class="hero-logo">
   <h1>Maîtriser<br><em>l'Intelligence<br>Artificielle</em></h1>
 
   <p class="hero-sub">
@@ -1078,6 +1080,123 @@
         <div class="day-desc-text fr"><span class="lang-label lang-fr">🇫🇷 FR</span> Aujourd'hui, on démystifie l'IA. Beaucoup de gens ont peur ou sont impressionnés sans vraiment comprendre ce qu'ils ont devant eux. Ce jour pose les bases solides pour tout le reste.</div>
         <div class="day-desc-text ht"><span class="lang-label lang-ht">🇭🇹 HT</span> Jodi a, nou pral démistifye IA. Anpil moun pè oswa enpresyone san yo pa konprann sa ki devan yo. Jou sa a bati baz solid pou tout rès fòmasyon an.</div>
       </div>
+    </div>
+  </div>
+
+  <!-- SESSION DÉMYSTIFICATION -->
+  <div class="session-card" style="border-color:rgba(200,57,43,0.3)">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">🧠 Les Fondamentaux · Fondamantal yo</div>
+        <div class="session-title-fr">Démystification : De l'algorithme à l'apprentissage profond</div>
+        <div class="session-title-ht">Demistifikasyon : Sòti nan algoritm rive nan aprantisaj pwofon</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <!-- Point 1 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-titles">
+            <div class="step-title-fr">1. Qu'est-ce que l'IA ? Définition Classique</div>
+            <div class="step-title-ht">1. Kisa IA ye ? Definisyon Klasik</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 FR</span>
+            L'Intelligence Artificielle est une discipline de l'informatique qui cherche à créer des systèmes capables de simuler des processus cognitifs humains : <strong>percevoir</strong> (voir/entendre), <strong>raisonner</strong> (analyser/déduire), <strong>apprendre</strong> (s'améliorer avec l'expérience) et <strong>agir</strong> (prendre des décisions).
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 HT</span>
+            Entelijans Atifisyèl se yon branch nan enfòmatik ki chache kreye sistèm ki kapab imite fason moun reflechi : <strong>wè/tande</strong>, <strong>rezonnen</strong> (analize), <strong>aprann</strong> (vin pi bon chak fwa li fè yon eksperyans) ak <strong>aji</strong> (pran desizyon).
+          </div>
+        </div>
+      </div>
+
+      <!-- Point 2 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-titles">
+            <div class="step-title-fr">2. Les 3 Grands Types d'IA (L'Échelle d'Évolution)</div>
+            <div class="step-title-ht">2. 3 Gwo Kalite IA (Echèl Evolisyon an)</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 FR</span> Il est crucial de montrer où nous en sommes aujourd'hui :
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 HT</span> Li enpòtan pou nou montre ki kote nou ye jodi a :
+          </div>
+        </div>
+        <div style="overflow-x:auto;">
+        <table class="compare-table" style="margin-top:0">
+          <thead>
+            <tr>
+              <th>Type d'IA</th>
+              <th>Description · Deskripsyon</th>
+              <th>Statut actuel · Sitiyasyon kounye a</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="cm-name">IA Faible / Étroite</div><div class="cm-sub">(ANI)</div></td>
+              <td>Spécialisée dans une seule tâche (ex: jouer aux échecs, recommander un film, filtrer les spams).<br><span style="color:var(--muted);font-style:italic">Espesyalize nan yon sèl travay.</span></td>
+              <td><strong>C'est ce que nous utilisons partout.</strong><br><span style="color:var(--muted);font-style:italic">Se sa nou itilize toupatou.</span></td>
+            </tr>
+            <tr>
+              <td><div class="cm-name">IA Générale</div><div class="cm-sub">(AGI)</div></td>
+              <td>Une IA capable de comprendre, d'apprendre et d'appliquer son intelligence à n'importe quelle tâche humaine.<br><span style="color:var(--muted);font-style:italic">Kapab konprann ak fè nenpòt travay moun fè.</span></td>
+              <td><strong>En cours de développement (Le Graal).</strong><br><span style="color:var(--muted);font-style:italic">Kounye a y'ap devlope l.</span></td>
+            </tr>
+            <tr>
+              <td><div class="cm-name">Super Intelligence</div><div class="cm-sub">(ASI)</div></td>
+              <td>Une IA qui dépasse l'intelligence humaine dans tous les domaines (créativité, sagesse, résolution de problèmes).<br><span style="color:var(--muted);font-style:italic">Depase entelijans moun nan tout domèn.</span></td>
+              <td><strong>Science-fiction / Futur hypothétique.</strong><br><span style="color:var(--muted);font-style:italic">Syans fiksyon / Yon fiti posib.</span></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <!-- Point 3 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-titles">
+            <div class="step-title-fr">3. La distinction technique : IA vs Machine Learning vs Deep Learning</div>
+            <div class="step-title-ht">3. Diferans teknik: IA vs ML vs DL</div>
+          </div>
+        </div>
+        <div class="bilingual-block" style="margin-bottom:0">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 FR</span> Pour l'équipe de développeurs, ce schéma est indispensable :
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 HT</span> Pou ekip devlopè yo, chema sa a endispansab :
+          </div>
+        </div>
+        <div class="example-box" style="margin-top:14px">
+          <div class="example-body" style="grid-template-columns:1fr; gap:16px;">
+            <div style="background:var(--card); border:1.5px solid rgba(200,57,43,0.4); padding:16px; border-radius:10px;">
+              <div style="font-weight:700; color:var(--day1); margin-bottom:6px;">🤖 IA (Le concept large)</div>
+              <p style="font-size:13px; margin-bottom:4px; color:var(--ink2);">Des programmes qui imitent l'intelligence.</p>
+              <p style="font-size:12px; color:var(--muted); font-style:italic;">Pwogram ki imite entelijans.</p>
+            </div>
+            <div style="background:var(--card); border:1.5px solid rgba(232,160,32,0.4); padding:16px; border-radius:10px; margin-left:20px;">
+              <div style="font-weight:700; color:#b87d12; margin-bottom:6px;">📊 Machine Learning (L'apprentissage)</div>
+              <p style="font-size:13px; margin-bottom:4px; color:var(--ink2);">Une méthode où l'on ne donne pas de règles fixes à la machine, mais où elle apprend à partir d'exemples (Data).</p>
+              <p style="font-size:12px; color:var(--muted); font-style:italic;">Yon metòd kote nou pa bay machin nan règ fiks, men li aprann nan egzanp (Done).</p>
+            </div>
+            <div style="background:var(--card); border:1.5px solid rgba(26,58,107,0.4); padding:16px; border-radius:10px; margin-left:40px;">
+              <div style="font-weight:700; color:var(--day3); margin-bottom:6px;">🧠 Deep Learning (Les neurones)</div>
+              <p style="font-size:13px; margin-bottom:4px; color:var(--ink2);">Une sous-catégorie du Machine Learning utilisant des "réseaux de neurones artificiels" inspirés du cerveau humain pour traiter des données complexes (images, voix, texte). <strong>C'est ce qui fait tourner les LLM comme ChatGPT.</strong></p>
+              <p style="font-size:12px; color:var(--muted); font-style:italic;">Yon sou-kategori ML ki itilize "rezo newòn atifisyèl" ki baze sou sèvo moun. <strong>Se sa k'ap fè LLM tankou ChatGPT mache.</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
