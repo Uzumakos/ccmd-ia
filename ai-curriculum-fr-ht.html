@@ -952,6 +952,52 @@
   }
   .gl-ht { color: var(--ink); font-weight: 600; }
   .gl-desc { color: var(--muted); font-size: 13px; margin-top: 3px; font-style: italic; }
+
+  /* PROMPT TEMPLATES */
+  .prompt-templates-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 16px; }
+  .pt-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 18px 16px; transition: border-color .2s; }
+  .pt-card:hover { border-color: var(--accent); }
+  .pt-category { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .pt-title { font-weight: 700; font-size: 14px; margin-bottom: 10px; }
+  .pt-prompt { background: rgba(0,0,0,.35); border-left: 3px solid var(--accent); padding: 10px 12px; border-radius: 0 8px 8px 0; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--ink2); line-height: 1.6; white-space: pre-wrap; }
+  .pt-ht { border-left-color: #3a8; margin-top: 6px; }
+
+  /* SECTEURS HAITI */
+  .haiti-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 16px; }
+  .haiti-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 18px 16px; transition: border-color .2s; }
+  .haiti-card:hover { border-color: rgba(200,57,43,.5); }
+  .haiti-sector { font-size: 28px; margin-bottom: 8px; }
+  .haiti-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .haiti-use-fr { font-size: 12px; color: var(--ink2); margin-bottom: 4px; line-height: 1.5; }
+  .haiti-use-ht { font-size: 12px; color: var(--muted); font-style: italic; line-height: 1.5; }
+
+  /* COMPARATIF */
+  .compare-table { width: 100%; border-collapse: collapse; background: var(--card); border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 16px; font-size: 13px; }
+  .compare-table th { background: var(--card2); padding: 12px 10px; text-align: center; font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); }
+  .compare-table th:first-child { text-align: left; }
+  .compare-table td { padding: 11px 10px; border-bottom: 1px solid var(--border); text-align: center; }
+  .compare-table td:first-child { text-align: left; font-family: 'Space Mono', monospace; color: var(--ink2); font-size: 10px; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: rgba(255,255,255,.02); }
+  .cm-name { font-weight: 700; font-size: 12px; color: var(--ink); }
+  .cm-sub { font-size: 9px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+  /* IA & KREYO'L */
+  .kreol-tips { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+  .kreol-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 18px 16px; }
+  .kreol-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: rgba(232,160,32,.25); margin-bottom: 6px; }
+  .kreol-tip-title { font-weight: 700; font-size: 13px; margin-bottom: 8px; }
+  .kreol-tip-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* PLAN 30 JOURS */
+  .plan-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+  @media(max-width:700px) { .plan-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:400px) { .plan-grid { grid-template-columns: 1fr; } }
+  .plan-week { background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 18px 16px; }
+  .plan-week-num { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .plan-week-goal { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+  .plan-action { font-size: 12px; color: var(--ink2); line-height: 1.6; }
+  .plan-action-ht { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 6px; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -1522,6 +1568,102 @@ R: [Envante 3 desizyon
       <div class="outcome-title-fr">Carte personnelle IA</div>
       <div class="outcome-title-ht">Kat pèsonèl IA</div>
       <div class="outcome-desc">Sait quels outils s'appliquent à sa vie · Konnen ki zouti aplike nan lavi li</div>
+    </div>
+  </div>
+
+  <!-- IA POUR HAITI -->
+  <div class="session-card" style="border-color:rgba(200,57,43,0.3)">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">&#127549;&#65039; Ancrage local · Rakrochman lokal</div>
+        <div class="session-title-fr">IA pour Ha&#239;ti &#8212; Cas concrets par secteur</div>
+        <div class="session-title-ht">IA pou Ayiti &#8212; Ka konkr&#232;s pa sekt&#232;</div>
+      </div>
+    </div>
+    <div class="bilingual-block">
+      <div class="expl-box expl-fr">
+        <span class="lang-label lang-fr">&#127467;&#127479; FR</span>
+        L'IA n'est pas une technologie lointaine r&#233;serv&#233;e aux multinationales. Elle est <strong>d&#233;j&#224; utilisable aujourd'hui dans les r&#233;alit&#233;s ha&#239;tiennes</strong>. Voici comment chaque secteur peut en b&#233;n&#233;ficier concr&#232;tement.
+      </div>
+      <div class="expl-box expl-ht">
+        <span class="lang-label lang-ht">&#127469;&#127481; HT</span>
+        IA pa yon teknoloji lwen ki rezeve pou gwo konpayi. Li ka <strong>itilize deja jodi a nan reyalite ayisyen</strong>. Men kijan chak sekt&#232; ka benefisye l konkr&#232;tman.
+      </div>
+    </div>
+    <div class="haiti-grid">
+      <div class="haiti-card">
+        <div class="haiti-sector">&#127806;</div>
+        <div class="haiti-title">Agriculture</div>
+        <div class="haiti-use-fr">&#127467;&#127479; Diagnostiquer les maladies des cultures via photo. G&#233;n&#233;rer des calendriers agricoles personnalis&#233;s.</div>
+        <div class="haiti-use-ht">&#127469;&#127481; Dyagnostike maladi plant yo ak foto. Kreye kalandriye agrikol pou chak jaden.</div>
+      </div>
+      <div class="haiti-card">
+        <div class="haiti-sector">&#127973;</div>
+        <div class="haiti-title">Sant&#233; · Sant&#233;</div>
+        <div class="haiti-use-fr">&#127467;&#127479; Traduction m&#233;dicale Krey&#242;l &#x21C4; FR. R&#233;diger des rapports m&#233;dicaux clairs et rapides.</div>
+        <div class="haiti-use-ht">&#127469;&#127481; Tradiksyon medikal Krey&#242;l &#x21C4; FR. Ekri rap&#242; medikal kl&#232; ak rapid.</div>
+      </div>
+      <div class="haiti-card">
+        <div class="haiti-sector">&#127962;</div>
+        <div class="haiti-title">Commerce · Biznis</div>
+        <div class="haiti-use-fr">&#127467;&#127479; R&#233;diger devis, factures et descriptions produits. Cr&#233;er des posts Instagram pour attirer des clients.</div>
+        <div class="haiti-use-ht">&#127469;&#127481; Ekri devi, fakti ak deskripsyon pwodui. Kreye p&#242;s Instagram pou atire kliyan.</div>
+      </div>
+      <div class="haiti-card">
+        <div class="haiti-sector">&#127979;</div>
+        <div class="haiti-title">&#201;ducation · Edikasyon</div>
+        <div class="haiti-use-fr">&#127467;&#127479; Tuteur IA pour pr&#233;parer le BAC. G&#233;n&#233;rer des exercices et corrections personnalis&#233;s.</div>
+        <div class="haiti-use-ht">&#127469;&#127481; Tjit&#232; IA pou prepare BAK. Jenere egz&#232;sis ak koreksyon p&#232;sonalize.</div>
+      </div>
+      <div class="haiti-card">
+        <div class="haiti-sector">&#128231;</div>
+        <div class="haiti-title">Diaspora</div>
+        <div class="haiti-use-fr">&#127467;&#127479; R&#233;diger courriers officiels en fran&#231;ais parfait. Traduire et expliquer des documents administratifs.</div>
+        <div class="haiti-use-ht">&#127469;&#127481; Ekri let ofisy&#232;l nan bon fran&#231;e. Tradui ak eksplike dokiman administratif.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IA & KREYOL -->
+  <div class="session-card" style="border-color:rgba(26,107,60,0.25)">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">&#127469;&#127481; Sp&#233;cial Krey&#242;l · Espesyal Krey&#242;l</div>
+        <div class="session-title-fr">IA &amp; Krey&#242;l &#8212; Limites et astuces pour notre langue</div>
+        <div class="session-title-ht">IA &amp; Krey&#242;l &#8212; Limit ak kons&#232;y pou lang nou an</div>
+      </div>
+    </div>
+    <div class="bilingual-block">
+      <div class="expl-box expl-fr">
+        <span class="lang-label lang-fr">&#127467;&#127479; FR</span>
+        Le Krey&#242;l ha&#239;tien est <strong>sous-repr&#233;sent&#233; dans les donn&#233;es d'entra&#238;nement</strong> des grands mod&#232;les IA. Cela cr&#233;e des limites &#8212; mais des techniques existent pour contourner cela intelligemment.
+      </div>
+      <div class="expl-box expl-ht">
+        <span class="lang-label lang-ht">&#127469;&#127481; HT</span>
+        Krey&#242;l ay&#279;syen pa <strong>twop reprezante nan done gwo mod&#232;l IA yo</strong>. Sa kreye limit &#8212; men gen teknik pou depeye ladan yo entelijamman.
+      </div>
+    </div>
+    <div class="kreol-tips">
+      <div class="kreol-card">
+        <div class="kreol-num">01</div>
+        <div class="kreol-tip-title">Prompt FR &#8594; R&#233;ponse HT</div>
+        <div class="kreol-tip-desc">&#127467;&#127479; &#201;cris ton prompt en fran&#231;ais pour la meilleure qualit&#233;, puis demande &#224; l'IA de <strong>traduire sa r&#233;ponse en Krey&#242;l ha&#239;tien</strong>.<br><br>&#127469;&#127481; Ekri pwonp ou an fran&#231;e pou pi bon kalite, epi mande IA a <strong>tradui repons li an Krey&#242;l Ay&#279;syen</strong>.</div>
+      </div>
+      <div class="kreol-card">
+        <div class="kreol-num">02</div>
+        <div class="kreol-tip-title">Toujou v&#233;rifie · Toujou v&#232;rifye</div>
+        <div class="kreol-tip-desc">&#127467;&#127479; L'IA fait parfois des erreurs grammaticales en Krey&#242;l. <strong>Toujours relire et corriger</strong> avant de partager un texte officiel ou professionnel.<br><br>&#127469;&#127481; IA f&#232; er&#232; nan Krey&#242;l pafwa. <strong>Toujou reli epi korije</strong> anvan ou pataje yon tèks ofisy&#232;l.</div>
+      </div>
+      <div class="kreol-card">
+        <div class="kreol-num">03</div>
+        <div class="kreol-tip-title">Sois explicite · Presize lang ou</div>
+        <div class="kreol-tip-desc">&#127467;&#127479; Pr&#233;cise <em>&#171;&#160;Krey&#242;l ha&#239;tien&#160;&#187;</em> et non juste &#171;&#160;Creole&#160;&#187; pour &#233;viter les confusions avec d'autres cr&#233;oles (martiniquais, guadeloup&#233;en).<br><br>&#127469;&#127481; Di <em>&#171; Krey&#242;l Ay&#279;syen &#187;</em> e pa s&#232;lman &#171; Creole &#187; pou evite konfizyon ak lòt lang krey&#242;l yo.</div>
+      </div>
+      <div class="kreol-card">
+        <div class="kreol-num">04</div>
+        <div class="kreol-tip-title">Meilleurs outils en 2026</div>
+        <div class="kreol-tip-desc">&#127467;&#127479; <strong>Claude</strong> et <strong>ChatGPT</strong> donnent les meilleures r&#233;ponses en Krey&#242;l. Gemini s'am&#233;liore. Mistral reste tr&#232;s limit&#233;.<br><br>&#127469;&#127481; <strong>Claude</strong> ak <strong>ChatGPT</strong> bay pi bon repons. Gemini ap amelyore. Mistral rete limite anpil.</div>
+      </div>
     </div>
   </div>
 
@@ -2096,6 +2238,169 @@ IA: [reponn avèk VRÈ
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- PROMPT TEMPLATES -->
+  <div class="session-card" style="border-color:rgba(26,58,107,0.3)">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">&#128203; Biblioth&#232;que · Bibliyot&#232;k</div>
+        <div class="session-title-fr">Prompts pr&#234;ts-&#224;-l&#8217;emploi &#8212; Copie et adapte</div>
+        <div class="session-title-ht">Pwonp pr&#232; pou itilize &#8212; Kopye epi adapte</div>
+      </div>
+    </div>
+    <div class="bilingual-block">
+      <div class="expl-box expl-fr">
+        <span class="lang-label lang-fr">&#127467;&#127479; FR</span>
+        Ces templates ont &#233;t&#233; test&#233;s et optimis&#233;s. Copie-les, remplace les parties entre <code>[crochets]</code> et utilise-les imm&#233;diatement. Les <span style="color:#3a8;font-weight:700">blocs verts</span> sont la version Krey&#242;l.
+      </div>
+      <div class="expl-box expl-ht">
+        <span class="lang-label lang-ht">&#127469;&#127481; HT</span>
+        Mod&#232;l sa yo te teste epi optimize. Kopye yo, ranplase pati ki nan <code>[kroche]</code> epi itilize yo imedyatman. <span style="color:#3a8;font-weight:700">Bl&#242;k v&#232;t</span> yo se v&#232;syon Krey&#242;l la.
+      </div>
+    </div>
+    <div class="prompt-templates-grid">
+
+      <div class="pt-card">
+        <div class="pt-category">&#128231; Email professionnel</div>
+        <div class="pt-title">Relance client · Relans kliyan</div>
+        <div class="pt-prompt">Tu es un expert en communication B2B.
+Je dois relancer [NOM CLIENT] qui n'a pas
+repondu depuis [X JOURS] a mon offre de
+[MONTANT].
+Email: chaleureux, max 5 lignes, CTA clair.
+Format: Objet + Corps.</div>
+        <div class="pt-prompt pt-ht">Ou se yon ekspè kominikasyon.
+Mwen dwe relanse [NON KLIYAN] ki pa
+reponn depi [X JOU] sou ofri [MONTAN].
+imèl: cho, maks 5 liy, CTA klè.
+Fòma: Sijè + Kò imèl.</div>
+      </div>
+
+      <div class="pt-card">
+        <div class="pt-category">&#127912; Marketing · Maketing</div>
+        <div class="pt-title">Post Instagram · Pòs Instagram</div>
+        <div class="pt-prompt">Tu es expert en marketing pour TPE hai&#776;tiennes.
+Cre&#769;e un post Instagram pour [PRODUIT].
+Ton: [professionnel / amical / urgence].
+Inclure: accro&#770;che + de&#769;tail + CTA
++ 5 hashtags pertinents.</div>
+        <div class="pt-prompt pt-ht">Ou se yon maketing ekspè pou biznis Ayiti.
+Kreye yon pòs pou [PWODUI].
+Ton: [pwofesyonèl / amical / ijans].
+Mete: tit + detay + CTA + 5 hashtag.</div>
+      </div>
+
+      <div class="pt-card">
+        <div class="pt-category">&#128202; Analyse · Analiz</div>
+        <div class="pt-title">R&#233;sumer un rapport · Rezime rapò</div>
+        <div class="pt-prompt">Tu es analyste expert.
+Voici un texte: [COLLER LE TEXTE ICI]
+Re&#769;sume en:
+1. 3 points cle&#769;s (1 ligne chacun)
+2. 1 tableau des chiffres importants
+3. 1 recommandation actionnable.</div>
+        <div class="pt-prompt pt-ht">Ou se yon analis ekspè.
+Isit tèks la: [KOLE TÈKS ICI]
+Rezime nan:
+1. 3 pwen klè (1 liy chak)
+2. 1 tablo chif enpòtan
+3. 1 rekòmandasyon pou aji.</div>
+      </div>
+
+      <div class="pt-card">
+        <div class="pt-category">&#128218; &#201;ducation · Edikasyon</div>
+        <div class="pt-title">Expliquer un concept · Eksplike konsèp</div>
+        <div class="pt-prompt">Explique [CONCEPT] a&#768; quelqu'un qui a
+[NIVEAU: de&#769;butant / lyce&#769;en / pro].
+Utilise:
+- 1 analogie simple du quotidien
+- 1 exemple concret d'Hai&#776;ti
+- Pas de jargon technique.</div>
+        <div class="pt-prompt pt-ht">Eksplike [KONSEP] ba moun ki nan nivo
+[NIVO: komanse / lise / pwofesyonèl].
+Itilize:
+- 1 analoji senp nan lavi chak jou
+- 1 egzanp konkrè nan Ayiti
+- Pa jagon teknik.</div>
+      </div>
+
+      <div class="pt-card">
+        <div class="pt-category">&#128188; RH &amp; CV · Travay</div>
+        <div class="pt-title">Lettre de motivation · Let motivasyon</div>
+        <div class="pt-prompt">Tu es expert RH.
+Re&#769;dige une lettre de motivation pour
+[PO&#770;STE] chez [ENTREPRISE].
+Il s'agit de [NOM], qui a [COMP+EXP].
+Format: 3 paragraphes, ton pro, max 250 mots.</div>
+        <div class="pt-prompt pt-ht">Ou se yon ekspè RH.
+Ekri yon let motivasyon pou [PÒS]
+nan [ANTREPRIZ].
+Se [NON] ki gen [KONPETANS+EKSPERYANS].
+Fòma: 3 paragraf, ton pro, maks 250 mo.</div>
+      </div>
+
+      <div class="pt-card">
+        <div class="pt-category">&#127469;&#127481; 100% Krey&#242;l</div>
+        <div class="pt-title">Traduction officielle · Tradiksyon ofisyèl</div>
+        <div class="pt-prompt">Tradui tèks ofisyèl sa a an Krey&#242;l
+Ay&#279;syen klè ak kòrèk:
+[KOLE TÈKS FRANSÈ ICI]
+- Mo senp, pa jagon
+- Respekte ton ofisyèl la
+- Klarifye si gen mo san ekvalan dirèk.</div>
+        <div class="pt-prompt pt-ht">Traduis ce texte officiel en Krey&#242;l:
+[COLLER LE TEXTE ICI]
+- Mots simples, pas de jargon
+- Ton officiel conserve&#769;
+- Clarifier si un mot n'a pas d'e&#769;quivalent.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COMPARATIF MODELES -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">&#9878;&#65039; Comparatif · Konparatif</div>
+        <div class="session-title-fr">Quel mod&#232;le choisir ? Tableau comparatif 2026</div>
+        <div class="session-title-ht">Ki mod&#232;l pou chwazi ? Tablo konparatif 2026</div>
+      </div>
+    </div>
+    <div class="bilingual-block">
+      <div class="expl-box expl-fr">
+        <span class="lang-label lang-fr">&#127467;&#127479; FR</span>
+        Pas besoin d'utiliser <em>tous</em> les outils. Comprends leurs forces et choisis le bon outil pour la bonne t&#226;che. &#9989; = excellent &#183; &#128993; = correct &#183; &#10060; = limit&#233;.
+      </div>
+      <div class="expl-box expl-ht">
+        <span class="lang-label lang-ht">&#127469;&#127481; HT</span>
+        Pa bezwen itilize <em>tout</em> zouti yo. Konprann f&#242;s chak youn epi chwazi bon zouti pou bon travay. &#9989; = ekselan &#183; &#128993; = k&#242;rèk &#183; &#10060; = limite.
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Crit&#232;re · Kriteryon</th>
+          <th><div class="cm-name">ChatGPT</div><div class="cm-sub">OpenAI</div></th>
+          <th><div class="cm-name">Claude</div><div class="cm-sub">Anthropic</div></th>
+          <th><div class="cm-name">Gemini</div><div class="cm-sub">Google</div></th>
+          <th><div class="cm-name">Perplexity</div><div class="cm-sub">Search AI</div></th>
+          <th><div class="cm-name">Mistral</div><div class="cm-sub">Open source</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>&#127462;&#65039;&#127463;&#65039; Gratuit</td><td>&#9989;</td><td>&#9989;</td><td>&#9989;</td><td>&#9989;</td><td>&#9989;</td></tr>
+        <tr><td>&#128196; Longs documents</td><td>&#128993;</td><td>&#9989; Mieux</td><td>&#128993;</td><td>&#10060;</td><td>&#128993;</td></tr>
+        <tr><td>&#128269; Recherche web</td><td>&#128993;</td><td>&#10060;</td><td>&#9989;</td><td>&#9989; Mieux</td><td>&#10060;</td></tr>
+        <tr><td>&#128187; Code</td><td>&#9989;</td><td>&#9989;</td><td>&#9989;</td><td>&#10060;</td><td>&#9989;</td></tr>
+        <tr><td>&#127912; Image / Vision</td><td>&#9989;</td><td>&#9989;</td><td>&#9989;</td><td>&#128993;</td><td>&#10060;</td></tr>
+        <tr><td>&#127469;&#127481; Krey&#242;l ha&#239;tien</td><td>&#128993;</td><td>&#128993;</td><td>&#128993;</td><td>&#128993;</td><td>&#10060;</td></tr>
+        <tr><td>&#128274; Confidentialit&#233;</td><td>&#128993;</td><td>&#9989; Mieux</td><td>&#128993;</td><td>&#128993;</td><td>&#9989; Local</td></tr>
+      </tbody>
+    </table>
     </div>
   </div>
 
@@ -2708,6 +3013,53 @@ Ajan fè:
       <div class="outcome-title-fr">Stratégie personnelle</div>
       <div class="outcome-title-ht">Estrateji pèsonèl</div>
       <div class="outcome-desc">Repart avec un plan 30 jours concret · Ale avèk yon plan 30 jou konkrè</div>
+    </div>
+  </div>
+
+  <!-- PLAN 30 JOURS -->
+  <div class="session-card" style="border-color:rgba(26,58,107,0.35)">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">&#128467;&#65039; Apr&#232;s la formation · Apr&#232; f&#242;masyon an</div>
+        <div class="session-title-fr">Plan d&#8217;action 30 jours &#8212; Ne pas perdre l&#8217;&#233;lan</div>
+        <div class="session-title-ht">Plan aksyon 30 jou &#8212; Pa pedi &#233;lan an</div>
+      </div>
+    </div>
+    <div class="bilingual-block">
+      <div class="expl-box expl-fr">
+        <span class="lang-label lang-fr">&#127467;&#127479; FR</span>
+        La formation se termine, mais l'apprentissage continue. Voici un plan semaine par semaine pour ancrer l'habitude IA dans ta vie professionnelle. <strong>15 minutes par jour suffisent.</strong>
+      </div>
+      <div class="expl-box expl-ht">
+        <span class="lang-label lang-ht">&#127469;&#127481; HT</span>
+        F&#242;masyon an fini, men aprantisaj la kontinye. Men yon plan sem&#232;n pa sem&#232;n pou anchore abitid IA nan lavi pwofesy&#242;n&#232;l ou. <strong>15 minit pa jou ase.</strong>
+      </div>
+    </div>
+    <div class="plan-grid">
+      <div class="plan-week">
+        <div class="plan-week-num">&#128197; Semaine 1 · Sem&#232;n 1</div>
+        <div class="plan-week-goal">Prendre l&#8217;habitude</div>
+        <div class="plan-action">&#127467;&#127479; Utilise ChatGPT ou Claude <strong>15 min/jour</strong> pour une t&#226;che que tu fais d&#233;j&#224; (email, r&#233;sum&#233;, recherche). Objectif&#160;: rendre l&#8217;IA aussi naturelle que Google.</div>
+        <div class="plan-action-ht">&#127469;&#127481; Itilize ChatGPT oswa Claude 15 min/jou pou yon travay ou f&#232; deja. Objektif: f&#232; IA osi natir&#232;l pase Google.</div>
+      </div>
+      <div class="plan-week">
+        <div class="plan-week-num">&#128197; Semaine 2 · Sem&#232;n 2</div>
+        <div class="plan-week-goal">Ma&#238;triser le prompt</div>
+        <div class="plan-action">&#127467;&#127479; Applique le framework <strong>M.E.G.A</strong> sur 5 vrais projets. Compare tes r&#233;sultats avant/apr&#232;s la structure. Note ce qui fonctionne le mieux.</div>
+        <div class="plan-action-ht">&#127469;&#127481; Aplrike M.E.G.A sou 5 vr&#232; pwoj&#232;. Konpare rezilta ou anvan/apr&#232; estrikti a. Note sa ki travay pi byen.</div>
+      </div>
+      <div class="plan-week">
+        <div class="plan-week-num">&#128197; Semaine 3 · Sem&#232;n 3</div>
+        <div class="plan-week-goal">Automatiser</div>
+        <div class="plan-action">&#127467;&#127479; Cr&#233;e <strong>1 workflow Zapier ou Make</strong> pour automatiser quelque chose que tu d&#233;testes faire manuellement (tri d&#8217;emails, alertes, notifications).</div>
+        <div class="plan-action-ht">&#127469;&#127481; Kreye 1 fluksogram Zapier oswa Make pou otomatize yon bagay ou rayi f&#232; man&#232;lman (triye im&#232;l, al&#232;t, notifikasyon).</div>
+      </div>
+      <div class="plan-week">
+        <div class="plan-week-num">&#128197; Semaine 4 · Sem&#232;n 4</div>
+        <div class="plan-week-goal">Partager &amp; ancrer</div>
+        <div class="plan-action">&#127467;&#127479; <strong>Enseigne une technique IA</strong> &#224; un coll&#232;gue ou proche. Enseigner, c&#8217;est la meilleure mani&#232;re de vraiment retenir ce qu&#8217;on a appris.</div>
+        <div class="plan-action-ht">&#127469;&#127481; <strong>Anseye yon teknik IA</strong> ba yon kol&#232;g oswa yon pw&#242;ch. Anseye se pi bon f&#224;son pou vr&#232;man kenbe sa ou te aprann.</div>
+      </div>
     </div>
   </div>
 
