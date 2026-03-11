@@ -7,19 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #faf7f2;
-    --surface: #f2ede4;
-    --card: #ffffff;
-    --ink: #1a1209;
-    --ink2: #3d3020;
-    --muted: #9a8e7e;
-    --border: #e0d8cc;
-    --day1: #c8392b;
-    --day2: #1a6b3c;
-    --day3: #1a3a6b;
+    --bg: #1a1209;
+    --surface: #241a10;
+    --card: #20170d;
+    --ink: #f2ede4;
+    --ink2: #cbbca6;
+    --muted: #8c7e6a;
+    --border: #38281a;
+    --day1: #e25746;
+    --day2: #34aa66;
+    --day3: #4381cc;
     --accent: #e8a020;
-    --fr-color: #c8392b;
-    --ht-color: #1a6b3c;
+    --fr-color: #e25746;
+    --ht-color: #34aa66;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,9 +47,9 @@
     display: flex;
     border: 1.5px solid var(--border);
     border-radius: 100px;
-    background: white;
+    background: var(--card);
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
   }
 
   .timeline-header-link {
@@ -65,8 +65,8 @@
     padding: 8px 16px;
     border: 1.5px solid var(--border);
     border-radius: 100px;
-    background: white;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    background: var(--card);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
     transition: border-color 0.2s, color 0.2s, background 0.2s;
     font-weight: 700;
   }
@@ -74,7 +74,7 @@
   .timeline-header-link:hover {
     border-color: var(--accent);
     color: var(--accent);
-    background: #fffbf0;
+    background: var(--surface);
   }
 
   @media (max-width: 600px) {
@@ -96,14 +96,14 @@
 
   .lang-btn.active {
     background: var(--ink);
-    color: white;
+    color: var(--bg);
     border-radius: 100px;
   }
 
   /* HERO */
   .hero {
-    background: var(--ink);
-    color: white;
+    background: #110b05;
+    color: var(--ink);
     padding: 100px 64px 80px;
     position: relative;
     overflow: hidden;
@@ -115,7 +115,7 @@
     opacity: 0.04;
     background-image: repeating-linear-gradient(
       45deg,
-      white 0px, white 1px,
+      var(--ink) 0px, var(--ink) 1px,
       transparent 1px, transparent 12px
     );
   }
