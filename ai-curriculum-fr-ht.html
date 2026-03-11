@@ -143,13 +143,44 @@
     border-radius: 2px;
   }
 
+  .hero-logo-wrapper {
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+
+  .hero-logo { 
+    width: 80px; 
+    height: auto; 
+    border-radius: 8px; /* Slightly rounded corners inside the circle */
+  }
+
+  .hero-logo-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 40px;
+  }
+
   .hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(48px, 7vw, 96px);
+    font-size: clamp(40px, 6.5vw, 84px);
     font-weight: 900;
-    line-height: 0.95;
+    line-height: 1.05;
     letter-spacing: -0.02em;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .hero h1 em {
@@ -159,10 +190,10 @@
 
   .hero-sub {
     font-size: 16px;
-    color: rgba(255,255,255,0.5);
-    max-width: 560px;
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
     line-height: 1.7;
-    margin-top: 24px;
+    margin: 0 auto 32px;
   }
 
   .hero-sub .ht {
@@ -682,7 +713,8 @@
     .example-body { grid-template-columns: 1fr; }
     .activity-bilingual { grid-template-columns: 1fr; }
     .outcomes-grid { grid-template-columns: 1fr; }
-    .hero-stats { flex-wrap: wrap; gap: 24px; }
+    .hero-stats { flex-wrap: wrap; gap: 24px; justify-content: center; }
+    .stat { flex: none; width: calc(50% - 12px); border-right: none; margin-right: 0; padding-right: 0; }
     .day-intro { grid-template-columns: 1fr; }
     .day-desc { grid-template-columns: 1fr; }
     .lang-toggle { top: 12px; right: 12px; }
@@ -1018,27 +1050,32 @@
 <header class="hero">
   <div class="hero-texture"></div>
 
-  <div class="hero-flag">
-    <div class="flag-bar">
-      <div class="flag-stripe" style="background:#002395"></div>
-      <div class="flag-stripe" style="background:#ED2939"></div>
+  <div class="hero-content" style="position:relative; z-index:2; text-align:center;">
+    <div class="hero-flag" style="margin-bottom:48px;">
+      <div class="flag-bar">
+        <div class="flag-stripe" style="background:#002395"></div>
+        <div class="flag-stripe" style="background:#ED2939"></div>
+      </div>
+      <span>Français</span>
+      <span style="color:rgba(255,255,255,0.2)">·</span>
+      <div class="flag-bar">
+        <div class="flag-stripe" style="background:#00209F"></div>
+        <div class="flag-stripe" style="background:#D21034"></div>
+      </div>
+      <span>Kreyòl Ayisyen</span>
     </div>
-    <span>Français</span>
-    <span style="color:rgba(255,255,255,0.2)">·</span>
-    <div class="flag-bar">
-      <div class="flag-stripe" style="background:#00209F"></div>
-      <div class="flag-stripe" style="background:#D21034"></div>
+
+    <div class="hero-logo-wrapper">
+      <img src="logo-ccmd.jpg" alt="Logo CCMD" class="hero-logo">
     </div>
-    <span>Kreyòl Ayisyen</span>
-  </div>
+    <div class="hero-logo-text">Centre Communautaire des métiers digitaux</div>
 
-  <img src="logo-ccmd.jpg" alt="Logo CCMD" class="hero-logo">
-  <h1>Formation sur<br><em>l'Intelligence<br>Artificielle</em></h1>
+    <h1>Formation sur<br><em>l'Intelligence Artificielle</em></h1>
 
-  <p class="hero-sub">
-    Une formation intensive de 3 jours · 3 heures par jour · 
-    <span class="ht">Yon fòmasyon entansif 3 jou · 3 zè pa jou ·</span>
-  </p>
+    <p class="hero-sub">
+      Une formation intensive de 3 jours · 3 heures par jour · 
+      <span class="ht">Yon fòmasyon entansif 3 jou · 3 zè pa jou ·</span>
+    </p>
 
   <div class="hero-stats">
     <div class="stat">
@@ -1057,6 +1094,7 @@
       <div class="stat-num">9</div>
       <div class="stat-label">Activités pratiques<span class="ht">Aktivite pratik</span></div>
     </div>
+  </div>
   </div>
 </header>
 
