@@ -854,6 +854,104 @@
   .quiz-cta-btn { flex-shrink: 0; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); padding: 10px 18px; border: 1.5px solid rgba(232,160,32,0.4); border-radius: 100px; white-space: nowrap; transition: background 0.2s; }
   .quiz-cta-banner:hover .quiz-cta-btn { background: rgba(232,160,32,0.1); border-color: var(--accent); }
   @media (max-width: 600px) { .quiz-cta-banner { flex-direction: column; align-items: flex-start; gap: 14px; } }
+
+  /* TOOLS GRID */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .tool-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .tool-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .tool-icon { font-size: 26px; }
+  .tool-name { font-weight: 700; font-size: 14px; color: var(--ink); }
+  .tool-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(232,160,32,0.1);
+    padding: 3px 8px;
+    border-radius: 100px;
+    display: inline-block;
+    width: fit-content;
+  }
+  .tool-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* GLOSSARY */
+  .glossary-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0;
+    margin: 32px 0 0;
+  }
+  .glossary-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .glossary-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .glossary-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 900;
+  }
+  .glossary-title em { font-style: italic; color: var(--accent); }
+  .glossary-sub { font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .glossary-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .glossary-table th {
+    background: var(--card2, #211810);
+    padding: 14px 20px;
+    text-align: left;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .glossary-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .glossary-table tr:last-child td { border-bottom: none; }
+  .glossary-table tr:hover td { background: rgba(255,255,255,.02); }
+  .gl-term {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 13px;
+  }
+  .gl-ht { color: var(--ink); font-weight: 600; }
+  .gl-desc { color: var(--muted); font-size: 13px; margin-top: 3px; font-style: italic; }
 </style>
 </head>
 <body>
@@ -1458,6 +1556,65 @@ R: [Envante 3 desizyon
       <div class="day-desc">
         <div class="day-desc-text fr"><span class="lang-label lang-fr">🇫🇷 FR</span> Aujourd'hui, on passe de spectateur à opérateur. Le prompting est un vrai savoir-faire : la même question posée différemment peut donner un résultat médiocre ou exceptionnel. C'est la compétence la plus importante à acquérir.</div>
         <div class="day-desc-text ht"><span class="lang-label lang-ht">🇭🇹 HT</span> Jodi a, nou pase de espektatè a operatè. Pwonpting se yon vrè konpetans: menm kesyon ki poze diferamman ka bay yon rezilta medyòk oswa eksepsyonèl. Se konpetans ki pi enpòtan pou akeri.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTILS RECOMMANDÉS -->
+  <div class="session-card" style="margin-top:0;border-color:rgba(26,107,60,0.3)">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">🧰 Boîte à outils · Bwat zouti</div>
+        <div class="session-title-fr">Outils IA recommandés — Ton arsenal 2026</div>
+        <div class="session-title-ht">Zouti IA rekòmande — Arsenal ou an 2026</div>
+      </div>
+    </div>
+    <div class="bilingual-block" style="margin-bottom:0">
+      <div class="expl-box expl-fr">
+        <span class="lang-label lang-fr">🇫🇷 FR</span>
+        Ces outils sont <strong>gratuits ou freemium</strong> et couvrent 90% des besoins d'un professionnel augmenté par l'IA. Tu n'as pas besoin de tout utiliser — choisis 2-3 selon ton usage principal.
+      </div>
+      <div class="expl-box expl-ht">
+        <span class="lang-label lang-ht">🇭🇹 HT</span>
+        Zouti sa yo se <strong>gratis oswa freemium</strong> epi kouvri 90% bezwen yon pwofesyonèl ki ogmante pa IA. Pa bezwen itilize tout — chwazi 2-3 dapre sans prensipal ou.
+      </div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-icon">🤖</div>
+        <div class="tool-name">ChatGPT</div>
+        <div class="tool-tag">IA généraliste</div>
+        <div class="tool-desc">Le plus connu. Polyvalent pour écrire, analyser, coder. GPT-4o gratuit. · Pi koni. Pou ekri, analize, kode.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">✨</div>
+        <div class="tool-name">Claude</div>
+        <div class="tool-tag">IA longue mémoire</div>
+        <div class="tool-desc">Meilleur pour les longs documents et le raisonnement nuancé. Sécurité prioritaire. · Pi bon pou dokiman long.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🔍</div>
+        <div class="tool-name">Perplexity</div>
+        <div class="tool-tag">IA + recherche web</div>
+        <div class="tool-desc">Répond avec des sources vérifiées en temps réel. Remplace Google pour la recherche. · Reponn avèk sous verifye.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🎨</div>
+        <div class="tool-name">Canva Magic</div>
+        <div class="tool-tag">Créatif visuel</div>
+        <div class="tool-desc">Génère visuels, présentations et posts en quelques secondes avec l'IA intégrée. · Kreye vizyèl ak IA.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">💻</div>
+        <div class="tool-name">Cursor</div>
+        <div class="tool-tag">Coding IA</div>
+        <div class="tool-desc">Éditeur de code IA. Décris ce que tu veux en français, l'IA écrit le code. Débutants bienvenus. · Ekri kòd an franse.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🎙️</div>
+        <div class="tool-name">NotebookLM</div>
+        <div class="tool-tag">Analyse docs</div>
+        <div class="tool-desc">Upload tes PDFs et pose des questions sur leur contenu. RAG simple sans code. · Poze kesyon sou PDF ou.</div>
       </div>
     </div>
   </div>
@@ -2567,6 +2724,73 @@ Ajan fè:
     <div class="quiz-cta-btn">Commencer le Quiz →</div>
   </a>
 </section>
+
+<!-- GLOSSARY -->
+<div class="glossary-section">
+  <div class="container">
+    <div class="glossary-header">
+      <div class="glossary-tag">📖 Ressource · Resous</div>
+      <h2 class="glossary-title">Lexique <em>IA en Kreyòl</em></h2>
+      <div class="glossary-sub">Termes techniques traduits et expliqués en images · Tèm teknik tradui ak eksplike an imaj</div>
+    </div>
+    <table class="glossary-table">
+      <thead>
+        <tr>
+          <th>🇫🇷 Terme français</th>
+          <th>🇭🇹 Kreyòl / Konsèp</th>
+          <th>💡 Explication imagée · Eksplikasyon an imaj</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="gl-term">Prompt</div></td>
+          <td><div class="gl-ht">Lòd / Pwonp</div><div class="gl-desc">Sa w mande IA a fè</div></td>
+          <td>C'est <strong>la commande que tu donnes à l'IA</strong>. Comme dire à un cuisinier exactement ce que tu veux manger. Plus tu es précis, meilleur est le plat. · Se <strong>lòd ou bay IA a</strong>. Tankou di yon kizinye egzakteman sa ou vle manje.</td>
+        </tr>
+        <tr>
+          <td><div class="gl-term">Hallucination</div></td>
+          <td><div class="gl-ht">Radotaj / Mantri konfyan</div><div class="gl-desc">Lè IA a envante manti ak konfyans</div></td>
+          <td>Quand l'IA <strong>invente des faits avec confiance totale</strong>. Imagine un conteur qui invente des détails sur un événement qu'il n'a pas vécu, mais avec une conviction absolue. · Lè IA <strong>envante fè avèk konfyans total</strong>. Tankou yon racontè ki envante detay sou yon evènman li pa janm viv.</td>
+        </tr>
+        <tr>
+          <td><div class="gl-term">Training Data</div></td>
+          <td><div class="gl-ht">Done antrènman</div><div class="gl-desc">Liv ak tèks IA a te itilize pou l aprann</div></td>
+          <td>C'est <strong>toutes les lectures de l'IA</strong> avant qu'elle te réponde. Comme les millions de livres qu'un enfant prodige aurait lus pour devenir expert. · Se <strong>tout lekti IA a te fè</strong> anvan li reponn ou. Tankou dè milyon liv yon anfan pwodij ta li pou vin ekspè.</td>
+        </tr>
+        <tr>
+          <td><div class="gl-term">Fine-tuning</div></td>
+          <td><div class="gl-ht">Pèsonalizasyon / Ataje</div><div class="gl-desc">Lè yo antrene IA a sou yon sijè presi</div></td>
+          <td>C'est comme prendre un médecin généraliste et lui faire <strong>une spécialisation en cardiologie</strong>. L'IA de base devient experte dans UN domaine précis. · Tankou pran yon doktè jeneral epi fè l <strong>espesyalize nan kèk domèn</strong>. IA debaz la vin ekspè nan yon domèn presi.</td>
+        </tr>
+        <tr>
+          <td><div class="gl-term">Multimodal</div></td>
+          <td><div class="gl-ht">Miltimodal</div><div class="gl-desc">IA ki konprann tèks, foto, ak son an menm tan</div></td>
+          <td>Une IA <strong>qui voit, entend et lit</strong> en même temps. Comme un assistant qui peut analyser ta photo, écouter ton audio et lire ton document en une seule fois. · Yon IA <strong>ki wè, tande ak li</strong> an menm tan. Tankou yon asistan ki ka analize foto ou, koute odyo ou, epi li dokiman ou an yon sèl fwa.</td>
+        </tr>
+        <tr>
+          <td><div class="gl-term">Espace Latent</div></td>
+          <td><div class="gl-ht">Espis Latan</div><div class="gl-desc">Kat ide IA a navige ladan l</div></td>
+          <td>La <strong>carte géographique géante</strong> où l'IA range toutes les idées qu'elle a apprises. Les mots proches en sens sont proches sur la carte. L'IA génère du texte en traçant un chemin. · <strong>Kat jeyografik jeyan</strong> kote IA a mete tout ide li te aprann yo. Mo ki pwòch nan siyifikasyon pwòch sou kat la.</td>
+        </tr>
+        <tr>
+          <td><div class="gl-term">RAG</div></td>
+          <td><div class="gl-ht">Memwa imedyat</div><div class="gl-desc">Lè ou ba IA a fichye pa ou pou l li anvan l reponn</div></td>
+          <td>Retrieval-Augmented Generation. C'est donner à l'IA <strong>tes propres documents à lire</strong> avant qu'elle réponde. Comme permettre à un médecin de lire ton dossier médical avant la consultation. · Se ba IA a <strong>pwòp dokiman pa ou pou l li</strong> anvan li reponn. Tankou kite yon doktè li dosye medikal ou anvan konsiltasyon.</td>
+        </tr>
+        <tr>
+          <td><div class="gl-term">Token</div></td>
+          <td><div class="gl-ht">Tokèn / Moso mo</div><div class="gl-desc">Moso tèks IA a tretèman (¾ yon mo)</div></td>
+          <td>L'IA ne lit pas mot par mot — elle découpe le texte en <strong>petits morceaux appelés tokens</strong> (≈ ¾ d'un mot). "Bonjour" = 2 tokens. C'est l'unité de base de sa lecture. · IA pa li mo pa mo — li koupe tèks an <strong>ti moso ki rele tokèn</strong> (≈ ¾ yon mo).</td>
+        </tr>
+        <tr>
+          <td><div class="gl-term">Agent IA</div></td>
+          <td><div class="gl-ht">Ajan IA</div><div class="gl-desc">IA ki aji poukont li — navige, voye imèl, fè travay</div></td>
+          <td>Un agent IA ne se contente pas de répondre — il <strong>agit de façon autonome</strong>. Il navigue sur le web, envoie des emails, enchaîne des tâches. Comme un assistant humain mais 100% automatique. · Yon ajan IA pa sèlman reponn — li <strong>aji otonom</strong>. Li navige, voye imèl, chènte travay. Tankou yon asistan imen men 100% otomatik.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <!-- PHILOSOPHY -->
 <div class="philosophy">
