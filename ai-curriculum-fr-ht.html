@@ -1167,6 +1167,56 @@ GPT-4: ~128k tokèn kontèks
         </div>
       </div>
 
+      <!-- LATENT SPACE — NEW SECTION -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">4b</div>
+          <div class="step-titles">
+            <div class="step-title-fr">L'Espace Latent — comment l'IA navigue dans une carte d'idées</div>
+            <div class="step-title-ht">Espis Latan — kijan IA navige nan yon kat ide</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            L'IA ne cherche pas dans une base de données de phrases toutes faites. Elle a transformé tout ce qu'elle a lu en une <strong>carte géographique géante</strong> (l'<strong>espace latent</strong>). Dans cette carte, le mot "Chien" est proche de "Fidèle" et "Aboyer". Quand vous lui demandez une histoire, elle trace un chemin entre ces points. Elle ne <em>copie-colle</em> pas — elle <em>navigue</em>.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            IA pa chache nan yon baz done fraz ki te deja ekri. Li transfòme tout sa li li an yon <strong>kat jeyografik jeyan</strong> ("<strong>espis latan</strong>"). Nan kat sa a, mo "Chyen" toupre mo "Fidèl" ak "Wape". Lè ou mande l yon istwa, li trase yon chemen ant pwen sa yo. Li pa <em>kopye-kole</em> — li <em>navige</em>.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">🗺️</span> Espace latent visualisé · Espis latan vizalize</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>Carte mentale de l'IA:
+"Roi" ──────── "Reine"
+  |                |
+"Homme" ──── "Femme"
+
+Roi - Homme + Femme
+≈ Reine ✅
+(l'IA fait des maths
+ sur des idées)</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>Kat mantal IA:
+"Wa" ──────── "Rèn"
+  |                |
+"Gason" ──── "Fanm"
+
+Wa - Gason + Fanm
+≈ Rèn ✅
+(IA fè matematik
+ sou ide)</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="step">
         <div class="step-header">
           <div class="step-num">5</div>
@@ -1756,6 +1806,142 @@ pad by kategori."
     </div>
   </div>
 
+  <!-- MEGA + RAG — NEW SECTIONS -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">⚡ Bonus · Bonus — Techniques Pro</div>
+        <div class="session-title-fr">Le Framework M.E.G.A &amp; le RAG : prompts surpuissants + mémoire sur mesure</div>
+        <div class="session-title-ht">Kad M.E.G.A &amp; RAG: pwonp sipèpisan + memwa sou mezi</div>
+      </div>
+    </div>
+    <div class="steps-container">
+
+      <!-- MEGA -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">★</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Framework M.E.G.A — Pour des prompts surpuissants</div>
+            <div class="step-title-ht">Kad M.E.G.A — Pou pwonp sipèpisan</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Structure du Prompt</span>
+            Pour dépasser le simple "Agis comme un expert", utilisez la structure <strong>M.E.G.A</strong> :<br><br>
+            <strong>M (Mission)</strong> : Ce que l'IA doit accomplir précisément.<br>
+            <strong>E (Environnement)</strong> : Le contexte, l'audience cible, le ton.<br>
+            <strong>G (Goal/Objectif)</strong> : Le résultat final attendu (un tableau, un email, un code).<br>
+            <strong>A (Action)</strong> : Les étapes spécifiques à suivre.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Estrikti Pwonp la</span>
+            Pou depase senp "Aji tankou yon ekspè", itilize estrikti <strong>M.E.G.A</strong> :<br><br>
+            <strong>M (Misyon)</strong> : Sa IA dwe fè egzakteman.<br>
+            <strong>E (Anviwònman)</strong> : Kontèks la, ki moun ki pral li sa, ki ton pou l pran.<br>
+            <strong>G (Gòl/Objektif)</strong> : Rezilta final la (yon tablo, yon imèl, yon kòd).<br>
+            <strong>A (Asyon)</strong> : Etap espesifik pou l swiv.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">⚡</span> M.E.G.A en action · M.E.G.A an aksyon</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>M: Tu es coach en marketing
+   digital pour PME.
+E: Mon audience = gérants 
+   de boutiques en Haïti, 
+   peu familiers avec les 
+   réseaux sociaux.
+G: Un plan de 30 jours 
+   pour Instagram (fichier
+   tableau).
+A: 1. Analyse le secteur
+   2. Propose 3 thèmes
+   3. Crée un calendrier
+   4. Donne 5 exemples
+      de légendes.</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>M: Ou se yon coach maketing
+   dijital pou ti biznis.
+E: Piblik mwen = manadjè
+   boutik ann Ayiti,
+   ki pa twò abitye ak
+   rezo sosyal yo.
+G: Yon plan 30 jou pou
+   Instagram (fichye
+   tablo).
+A: 1. Analize sektè a
+   2. Pwpoze 3 tèm
+   3. Kreye yon kalandriye
+   4. Bay 5 egzanp
+      lejann.</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RAG -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">★</div>
+          <div class="step-titles">
+            <div class="step-title-fr">RAG : Connecter l'IA à tes propres documents</div>
+            <div class="step-title-ht">RAG: Konekte IA ak pwòp dokiman ou yo</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Le <strong>RAG</strong> (Retrieval-Augmented Generation) permet de donner une "mémoire immédiate" à l'IA. Au lieu de se baser uniquement sur ses connaissances générales, elle va d'abord <strong>lire tes fichiers</strong> (PDF, rapports, notes) pour répondre avec précision à tes questions spécifiques. Ex : uploader ton manuel d'entreprise et demander "Quelle est notre politique de remboursement ?"
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            <strong>RAG</strong> (Retrieval-Augmented Generation) pèmèt ou bay IA a yon "memwa imedyat". Olye li baze sou konesans jeneral li sèlman, li pral <strong>li fichye pa ou yo</strong> (PDF, rapò, nòt) anvan pou l reponn kesyon ou yo ak plis presizyon. Eks: telechaje manyèl antrepriz ou epi mande "Ki politik ranbousman nou an?"
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">📂</span> RAG en pratique · RAG an pratik</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>SANS RAG:
+Q: "Quels sont nos tarifs?"
+IA: [répond avec des 
+    infos génériques]
+
+AVEC RAG:
+→ Tu uploades ton PDF
+   de tarifs 2026
+Q: "Quels sont nos tarifs?"
+IA: [répond avec TES
+    vrais tarifs] ✅</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>SAN RAG:
+K: "Ki pri nou yo?"
+IA: [reponn avèk
+    enfò jeneral]
+
+AVÈK RAG:
+→ Ou telechaje PDF
+   pri ou an 2026
+K: "Ki pri nou yo?"
+IA: [reponn avèk VRÈ
+    pri pa ou] ✅</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- SESSION 2.3 -->
   <div class="session-card">
     <div class="session-header">
@@ -2037,6 +2223,75 @@ Ajan fè:
             <div class="activity-col">
               <span class="lang-label lang-ht">🇭🇹 HT</span>
               <strong>Kat dilem etik</strong> : 6 sènaryo reyèl (eks: "Yon IA refize yon kandida pou yon prè san eksplikasyon. Kisa pou fè?"). Gwoup 4 moun, chak gwoup debat epi prezante desizyon li + jistifikasyon ba tout moun.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCAL AI — NEW SECTION -->
+  <div class="session-card">
+    <div class="session-header">
+      <div class="session-header-left">
+        <div class="session-time">🔒 Bonus · Bonus — Souveraineté Numérique</div>
+        <div class="session-title-fr">IA Locale : la souveraineté de tes données</div>
+        <div class="session-title-ht">IA Lokal: souverènte done ou yo</div>
+      </div>
+    </div>
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">★</div>
+          <div class="step-titles">
+            <div class="step-title-fr">Faire tourner une IA sur ton propre ordinateur — sans internet</div>
+            <div class="step-title-ht">Fè yon IA mache sou pwòp òdinatè ou — san entènèt</div>
+          </div>
+        </div>
+        <div class="bilingual-block">
+          <div class="expl-box expl-fr">
+            <span class="lang-label lang-fr">🇫🇷 Explication</span>
+            Il est possible de faire tourner une IA (comme <strong>Llama 3</strong> ou <strong>Mistral</strong>) directement sur ton propre ordinateur <strong>sans aucune connexion internet</strong>. Outils recommandés : <strong>Ollama</strong> ou <strong>LM Studio</strong>. Avantage clé : tes données confidentielles <em>ne quittent jamais ta machine</em>. Idéal pour les entreprises, les professionnels de santé et toute personne soucieuse de confidentialité.
+          </div>
+          <div class="expl-box expl-ht">
+            <span class="lang-label lang-ht">🇭🇹 Eksplikasyon</span>
+            Li posib pou w fè yon IA (tankou <strong>Llama 3</strong> oswa <strong>Mistral</strong>) mache dirèkteman sou pwòp òdinatè ou <strong>san ou pa bezwen entènèt</strong>. Zouti nou rekòmande: <strong>Ollama</strong> oswa <strong>LM Studio</strong>. Avantaj kle: done konfidansyèl ou yo <em>pa janm soti sou machin ou</em>. Pafè pou antrepriz, pwofesyonèl sante ak nenpòt moun ki souye konfidansyalite.
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-header"><span class="example-icon">🖥️</span> IA locale vs cloud · IA lokal vs nwaj</div>
+          <div class="example-body">
+            <div class="example-col">
+              <span class="lang-label lang-fr">🇫🇷 FR</span>
+              <code>☁️ IA Cloud (ChatGPT):
+→ Données envoyées
+   sur serveurs externes
+→ Peut servir à
+   l'entraînement
+→ Nécessite internet
+
+💻 IA Locale (Ollama):
+→ Tout reste sur
+   ton PC
+→ Zéro fuite de données
+→ Fonctionne hors-ligne
+→ Gratuit 100% ✅</code>
+            </div>
+            <div class="example-col">
+              <span class="lang-label lang-ht">🇭🇹 HT</span>
+              <code>☁️ IA Nwaj (ChatGPT):
+→ Done voye sou
+   sèvè ekstèn
+→ Ka sèvi pou
+   antrènman
+→ Bezwen entènèt
+
+💻 IA Lokal (Ollama):
+→ Tout rete sou
+   PC ou
+→ Zewo koule done
+→ Travay san entènèt
+→ Gratis 100% ✅</code>
             </div>
           </div>
         </div>
