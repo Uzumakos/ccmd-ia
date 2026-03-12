@@ -181,7 +181,39 @@ const QUESTIONS=[
 ];
 let db,studentId=null,studentName='',currentQ=0,score=0,streak=0,maxStreak=0,answered=false,timerInterval=null,timeLeft=30,startTime=Date.now(),questionStartTime=Date.now(),answers=[],totalTimeSec=0;
 document.addEventListener('DOMContentLoaded',()=>{db=createSupabaseClient();const inp=document.getElementById('studentName');inp.addEventListener('input',()=>{document.getElementById('startBtn').disabled=inp.value.trim().length<2;});inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&inp.value.trim().length>=2)startQuiz();});});
-async function startQuiz(){studentName=document.getElementById('studentName').value.trim();if(!studentName)return;try{const{data,error}=await db.from('ccmd_students').insert([{name:studentName}]).select().single();if(!error&&data)studentId=data.id;}catch(e){}document.getElementById('reg-screen').style.display='none';document.getElementById('quiz-screen').style.display='block';currentQ=0;score=0;streak=0;maxStreak=0;answers=[];startTime=Date.now();showQuestion();}
+async function startQuiz(){
+  studentName=document.getElementById('studentName').value.trim();
+  if(!studentName)return;
+  
+  // Checking prerequisite (Day 1 score)
+  try {
+    const { data: previousScore, error: previousError } = await db
+      .from('ccmd_quiz_results')
+      .select('score')
+      .eq('student_name', studentName)
+      .eq('day', 1)
+      .gte('score', 6)
+      .limit(1);
+
+    if (previousError || !previousScore || previousScore.length === 0) {
+      alert("⚠️ Vous devez obtenir au moins 6/10 au quiz du Jour 1 pour débloquer celui-ci.\n\nOu dwe fè omwen 6/10 nan quiz Jou 1 an pou debloke sa a.");
+      return;
+    }
+  } catch(e) {
+    // If there's a connection error, let them pass or handle as needed
+    console.log("Error checking previous quiz score:", e);
+  }
+
+  try{
+    const{data,error}=await db.from('ccmd_students').insert([{name:studentName}]).select().single();
+    if(!error&&data)studentId=data.id;
+  }catch(e){}
+
+  document.getElementById('reg-screen').style.display='none';
+  document.getElementById('quiz-screen').style.display='block';
+  currentQ=0;score=0;streak=0;maxStreak=0;answers=[];startTime=Date.now();
+  showQuestion();
+}
 function showQuestion(){answered=false;const q=QUESTIONS[currentQ];questionStartTime=Date.now();document.getElementById('progressLabel').textContent=`Question ${currentQ+1} / ${QUESTIONS.length}`;document.getElementById('progressFill').style.width=`${(currentQ/QUESTIONS.length)*100}%`;document.getElementById('streakCount').textContent=streak;document.getElementById('qTypeBadge').textContent=q.type==='tf'?'VRAI / FAUX · VRÈ / FO':`MCQ ${currentQ+1} — Choix multiple`;document.getElementById('qTextFr').textContent=q.fr;document.getElementById('qTextHt').textContent=q.ht;const grid=document.getElementById('optionsGrid');grid.innerHTML='';q.options.forEach((opt,i)=>{const btn=document.createElement('button');btn.className='option-btn';btn.id=`opt${i}`;btn.innerHTML=`<div class="option-letter">${['A','B','C','D'][i]}</div><div class="option-fr">${opt.fr}</div><div class="option-ht">${opt.ht}</div>`;btn.onclick=()=>selectAnswer(i);grid.appendChild(btn);});document.getElementById('explanBox').classList.remove('show');document.getElementById('nextBtn').classList.remove('show');startTimer();}
 function startTimer(){clearInterval(timerInterval);timeLeft=30;updateTimerUI();timerInterval=setInterval(()=>{timeLeft--;updateTimerUI();if(timeLeft<=0){clearInterval(timerInterval);timeExpired();}},1000);}
 function updateTimerUI(){const fill=document.getElementById('timerFill'),count=document.getElementById('timerCount');fill.style.width=(timeLeft/30*100)+'%';if(timeLeft<=5){fill.style.backgroundColor='var(--timer-low)';count.className='timer-count danger';}else if(timeLeft<=15){fill.style.backgroundColor='var(--timer-mid)';count.className='timer-count warn';}else{fill.style.backgroundColor='var(--timer-full)';count.className='timer-count';}count.textContent=timeLeft;}
